@@ -10,7 +10,6 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
 }
 
-
 tasks {
     withType<Jar> { enabled = false }
     withType<BootJar> { enabled = true }

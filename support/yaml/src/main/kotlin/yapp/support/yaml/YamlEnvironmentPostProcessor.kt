@@ -1,7 +1,6 @@
 package yapp.support.yaml
 
 import org.springframework.boot.SpringApplication
-import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent
 import org.springframework.boot.env.EnvironmentPostProcessor
 import org.springframework.boot.env.YamlPropertySourceLoader
 import org.springframework.core.Ordered
@@ -10,7 +9,6 @@ import org.springframework.core.env.ConfigurableEnvironment
 import org.springframework.core.io.DefaultResourceLoader
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 import kotlin.streams.asSequence
-import java.io.IOException
 
 @Order(Ordered.LOWEST_PRECEDENCE)
 class YamlEnvironmentPostProcessor : EnvironmentPostProcessor {
