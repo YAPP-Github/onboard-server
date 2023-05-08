@@ -3,8 +3,9 @@ name: Test
 on:
   pull_request:
     branches:
-      - main
-      - dev
+      - 'main'
+      - 'dev'
+      - 'feat/*'
 
 jobs:
   test:
