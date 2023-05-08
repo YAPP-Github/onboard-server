@@ -1,3 +1,9 @@
+# Ktlint
+
+```text
+./gradlew addKtlintCheckGitPreCommitHook
+```
+
 # Module
 
 ## 헥사고날 아키텍쳐
