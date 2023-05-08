@@ -1,3 +1,6 @@
+plugins {
+    kotlin("plugin.spring")
+}
 
 dependencies {
     val springVersion by properties
