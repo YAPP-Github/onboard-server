@@ -5,7 +5,7 @@ import io.kotest.matchers.shouldBe
 
 class FailTest : FunSpec() {
     init {
-        test("Fail Test"){
+        test("Fail Test") {
             true shouldBe false
         }
     }
