@@ -13,9 +13,7 @@ class DocumentField(
     private var fieldType: JsonFieldType? = null,
 ) {
     private var description: String? = null
-        private set
     private var isOptimal = false
-        private set
 
     infix fun means(description: String): DocumentField {
         this.description = description
@@ -28,23 +26,23 @@ class DocumentField(
     }
 
     fun toFieldDescriptor(): FieldDescriptor =
-        PayloadDocumentation.fieldWithPath(name).apply {
-            type(fieldType)
-            if (description != null) description(description)
-            if (isOptimal) optional()
+        PayloadDocumentation.fieldWithPath(name).also {
+            it.type(fieldType)
+            if (description != null) it.description(description)
+            if (isOptimal) it.optional()
         }
 
     fun toHeaderDescriptor(): HeaderDescriptor {
-        return HeaderDocumentation.headerWithName(name).apply {
-            if (description != null) description(description)
-            if (isOptimal) optional()
+        return HeaderDocumentation.headerWithName(name).also {
+            if (description != null) it.description(description)
+            if (isOptimal) it.optional()
         }
     }
 
     fun toParameterDescriptor(): ParameterDescriptor {
-        return parameterWithName(name).apply {
-            if (description != null) description(description)
-            if (isOptimal) optional()
+        return parameterWithName(name).also {
+            if (description != null) it.description(description)
+            if (isOptimal) it.optional()
         }
     }
 }
