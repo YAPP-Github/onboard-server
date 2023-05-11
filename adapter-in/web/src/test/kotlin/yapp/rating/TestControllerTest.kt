@@ -1,18 +1,22 @@
 package yapp.rating
 
-import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import yapp.rating.base.ControllerTest
+import yapp.rating.base.NUMBER
+import yapp.rating.base.STRING
 
 class TestControllerTest : ControllerTest() {
     override val controller = TestController()
 
     init {
         test("Get Test") {
-            mockMvc.perform(get("/v1/test"))
-                .andExpect(status().isOk)
-                .andDo(
-                    document("test")
+            get("/v1/test") {}
+                .isStatus(200)
+                .makeDocument(
+                    DocumentInfo(identifier = "test", tag = "asdf"),
+                    responseFields(
+                        "value" type STRING means "English??",
+                        "test" type NUMBER means "이건 몬지몰라" isOptional true
+                    )
                 )
         }
     }
