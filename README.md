@@ -14,12 +14,14 @@
 2. Controller 테스트 실행된 결과 snippet 을 저장
 3. snippet을 이용하여 Swagger 생성  
 
-Swagger 파일은 src/main/resources/static/swagger 아래에 저장된다.
+Swagger 파일은 src/main/resources/static/swagger 아래에 저장된다.  
+static import가 불편하고 RestDoc의 Kotlin DSL을 사용하면 정상적으로 작동하지 않아 자체적으로([토스 블로그](https://toss.tech/article/kotlin-dsl-restdocs)를 보면서) DSL을 만들었다.
 
 ### References
 
 [RestDoc 세팅](https://techblog.woowahan.com/2597/)  
 [Swagger 파일 생성](https://jwkim96.tistory.com/274)  
+[토스 블로그 - Kotlin DSL을 이용하기](https://toss.tech/article/kotlin-dsl-restdocs)
 
 # Module
 
