@@ -67,11 +67,7 @@ class JwtUtilsTest : FunSpec() {
                 result shouldBe 1L
             }
             test("유효하지 않는 토큰") {
-                // given
-                val token = JWT + "A"
-
-                // when & then
-                shouldThrow<SignatureException> { sut.getUserId(token) }
+                shouldThrow<SignatureException> { sut.getUserId(INVALID_JWT) }
             }
             test("만료된 토큰") {
                 // when & then
@@ -88,5 +84,6 @@ class JwtUtilsTest : FunSpec() {
         private const val EXPIRED_JWT =
             "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxIiwiZXhwIjo5NDY2NTI0MDB9" +
                 ".uEBGh5aKvtvVpz66YSCXMQ4wlgMH7Gan0LDIvm9B5JgQXYHI4Jnq0gXoPQ_4ISuhl761fOKP_70sbNUxNpxUJg"
+        private const val INVALID_JWT = JWT + "A"
     }
 }

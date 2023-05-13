@@ -12,5 +12,8 @@ dependencies {
 
 tasks {
     withType<Jar> { enabled = false }
-    withType<BootJar> { enabled = true }
+    withType<BootJar> {
+        enabled = true
+        mainClass.set("yapp.rating.boardgame.WebApplicationKt")
+    }
 }

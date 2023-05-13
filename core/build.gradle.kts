@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 plugins {
     kotlin("plugin.spring")
 }
@@ -14,4 +16,9 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
+}
+
+tasks {
+    withType<Jar> { enabled = true }
+    withType<BootJar> { enabled = false }
 }
