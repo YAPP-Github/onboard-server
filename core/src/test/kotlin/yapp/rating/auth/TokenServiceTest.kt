@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 import yapp.rating.auth.token.TokenCommandRepository
 import yapp.rating.auth.token.TokenPolicy
 
-internal class TokenServiceTest : FunSpec() {
+class TokenServiceTest : FunSpec() {
     private val tokenPolicy: TokenPolicy = mockk()
     private val tokenCommandRepository: TokenCommandRepository = mockk()
 

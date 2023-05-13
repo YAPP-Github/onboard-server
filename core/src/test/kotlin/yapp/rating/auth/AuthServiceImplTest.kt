@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 import yapp.rating.SocialLoginException
 import yapp.rating.auth.social.SocialLoginClient
 
-internal class AuthServiceImplTest : FunSpec() {
+class AuthServiceImplTest : FunSpec() {
     private val socialLoginClient: SocialLoginClient = mockk()
     private val authCommandRepository: AuthCommandRepository = mockk()
     private val authQueryRepository: AuthQueryRepository = mockk()
