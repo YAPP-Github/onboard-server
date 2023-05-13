@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     kotlin("jvm") version "1.7.22"
@@ -11,6 +12,11 @@ plugins {
 repositories {
     mavenCentral()
     google()
+}
+
+tasks {
+    withType<Jar> { enabled = true }
+    withType<BootJar> { enabled = false }
 }
 
 subprojects {
