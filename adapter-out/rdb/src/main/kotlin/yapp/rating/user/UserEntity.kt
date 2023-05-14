@@ -10,9 +10,7 @@ import yapp.rating.AuditingEntity
 
 @Entity
 @Table(name = "user")
-internal class UserEntity(
-    name: String,
-) : AuditingEntity() {
+internal class UserEntity : AuditingEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
@@ -20,7 +18,7 @@ internal class UserEntity(
         protected set
 
     @Column(name = "name")
-    var name: String = name
+    var name: String? = null
         protected set
 
     @Column(name = "deleted")
