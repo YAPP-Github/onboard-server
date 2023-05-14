@@ -12,7 +12,7 @@ import yapp.rating.AuditingEntity
 @Table(name = "auth_social")
 @Entity
 @IdClass(SocialInfo::class)
-class AuthSocialEntity(
+internal class AuthSocialEntity(
     socialType: SocialType,
     socialId: String,
     userId: Long,

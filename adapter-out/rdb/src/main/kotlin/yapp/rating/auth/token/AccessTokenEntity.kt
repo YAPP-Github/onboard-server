@@ -9,7 +9,7 @@ import yapp.rating.AuditingEntity
 
 @Entity
 @Table(name = "auth_access_token")
-class AccessTokenEntity : AuditingEntity() {
+internal class AccessTokenEntity : AuditingEntity() {
     @Id
     @Column(name = "access_token_id")
     var id: Long = 0

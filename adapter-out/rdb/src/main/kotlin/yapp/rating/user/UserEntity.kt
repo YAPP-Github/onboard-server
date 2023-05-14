@@ -10,7 +10,7 @@ import yapp.rating.AuditingEntity
 
 @Entity
 @Table(name = "user")
-class UserEntity(
+internal class UserEntity(
     name: String,
 ) : AuditingEntity() {
     @Id
