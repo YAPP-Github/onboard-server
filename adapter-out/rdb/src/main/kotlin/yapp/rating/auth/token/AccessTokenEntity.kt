@@ -23,7 +23,7 @@ internal class AccessTokenEntity(
     var userId: Long = userId
         protected set
 
-    @Column(name = "access_token")
+    @Column(name = "access_token", columnDefinition = "BINARY")
     var accessToken: ByteArray = accessToken
         protected set
 
