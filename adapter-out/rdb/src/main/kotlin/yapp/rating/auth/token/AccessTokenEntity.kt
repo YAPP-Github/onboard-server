@@ -12,7 +12,7 @@ import yapp.rating.AuditingEntity
 internal class AccessTokenEntity(
     userId: Long,
     accessToken: ByteArray,
-    expireAt: LocalDateTime,
+    expiredAt: LocalDateTime,
 ) : AuditingEntity() {
     @Id
     @Column(name = "access_token_id")
