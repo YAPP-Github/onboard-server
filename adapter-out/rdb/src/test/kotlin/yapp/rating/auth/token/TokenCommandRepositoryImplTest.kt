@@ -19,7 +19,7 @@ class TokenCommandRepositoryImplTest : FunSpec() {
         val token = Token(
             userId = 123L,
             value = "123123asdfasdf",
-            expireAt = LocalDateTime.now().plusDays(1),
+            expiredAt = LocalDateTime.now().plusDays(1),
         )
 
         test("saveAccessToken") {
@@ -27,7 +27,7 @@ class TokenCommandRepositoryImplTest : FunSpec() {
             every { accessTokenRepository.save(any()) } returns AccessTokenEntity(
                 userId = 123L,
                 accessToken = ByteArray(20),
-                expireAt = token.expireAt,
+                expiredAt = token.expiredAt,
             )
 
             // when
@@ -42,7 +42,7 @@ class TokenCommandRepositoryImplTest : FunSpec() {
             every { refreshTokenRepository.save(any()) } returns RefreshTokenEntity(
                 userId = 123L,
                 refreshToken = ByteArray(20),
-                expireAt = token.expireAt,
+                expiredAt = token.expiredAt,
             )
 
             // when

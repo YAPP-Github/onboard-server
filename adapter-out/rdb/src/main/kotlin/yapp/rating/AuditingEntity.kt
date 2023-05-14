@@ -16,6 +16,6 @@ abstract class AuditingEntity {
     var createdDate: LocalDateTime = LocalDateTime.now()
 
     @LastModifiedDate
-    @Column(name = "modified_at", nullable = false)
-    var modifiedDate: LocalDateTime = LocalDateTime.now()
+    @Column(name = "updated_at", nullable = false)
+    var updatedDate: LocalDateTime = LocalDateTime.now()
 }

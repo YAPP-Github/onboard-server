@@ -19,12 +19,12 @@ class TokenPolicyTest : FunSpec() {
             val userId = 123L
             val now = LocalDateTime.of(1970, 1, 1, 0, 0, 0)
             val expireDuration = Duration.ofDays(7)
-            val expireAt = now.plus(expireDuration)
-            val mockToken = Token("value", userId, expireAt)
+            val expiredAt = now.plus(expireDuration)
+            val mockToken = Token("value", userId, expiredAt)
 
             mockkStatic(LocalDateTime::class)
             every { LocalDateTime.now() } returns now
-            every { tokenUtils.generate(userId, expireAt) } returns mockToken
+            every { tokenUtils.generate(userId, expiredAt) } returns mockToken
 
             // when
             val policy = TokenPolicy(tokenUtils, expireDuration)

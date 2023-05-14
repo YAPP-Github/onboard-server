@@ -6,7 +6,7 @@ import java.util.Base64
 data class Token(
     val value: String,
     val userId: Long,
-    val expireAt: LocalDateTime
+    val expiredAt: LocalDateTime,
 ) {
     fun toBinary(): ByteArray = Base64.getDecoder().decode(value)
 }

@@ -20,13 +20,13 @@ internal class TokenCommandRepositoryImpl(
         AccessTokenEntity(
             userId = this.userId,
             accessToken = this.toBinary(),
-            expireAt = this.expireAt,
+            expiredAt = this.expiredAt,
         )
 
     private fun Token.toRefreshToken(): RefreshTokenEntity =
         RefreshTokenEntity(
             userId = this.userId,
             refreshToken = this.toBinary(),
-            expireAt = this.expireAt,
+            expiredAt = this.expiredAt,
         )
 }
