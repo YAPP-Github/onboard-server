@@ -16,6 +16,7 @@ class AuthQueryRepositoryImplTest : FunSpec() {
         val socialType = loginType.toSocialType()
         val socialId = "Kakao ID"
         val userId = 123L
+        val authSocialEntity = AuthSocialEntity(socialType, socialId, userId)
 
         test("findAuthUser(id) - null") {
             // given
@@ -30,7 +31,7 @@ class AuthQueryRepositoryImplTest : FunSpec() {
 
         test("findAuthUser(id) - notNull") {
             // given
-            every { authSocialRepository.findByUserId(userId) } returns AuthSocialEntity(socialType, socialId, userId)
+            every { authSocialRepository.findByUserId(userId) } returns authSocialEntity
 
             // when
             val result = sut.findAuthUser(userId)
@@ -55,7 +56,7 @@ class AuthQueryRepositoryImplTest : FunSpec() {
         test("findAuthUser(SocialType, SocialId) - notNull") {
             // given
             val socialInfo = SocialInfo(socialType, socialId)
-            every { authSocialRepository.findByIdOrNull(socialInfo) } returns AuthSocialEntity(socialType, socialId, userId)
+            every { authSocialRepository.findByIdOrNull(socialInfo) } returns authSocialEntity
 
             // when
             val result = sut.findAuthUser(loginType, socialId)
@@ -65,5 +66,4 @@ class AuthQueryRepositoryImplTest : FunSpec() {
             result?.id shouldBe userId
         }
     }
-
 }
