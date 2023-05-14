@@ -23,7 +23,7 @@ internal class AccessTokenEntity : AuditingEntity() {
     lateinit var accessToken: ByteArray
         protected set
 
-    @Column(name = "expire_at")
-    lateinit var expireAt: LocalDateTime
+    @Column(name = "expired_at")
+    lateinit var expiredAt: LocalDateTime
         protected set
 }

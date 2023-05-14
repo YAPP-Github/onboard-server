@@ -12,14 +12,14 @@ internal class JwtUtils(
     private val secretKey: ByteArray,
 ) : TokenUtils {
 
-    override fun generate(userId: Long, expireAt: LocalDateTime): Token {
+    override fun generate(userId: Long, expiredAt: LocalDateTime): Token {
         val token = Jwts.builder()
             .setId(userId.toString())
-            .setExpiration(expireAt.toDate())
+            .setExpiration(expiredAt.toDate())
             .signWith(getSigningKey())
             .compact()
 
-        return Token(token, userId, expireAt)
+        return Token(token, userId, expiredAt)
     }
 
     override fun validate(token: String): Boolean =
