@@ -9,21 +9,25 @@ import yapp.rating.AuditingEntity
 
 @Entity
 @Table(name = "auth_refresh_token")
-internal class RefreshTokenEntity : AuditingEntity() {
+internal class RefreshTokenEntity(
+    userId: Long,
+    refreshToken: ByteArray,
+    expireAt: LocalDateTime,
+) : AuditingEntity() {
     @Id
     @Column(name = "refresh_token_id")
     var id: Long = 0
         protected set
 
     @Column(name = "user_id")
-    var userId: Long = 0
+    var userId: Long = userId
         protected set
 
     @Column(name = "refresh_token")
-    lateinit var refreshToken: ByteArray
+    var refreshToken: ByteArray = refreshToken
         protected set
 
     @Column(name = "expire_at")
-    lateinit var expireAt: LocalDateTime
+    var expireAt: LocalDateTime = expireAt
         protected set
 }
