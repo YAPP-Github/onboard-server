@@ -4,6 +4,7 @@ import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.core.spec.style.FunSpec
+import org.springframework.http.MediaType
 import org.springframework.restdocs.ManualRestDocumentation
 import org.springframework.restdocs.headers.HeaderDocumentation
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
@@ -73,6 +74,18 @@ abstract class ControllerTest : FunSpec() {
     protected fun post(url: String, buildRequest: MockHttpServletRequestBuilder.() -> Unit): ResultActions =
         mockMvc.perform(post(url).apply(buildRequest))
 
+    protected fun post(
+        url: String,
+        request: Any,
+        buildRequest: MockHttpServletRequestBuilder.() -> Unit
+    ): ResultActions =
+        mockMvc.perform(
+            post(url).apply {
+                contentType(MediaType.APPLICATION_JSON)
+                content(objectMapper.writeValueAsString(request))
+            }.apply(buildRequest)
+        )
+
     protected fun delete(url: String, buildRequest: MockHttpServletRequestBuilder.() -> Unit): ResultActions =
         mockMvc.perform(delete(url).apply(buildRequest))
 
@@ -102,6 +115,10 @@ abstract class ControllerTest : FunSpec() {
 
     protected infix fun String.type(fieldType: DocumentFieldType): DocumentField {
         return DocumentField(this, fieldType.type)
+    }
+
+    protected infix fun <T : Enum<T>> String.type(fieldType: ENUM<T>): DocumentField {
+        return DocumentField(this, fieldType.type, fieldType.enums)
     }
 
     protected infix fun String.means(description: String): DocumentField {
