@@ -2,13 +2,13 @@ rootProject.name = "BoardGameRating"
 
 pluginManagement {
     val springVersion: String by settings
-    val kotlinPluginVersion: String by settings
+    val kotlinVersion: String by settings
     plugins {
         id("org.springframework.boot") version springVersion
-        kotlin("plugin.spring") version kotlinPluginVersion
-        kotlin("plugin.jpa") version kotlinPluginVersion
-        kotlin("plugin.allopen") version kotlinPluginVersion
-        kotlin("plugin.noarg") version kotlinPluginVersion
+        kotlin("plugin.spring") version kotlinVersion
+        kotlin("plugin.jpa") version kotlinVersion
+        kotlin("plugin.allopen") version kotlinVersion
+        kotlin("plugin.noarg") version kotlinVersion
     }
 }
 
