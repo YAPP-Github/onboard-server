@@ -28,6 +28,6 @@ internal class AccessTokenEntity(
         protected set
 
     @Column(name = "expired_at")
-    lateinit var expiredAt: LocalDateTime
+    var expiredAt: LocalDateTime = expiredAt
         protected set
 }

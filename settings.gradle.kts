@@ -19,5 +19,6 @@ include(
     "port-out",
     "adapter-in:web",
     "adapter-out:rdb",
+    "adapter-out:social",
     "support:yaml",
 )
