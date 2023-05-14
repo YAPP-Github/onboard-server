@@ -9,18 +9,22 @@ import yapp.rating.AuditingEntity
 
 @Entity
 @Table(name = "auth_access_token")
-internal class AccessTokenEntity : AuditingEntity() {
+internal class AccessTokenEntity(
+    userId: Long,
+    accessToken: ByteArray,
+    expiredAt: LocalDateTime,
+) : AuditingEntity() {
     @Id
     @Column(name = "access_token_id")
     var id: Long = 0
         protected set
 
     @Column(name = "user_id")
-    var userId: Long = 0
+    var userId: Long = userId
         protected set
 
-    @Column(name = "access_token")
-    lateinit var accessToken: ByteArray
+    @Column(name = "access_token", columnDefinition = "BINARY")
+    var accessToken: ByteArray = accessToken
         protected set
 
     @Column(name = "expired_at")
