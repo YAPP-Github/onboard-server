@@ -27,7 +27,7 @@ internal class RefreshTokenEntity(
     var refreshToken: ByteArray = refreshToken
         protected set
 
-    @Column(name = "expire_at")
-    var expireAt: LocalDateTime = expireAt
+    @Column(name = "expired_at")
+    lateinit var expiredAt: LocalDateTime
         protected set
 }
