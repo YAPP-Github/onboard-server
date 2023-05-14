@@ -95,7 +95,7 @@ abstract class ControllerTest : FunSpec() {
                 resourceDetails = ResourceSnippetParametersBuilder()
                     .description(documentInfo.description)
                     .deprecated(documentInfo.deprecated)
-                    .tag(documentInfo.tag),
+                    .tag(documentInfo.tag.value),
                 snippets = snippets
             )
         )
@@ -146,7 +146,7 @@ abstract class ControllerTest : FunSpec() {
 
     protected data class DocumentInfo(
         val identifier: String,
-        val tag: String, // TODO: Enum 으로 변경 하면 좋을듯
+        val tag: OpenApiTag,
         val description: String? = null,
         val deprecated: Boolean = false,
     )
