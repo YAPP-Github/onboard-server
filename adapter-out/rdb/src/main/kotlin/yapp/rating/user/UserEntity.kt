@@ -9,11 +9,12 @@ import jakarta.persistence.Table
 import yapp.rating.AuditingEntity
 
 @Entity
-@Table(name = "user")
+
+@Table(name = "users")
 internal class UserEntity : AuditingEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "users_id", nullable = false)
     var id: Long = 0
         protected set
 

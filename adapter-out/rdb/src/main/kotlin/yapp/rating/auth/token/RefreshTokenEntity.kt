@@ -23,7 +23,7 @@ internal class RefreshTokenEntity(
     var userId: Long = userId
         protected set
 
-    @Column(name = "refresh_token", columnDefinition = "BINARY")
+    @Column(name = "refresh_token", columnDefinition = "BINARY(45)")
     var refreshToken: ByteArray = refreshToken
         protected set
 
