@@ -3,7 +3,7 @@ package yapp.rating
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = ["yapp.rating"])
 open class WebApplication
 
 fun main(args: Array<String>) {
