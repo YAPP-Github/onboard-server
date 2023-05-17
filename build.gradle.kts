@@ -1,12 +1,11 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     kotlin("jvm") version "1.7.22"
     kotlin("kapt") version "1.7.22"
     id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
-
     id("io.spring.dependency-management") version "1.1.0"
-
     id("org.springframework.boot")
 }
 
@@ -40,14 +39,15 @@ subprojects {
         testImplementation("io.mockk:mockk:1.13.5")
     }
 
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions {
-            freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = "17"
+    tasks {
+        withType<KotlinCompile> {
+            kotlinOptions {
+                freeCompilerArgs = listOf("-Xjsr305=strict")
+                jvmTarget = "17"
+            }
         }
-    }
-
-    tasks.withType<Test> {
-        useJUnitPlatform()
+        test {
+            useJUnitPlatform()
+        }
     }
 }
