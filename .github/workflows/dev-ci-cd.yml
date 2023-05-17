@@ -1,0 +1,37 @@
+name: CI/CD on Dev Branch
+
+on:
+    push:
+        branches:
+            - 'dev'
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v3
+
+            -   name: Docker build
+                run: |
+                    docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+                    docker build --build-arg PHASE=dev -t app .
+                    docker tag app ${{ secrets.DOCKER_USERNAME }}/board:latest
+                    docker push ${{ secrets.DOCKER_USERNAME }}/board:latest
+
+    deploy:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Deploy
+                uses: appleboy/ssh-action@master
+                with:
+                    host: ${{ secrets.SANDBOX_HOST }}
+                    username: ${{ secrets.SANDBOX_USERNAME }}
+                    password: ${{ secrets.SANDBOX_PASSWORD }}
+                    script: |
+                        docker pull ${{ secrets.DOCKER_USERNAME }}/board:latest
+                        docker stop $(docker ps -a -q)
+                        docker run -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/board:latest
+                        docker rm $(docker ps --filter 'status=exited' -a -q)
+                        docker image prune -a -f
