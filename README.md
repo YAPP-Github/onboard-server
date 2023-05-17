@@ -4,6 +4,23 @@
 ./gradlew addKtlintCheckGitPreCommitHook
 ```
 
+# Swagger
+
+```text
+./gradlew copySwaggerUI
+```
+위 Task를 실행하면 크게 3가지 작업을 진행한다.
+1. Test 실행
+2. Controller 테스트 실행된 결과 snippet 을 저장
+3. snippet을 이용하여 Swagger 생성  
+
+Swagger 파일은 src/main/resources/static/swagger 아래에 저장된다.
+
+### References
+
+[RestDoc 세팅](https://techblog.woowahan.com/2597/)  
+[Swagger 파일 생성](https://jwkim96.tistory.com/274)  
+
 # Module
 
 ## 헥사고날 아키텍쳐

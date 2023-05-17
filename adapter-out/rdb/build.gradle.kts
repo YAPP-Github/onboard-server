@@ -25,12 +25,10 @@ dependencies {
     api(project(":port-out"))
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springVersion")
-
-    // DB connect
-    runtimeOnly("com.h2database:h2")
     runtimeOnly("mysql:mysql-connector-java:8.0.33")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
+    testRuntimeOnly("com.h2database:h2")
 }
 
 tasks {
