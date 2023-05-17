@@ -11,7 +11,6 @@ import yapp.rating.toDate
 internal class JwtUtils(
     private val secretKey: ByteArray,
 ) : TokenUtils {
-
     override fun generate(userId: Long, expiredAt: LocalDateTime): Token {
         val token = Jwts.builder()
             .setId(userId.toString())
