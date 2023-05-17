@@ -12,11 +12,11 @@ internal class OpaqueTokenUtils(
 
     private val random = SecureRandom()
 
-    override fun generate(userId: Long, expireAt: LocalDateTime): Token {
+    override fun generate(userId: Long, expiredAt: LocalDateTime): Token {
         val arr = ByteArray(tokenByteSize)
         random.nextBytes(arr)
         val value = Base64.getEncoder().encodeToString(arr)
-        return Token(value, userId, expireAt)
+        return Token(value, userId, expiredAt)
     }
 
     override fun validate(token: String): Boolean {

@@ -19,7 +19,7 @@ class OpaqueTokenUtilsTest : FunSpec() {
                     // then
                     result.value.length shouldBe length
                     result.userId shouldBe userId
-                    result.expireAt shouldBe expiredTime
+                    result.expiredAt shouldBe expiredTime
                 }
                 test("validate") {
                     // when

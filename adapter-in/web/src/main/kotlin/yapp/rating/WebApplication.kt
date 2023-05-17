@@ -1,4 +1,4 @@
-package yapp.rating.boardgame
+package yapp.rating
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

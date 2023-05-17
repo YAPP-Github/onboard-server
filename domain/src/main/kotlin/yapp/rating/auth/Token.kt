@@ -5,5 +5,5 @@ import java.time.LocalDateTime
 data class Token(
     val value: String,
     val userId: Long,
-    val expireAt: LocalDateTime
+    val expiredAt: LocalDateTime,
 )

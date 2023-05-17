@@ -33,6 +33,8 @@ subprojects {
     dependencies {
         val kotestVersion: String by properties
 
+        implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.0")
+
         testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
         testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
         testImplementation("io.mockk:mockk:1.13.5")

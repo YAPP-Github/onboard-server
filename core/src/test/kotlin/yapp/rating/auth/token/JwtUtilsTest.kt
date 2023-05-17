@@ -22,7 +22,7 @@ class JwtUtilsTest : FunSpec() {
 
             // then
             result.userId shouldBe userId
-            result.expireAt shouldBe expiredTime
+            result.expiredAt shouldBe expiredTime
 
             shouldNotThrow<Exception> {
                 val jwt = result.value.split(".")
