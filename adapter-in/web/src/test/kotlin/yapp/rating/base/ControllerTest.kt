@@ -27,6 +27,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder
+import yapp.rating.ExceptionHandler
 
 abstract class ControllerTest : FunSpec() {
     protected abstract val controller: Any
@@ -55,7 +56,7 @@ abstract class ControllerTest : FunSpec() {
                     .withRequestDefaults(prettyPrint())
                     .withResponseDefaults(prettyPrint())
             )
-//            .setControllerAdvice(ExceptionHandler())
+            .setControllerAdvice(ExceptionHandler())
 //            .setCustomArgumentResolvers()
 //            .setMessageConverters()
             .build()
