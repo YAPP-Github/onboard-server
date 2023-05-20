@@ -27,7 +27,7 @@ tasks {
     withType<Jar> { enabled = false }
     withType<BootJar> {
         enabled = true
-        mainClass.set("yapp.rating.WebApplicationKt")
+        mainClass.set("com.yapp.bol.WebApplicationKt")
         dependsOn("copySwaggerUI")
     }
 
