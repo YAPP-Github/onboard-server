@@ -4,10 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.yapp.bol.auth.SocialUser
 
 internal data class NaverUserResponse(
-    val resultCode: String,
+    @JsonProperty("resultcode") val resultCode: String,
     val message: String,
-    @JsonProperty("response")
-    val userInfo: NaverUserInfoResponse,
+    @JsonProperty("response") val userInfo: NaverUserInfoResponse,
 )
 
 internal class NaverUserInfoResponse(

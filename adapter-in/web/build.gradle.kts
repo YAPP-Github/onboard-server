@@ -6,6 +6,8 @@ import org.springframework.boot.gradle.tasks.bundling.BootJar
 plugins {
     id("com.epages.restdocs-api-spec") version "0.18.0"
     id("org.hidetake.swagger.generator") version "2.19.2"
+    id("org.springframework.boot")
+    kotlin("plugin.spring")
 }
 
 dependencies {

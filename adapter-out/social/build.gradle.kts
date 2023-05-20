@@ -1,5 +1,10 @@
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
+plugins {
+    id("org.springframework.boot")
+    kotlin("plugin.spring")
+}
+
 dependencies {
     val springVersion by properties
 
