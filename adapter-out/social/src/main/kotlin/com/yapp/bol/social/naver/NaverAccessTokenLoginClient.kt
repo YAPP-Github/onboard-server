@@ -7,11 +7,11 @@ import com.yapp.bol.auth.social.SocialLoginClient
 import org.springframework.stereotype.Component
 
 @Component
-internal class NaverLoginClient(
+internal class NaverAccessTokenLoginClient(
     private val naverAuthClient: NaverOpenApiClient,
 ) : SocialLoginClient {
     override fun isSupport(socialType: LoginType): Boolean =
-        socialType == LoginType.NAVER
+        socialType == LoginType.NAVER_ACCESS_TOKEN
 
     override fun login(token: String): SocialUser {
         val userResponse = naverAuthClient.getUserProfile("Bearer $token").block()

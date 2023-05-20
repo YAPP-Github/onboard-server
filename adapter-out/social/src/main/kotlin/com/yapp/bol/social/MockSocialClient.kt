@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 @Order(value = Ordered.LOWEST_PRECEDENCE)
 @Component
 class MockSocialClient : SocialLoginClient {
-    override fun isSupport(socialType: LoginType): Boolean = socialType != LoginType.NAVER
+    override fun isSupport(socialType: LoginType): Boolean = socialType != LoginType.NAVER_ACCESS_TOKEN
 
     override fun login(token: String): SocialUser {
         if (token.startsWith("SUCCESS")) {
