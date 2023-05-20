@@ -6,7 +6,7 @@ dependencies {
     api(project(":domain"))
     api(project(":port-out"))
 
-    implementation("org.springframework.boot:spring-boot-starter:$springVersion")
+    implementation("org.springframework.boot:spring-boot-starter-webflux:$springVersion")
 }
 
 tasks {
