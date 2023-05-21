@@ -9,6 +9,7 @@ import jakarta.persistence.Table
 import yapp.rating.AuditingEntity
 
 @Entity
+
 @Table(name = "users")
 internal class UserEntity : AuditingEntity() {
     @Id
@@ -24,4 +25,11 @@ internal class UserEntity : AuditingEntity() {
     @Column(name = "deleted")
     var deleted: Boolean = false
         protected set
+
+    companion object {
+        fun of(id: Long): UserEntity =
+            UserEntity().apply {
+                this.id = id
+            }
+    }
 }
