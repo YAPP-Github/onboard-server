@@ -30,7 +30,6 @@ tasks {
     withType<BootJar> {
         enabled = true
         mainClass.set("com.yapp.bol.WebApplicationKt")
-        dependsOn("copySwaggerUI")
     }
 
     val generateSwaggerUIPrefix = "Api"
