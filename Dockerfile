@@ -24,5 +24,5 @@ ENV TZ=Asia/Seoul
 EXPOSE 8080
 USER nobody
 ENTRYPOINT java \
-  -Dspring.profiles.active=${PHASE:-local} \
+  -Dspring.profiles.active=${PHASE:-dev} \
   -jar /app/*.jar
