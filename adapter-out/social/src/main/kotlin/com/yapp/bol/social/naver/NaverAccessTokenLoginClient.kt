@@ -17,7 +17,7 @@ internal class NaverAccessTokenLoginClient(
         val userResponse = naverAuthClient.getUserProfile("Bearer $token").block()
             ?: throw SocialLoginFailedException()
 
-        if(userResponse.resultCode == "00") return userResponse.userInfo
+        if (userResponse.resultCode == "00") return userResponse.userInfo
 
         throw SocialLoginFailedException()
     }

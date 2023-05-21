@@ -15,7 +15,7 @@ class MockSocialClient : SocialLoginClient {
 
     override fun login(token: String): SocialUser {
         if (token.startsWith("SUCCESS")) {
-            return object: SocialUser{
+            return object : SocialUser {
                 override val id: String
                     get() = token.substring("SUCCESS".length)
             }

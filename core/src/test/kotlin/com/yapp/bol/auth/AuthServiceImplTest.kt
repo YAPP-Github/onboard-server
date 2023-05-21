@@ -38,7 +38,9 @@ class AuthServiceImplTest : FunSpec() {
             val kakaoUserId = "KAKAO_USER_ID"
 
             every { socialLoginClient.isSupport(loginType) } returns true
-            every { socialLoginClient.login(kakaoToken) } returns SocialUser(kakaoUserId)
+            every { socialLoginClient.login(kakaoToken) } returns object : SocialUser {
+                override val id: String = kakaoUserId
+            }
 
             every { tokenService.generateAccessToken(userId) } returns accessTokenMock
             every { tokenService.generateRefreshToken(userId) } returns refreshTokenMock
