@@ -9,5 +9,6 @@ sealed class BolRatingException(
 ) : RuntimeException(message, cause)
 
 sealed class LoginException(code: String, msg: String, cause: Throwable? = null) : BolRatingException(code, msg, cause)
+
 class SocialLoginFailedException(cause: Throwable? = null) : LoginException("Auth001", "로그인이 실패했습니다.", cause)
 object InvalidTokenException : LoginException("Auth002", "유효하지 않는 토큰 입니다.")
