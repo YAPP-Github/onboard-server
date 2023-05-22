@@ -10,15 +10,24 @@ data class Token(
     val userId: Long,
     val expiredAt: LocalDateTime,
 ) {
+    constructor(value: ByteArray, userId: Long, expiredAt: LocalDateTime) : this(
+        Base64.getEncoder().encodeToString(value),
+        userId,
+        expiredAt,
+    )
+
     val isExpired: Boolean
         get() = expiredAt.isBefore(LocalDateTime.now())
 
-    fun toBinary(): ByteArray = Base64.getDecoder().decode(value)
-
+    fun toBinary(): ByteArray = value.toBinary()
 }
 
 fun Token?.validate(): Token {
     if (this == null) throw InvalidTokenException
     if (this.isExpired) throw ExpiredTokenException
     return this
+}
+
+fun String.toBinary(): ByteArray {
+    return Base64.getDecoder().decode(this)
 }
