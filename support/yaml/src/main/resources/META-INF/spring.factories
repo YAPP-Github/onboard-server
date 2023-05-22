@@ -1,2 +1,2 @@
 org.springframework.boot.env.EnvironmentPostProcessor=\
-    yapp.support.yaml.YamlEnvironmentPostProcessor
+    com.yapp.bol.support.yaml.YamlEnvironmentPostProcessor
