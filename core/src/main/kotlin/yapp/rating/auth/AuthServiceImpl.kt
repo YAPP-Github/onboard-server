@@ -5,15 +5,13 @@ import yapp.rating.auth.social.SocialLoginClient
 
 @Service
 internal class AuthServiceImpl(
-    private val socialAuthClients: List<SocialLoginClient>,
+    private val socialAuthClient: SocialLoginClient,
     private val authCommandRepository: AuthCommandRepository,
     private val authQueryRepository: AuthQueryRepository,
     private val tokenService: TokenService,
 ) : AuthService {
     override fun login(loginType: LoginType, token: String): AuthToken {
-        val socialAuthClient =
-            socialAuthClients.find { client -> client.isSupport(loginType) } ?: throw UnsupportedOperationException()
-        val socialUser = socialAuthClient.login(token)
+        val socialUser = socialAuthClient.login(loginType, token)
 
         val authUser = getOrCreateAuthUser(loginType, socialUser.id)
 

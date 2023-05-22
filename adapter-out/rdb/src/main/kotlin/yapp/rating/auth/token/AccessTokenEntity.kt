@@ -19,7 +19,7 @@ internal class AccessTokenEntity(
     var id: Long = 0
         protected set
 
-    @Column(name = "user_id")
+    @Column(name = "users_id")
     var userId: Long = userId
         protected set
 
@@ -28,6 +28,6 @@ internal class AccessTokenEntity(
         protected set
 
     @Column(name = "expired_at")
-    lateinit var expiredAt: LocalDateTime
+    var expiredAt: LocalDateTime = expiredAt
         protected set
 }

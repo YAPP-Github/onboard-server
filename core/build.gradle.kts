@@ -9,6 +9,7 @@ dependencies {
 
     api(project(":port-in"))
     implementation(project(":adapter-out:rdb"))
+    implementation(project(":adapter-out:social"))
 
     implementation("org.springframework.boot:spring-boot-starter:$springVersion")
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
