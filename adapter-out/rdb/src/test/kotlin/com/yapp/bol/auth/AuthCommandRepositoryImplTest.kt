@@ -17,7 +17,7 @@ class AuthCommandRepositoryImplTest : FunSpec() {
     init {
         test("registerUserTest") {
             // given
-            val loginType = LoginType.KAKAO
+            val loginType = LoginType.KAKAO_ACCESS_TOKEN
             val socialId = "kakaoID"
             val user = UserEntity.of(1234L)
 

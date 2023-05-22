@@ -15,10 +15,10 @@ class AuthControllerTest : ControllerTest() {
 
     init {
         test("POST /v1/auth/login") {
-            val request = LoginRequest(LoginType.KAKAO, "Token")
+            val request = LoginRequest(LoginType.KAKAO_ACCESS_TOKEN, "Token")
             val authToken = AuthToken(
                 Token("ACCESS_TOKEN", 123L, LocalDateTime.now()),
-                Token("ACCESS_TOKEN", 123L, LocalDateTime.now())
+                Token("REFRESH_TOKEN", 123L, LocalDateTime.now())
             )
             every { authService.login(any(), any()) } returns authToken
 
@@ -31,7 +31,7 @@ class AuthControllerTest : ControllerTest() {
                         "token" type STRING means "로그인에 사용되는 토큰",
                     ),
                     responseFields(
-                        "accessToken" type STRING means "엑세스 토큰",
+                        "accessToken" type STRING means "Access 토큰",
                         "refreshToken" type STRING means "Refresh 토큰" isOptional true,
                     )
                 )

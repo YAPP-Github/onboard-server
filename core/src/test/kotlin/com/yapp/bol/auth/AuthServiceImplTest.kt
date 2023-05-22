@@ -33,7 +33,7 @@ class AuthServiceImplTest : FunSpec() {
 
         context("소셜 로그인 성공") {
             // given
-            val loginType = LoginType.KAKAO
+            val loginType = LoginType.KAKAO_ACCESS_TOKEN
             val kakaoToken = "KAKAO_TOKEN"
             val kakaoUserId = "KAKAO_USER_ID"
 
@@ -74,7 +74,7 @@ class AuthServiceImplTest : FunSpec() {
 
         test("소셜 로그인 실패") {
             // given
-            val loginType = LoginType.KAKAO
+            val loginType = LoginType.KAKAO_ACCESS_TOKEN
             val kakaoToken = "KAKAO_TOKEN"
 
             every { socialLoginClient.login(loginType, kakaoToken) } throws SocialLoginFailedException()
