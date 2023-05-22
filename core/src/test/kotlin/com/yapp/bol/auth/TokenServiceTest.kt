@@ -12,9 +12,10 @@ import java.time.LocalDateTime
 
 class TokenServiceTest : FunSpec() {
     private val tokenPolicy: TokenPolicy = mockk()
+    private val tokenQueryRepository: TokenQueryRepository = mockk()
     private val tokenCommandRepository: TokenCommandRepository = mockk()
 
-    private val sut = TokenService(tokenPolicy, tokenPolicy, tokenCommandRepository)
+    private val sut = TokenService(tokenPolicy, tokenPolicy, tokenQueryRepository, tokenCommandRepository)
 
     init {
         context("Access Token") {
