@@ -1,6 +1,6 @@
 package com.yapp.bol.auth
 
-import com.yapp.bol.SocialLoginException
+import com.yapp.bol.SocialLoginFailedException
 import com.yapp.bol.auth.social.SocialLoginClient
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
@@ -37,7 +37,9 @@ class AuthServiceImplTest : FunSpec() {
             val kakaoToken = "KAKAO_TOKEN"
             val kakaoUserId = "KAKAO_USER_ID"
 
-            every { socialLoginClient.login(loginType, kakaoToken) } returns SocialUser(kakaoUserId)
+            every { socialLoginClient.login(loginType, kakaoToken) } returns object : SocialUser {
+                override val id: String = kakaoUserId
+            }
 
             every { tokenService.generateAccessToken(userId) } returns accessTokenMock
             every { tokenService.generateRefreshToken(userId) } returns refreshTokenMock
@@ -75,10 +77,10 @@ class AuthServiceImplTest : FunSpec() {
             val loginType = LoginType.KAKAO
             val kakaoToken = "KAKAO_TOKEN"
 
-            every { socialLoginClient.login(loginType, kakaoToken) } throws SocialLoginException()
+            every { socialLoginClient.login(loginType, kakaoToken) } throws SocialLoginFailedException()
 
             // when & then
-            shouldThrow<SocialLoginException> {
+            shouldThrow<SocialLoginFailedException> {
                 sut.login(loginType, kakaoToken)
             }
             verify(exactly = 0) { authCommandRepository.registerUser(any(), any()) }

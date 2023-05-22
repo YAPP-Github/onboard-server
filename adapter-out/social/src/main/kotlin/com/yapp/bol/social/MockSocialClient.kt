@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component
 internal class MockSocialClient {
     fun login(token: String): SocialUser {
         if (token.startsWith("SUCCESS")) {
-            return SocialUser(token.substring("SUCCESS".length))
+            return object : SocialUser {
+                override val id: String
+                    get() = token.substring("SUCCESS".length)
+            }
         }
 
         throw LoginFailedException()
