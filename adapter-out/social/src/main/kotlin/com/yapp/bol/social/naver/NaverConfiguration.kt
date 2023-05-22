@@ -10,8 +10,12 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory
 class NaverConfiguration {
     @Bean
     internal fun naverOpenApiClient(): NaverOpenApiClient {
-        val webClient = WebClient.builder().baseUrl("https://openapi.naver.com").build()
+        val webClient = WebClient.builder().baseUrl(NAVER_OPEN_API_URL).build()
         val factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build()
         return factory.createClient(NaverOpenApiClient::class.java)
+    }
+
+    companion object {
+        private const val NAVER_OPEN_API_URL = "https://openapi.naver.com"
     }
 }
