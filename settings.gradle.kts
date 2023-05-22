@@ -1,4 +1,4 @@
-rootProject.name = "BoardGameRating"
+rootProject.name = "BoL"
 
 pluginManagement {
     val springVersion: String by settings

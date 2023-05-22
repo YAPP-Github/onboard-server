@@ -1,19 +1,14 @@
 package com.yapp.bol.social.naver
 
 import com.yapp.bol.SocialLoginFailedException
-import com.yapp.bol.auth.LoginType
 import com.yapp.bol.auth.SocialUser
-import com.yapp.bol.auth.social.SocialLoginClient
 import org.springframework.stereotype.Component
 
 @Component
 internal class NaverAccessTokenLoginClient(
     private val naverAuthClient: NaverOpenApiClient,
-) : SocialLoginClient {
-    override fun isSupport(socialType: LoginType): Boolean =
-        socialType == LoginType.NAVER_ACCESS_TOKEN
-
-    override fun login(token: String): SocialUser {
+) {
+    fun login(token: String): SocialUser {
         val userResponse = naverAuthClient.getUserProfile("Bearer $token").block()
             ?: throw SocialLoginFailedException()
 
