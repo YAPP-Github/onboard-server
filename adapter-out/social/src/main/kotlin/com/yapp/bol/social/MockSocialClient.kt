@@ -4,7 +4,6 @@ import com.yapp.bol.auth.LoginFailedException
 import com.yapp.bol.auth.SocialUser
 import org.springframework.stereotype.Component
 
-
 @Component
 internal class MockSocialClient {
     fun login(token: String): SocialUser {

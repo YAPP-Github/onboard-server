@@ -1,9 +1,9 @@
 package com.yapp.bol.social
 
+import com.yapp.bol.auth.LoginType
+import com.yapp.bol.auth.SocialUser
+import com.yapp.bol.auth.social.SocialLoginClient
 import org.springframework.stereotype.Component
-import yapp.rating.auth.LoginType
-import yapp.rating.auth.SocialUser
-import yapp.rating.auth.social.SocialLoginClient
 
 @Component
 internal class SocialLoginClientFacade(
