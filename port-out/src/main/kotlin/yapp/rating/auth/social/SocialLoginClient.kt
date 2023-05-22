@@ -4,6 +4,5 @@ import yapp.rating.auth.LoginType
 import yapp.rating.auth.SocialUser
 
 interface SocialLoginClient {
-    fun isSupport(socialType: LoginType): Boolean
-    fun login(token: String): SocialUser
+    fun login(loginType: LoginType, token: String): SocialUser
 }
