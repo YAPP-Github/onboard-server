@@ -31,11 +31,13 @@ class AuthConfiguration {
 
     @Bean
     internal fun tokenService(
+        tokenQueryRepository: TokenQueryRepository,
         tokenCommandRepository: TokenCommandRepository,
     ): TokenService =
         TokenService(
             accessTokenPolicy(),
             refreshTokenPolicy(),
+            tokenQueryRepository,
             tokenCommandRepository,
         )
 }

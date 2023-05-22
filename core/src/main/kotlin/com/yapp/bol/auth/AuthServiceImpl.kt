@@ -11,6 +11,11 @@ internal class AuthServiceImpl(
     private val tokenService: TokenService,
 ) : AuthService {
     override fun login(loginType: LoginType, token: String): AuthToken {
+        return if (loginType == LoginType.REFRESH) refreshLogin(token)
+        else socialLogin(loginType, token)
+    }
+
+    private fun socialLogin(loginType: LoginType, token: String): AuthToken {
         val socialAuthClient =
             socialAuthClients.find { client -> client.isSupport(loginType) } ?: throw UnsupportedOperationException()
         val socialUser = socialAuthClient.login(token)
@@ -20,6 +25,15 @@ internal class AuthServiceImpl(
         return AuthToken(
             accessToken = tokenService.generateAccessToken(authUser.id),
             refreshToken = tokenService.generateRefreshToken(authUser.id),
+        )
+    }
+
+    private fun refreshLogin(value: String): AuthToken {
+        val token = tokenService.validateRefreshToken(value)
+
+        return AuthToken(
+            accessToken = tokenService.generateAccessToken(token.userId),
+            refreshToken = tokenService.renewRefreshToken(token),
         )
     }
 
