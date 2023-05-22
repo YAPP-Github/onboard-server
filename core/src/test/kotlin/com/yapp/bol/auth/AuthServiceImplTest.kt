@@ -18,7 +18,7 @@ class AuthServiceImplTest : FunSpec() {
     private val tokenService: TokenService = mockk()
 
     private val sut = AuthServiceImpl(
-        listOf(socialLoginClient),
+        socialLoginClient,
         authCommandRepository,
         authQueryRepository,
         tokenService,
@@ -37,8 +37,7 @@ class AuthServiceImplTest : FunSpec() {
             val kakaoToken = "KAKAO_TOKEN"
             val kakaoUserId = "KAKAO_USER_ID"
 
-            every { socialLoginClient.isSupport(loginType) } returns true
-            every { socialLoginClient.login(kakaoToken) } returns object : SocialUser {
+            every { socialLoginClient.login(loginType, kakaoToken) } returns object : SocialUser {
                 override val id: String = kakaoUserId
             }
 
@@ -78,8 +77,7 @@ class AuthServiceImplTest : FunSpec() {
             val loginType = LoginType.KAKAO
             val kakaoToken = "KAKAO_TOKEN"
 
-            every { socialLoginClient.isSupport(loginType) } returns true
-            every { socialLoginClient.login(kakaoToken) } throws SocialLoginFailedException()
+            every { socialLoginClient.login(loginType, kakaoToken) } throws SocialLoginFailedException()
 
             // when & then
             shouldThrow<SocialLoginFailedException> {

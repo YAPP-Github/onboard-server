@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service
 
 @Service
 internal class AuthServiceImpl(
-    private val socialAuthClients: List<SocialLoginClient>,
+    private val socialAuthClient: SocialLoginClient,
     private val authCommandRepository: AuthCommandRepository,
     private val authQueryRepository: AuthQueryRepository,
     private val tokenService: TokenService,
@@ -16,9 +16,7 @@ internal class AuthServiceImpl(
     }
 
     private fun socialLogin(loginType: LoginType, token: String): AuthToken {
-        val socialAuthClient =
-            socialAuthClients.find { client -> client.isSupport(loginType) } ?: throw UnsupportedOperationException()
-        val socialUser = socialAuthClient.login(token)
+        val socialUser = socialAuthClient.login(loginType, token)
 
         val authUser = getOrCreateAuthUser(loginType, socialUser.id)
 

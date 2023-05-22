@@ -4,6 +4,5 @@ import com.yapp.bol.auth.LoginType
 import com.yapp.bol.auth.SocialUser
 
 interface SocialLoginClient {
-    fun isSupport(socialType: LoginType): Boolean
-    fun login(token: String): SocialUser
+    fun login(loginType: LoginType, token: String): SocialUser
 }
