@@ -1,13 +1,8 @@
 package com.yapp.bol.social.kakao.dto
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.yapp.bol.auth.SocialUser
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 internal data class KakaoUserResponse(
     override val id: String,
-    @JsonProperty("kakao_account") val kakaoAccount: KakaoAccount,
+//    @JsonProperty("kakao_account") val kakaoAccount: KakaoAccount, 동의 항목 필요
 ) : SocialUser
-
-internal class KakaoAccount
