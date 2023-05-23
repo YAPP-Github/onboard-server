@@ -12,7 +12,7 @@ class KakaoConfiguration {
     internal fun kakaoOpenApiClient(): KakaoOpenApiClient {
         val webClient = WebClient.builder().baseUrl(KAKAO_OPEN_API_URL).build()
         val factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build()
-        
+
         return factory.createClient(KakaoOpenApiClient::class.java)
     }
 
