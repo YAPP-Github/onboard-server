@@ -1,7 +1,7 @@
 package com.yapp.bol.auth
 
 enum class LoginType {
-    KAKAO,
+    KAKAO_ACCESS_TOKEN,
     NAVER_ACCESS_TOKEN,
     GOOGLE,
     REFRESH,

@@ -12,7 +12,7 @@ class AuthQueryRepositoryImplTest : FunSpec() {
     private val sut = AuthQueryRepositoryImpl(authSocialRepository)
 
     init {
-        val loginType = LoginType.KAKAO
+        val loginType = LoginType.KAKAO_ACCESS_TOKEN
         val socialType = loginType.toSocialType()
         val socialId = "Kakao ID"
         val userId = 123L
