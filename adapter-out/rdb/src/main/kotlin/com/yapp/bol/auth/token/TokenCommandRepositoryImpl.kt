@@ -16,6 +16,10 @@ internal class TokenCommandRepositoryImpl(
         refreshTokenRepository.save(token.toRefreshToken())
     }
 
+    override fun removeRefreshToken(token: Token) {
+        refreshTokenRepository.deleteByRefreshToken(token.toBinary())
+    }
+
     private fun Token.toAccessToken(): AccessTokenEntity =
         AccessTokenEntity(
             userId = this.userId,
