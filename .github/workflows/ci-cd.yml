@@ -1,4 +1,4 @@
-name: CI/CD on Dev Branch
+name: CI/CD
 
 on:
     push:
@@ -15,7 +15,7 @@ jobs:
             -   name: Docker build
                 run: |
                     docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-                    docker build --build-arg PHASE=dev -t app .
+                    docker build --build-arg PHASE=${{ vars.PHASE }} -t app .
                     docker tag app ${{ secrets.DOCKER_USERNAME }}/board:${{ github.run_number }}
                     docker push ${{ secrets.DOCKER_USERNAME }}/board:${{ github.run_number }}
 
