@@ -26,9 +26,9 @@ jobs:
             -   name: Deploy
                 uses: appleboy/ssh-action@master
                 with:
-                    host: ${{ secrets.SANDBOX_HOST }}
-                    username: ${{ secrets.SANDBOX_USERNAME }}
-                    password: ${{ secrets.SANDBOX_PASSWORD }}
+                    host: ${{ secrets.BOL_API_SERVER_HOST }}
+                    username: ${{ secrets.BOL_API_SERVER_USERNAME }}
+                    password: ${{ secrets.BOL_API_SERVER_PASSWORD }}
                     script: |
                         docker pull ${{ secrets.DOCKER_USERNAME }}/board:${{ github.run_number }}
                         docker stop $(docker ps -a -q)
