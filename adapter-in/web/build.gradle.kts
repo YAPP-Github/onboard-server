@@ -37,19 +37,14 @@ tasks {
     openapi3 {
         setServers(
             listOf(
-                toServer("http://localhost:8080"),
+                toServer("http://3.39.205.168:8080"),
             )
         )
-        title = "My API"
-        description = "My API description"
+        title = "온보드 API"
+        description = "온보드 클라이언트에게 제공하는 API"
 //    tagDescriptionsPropertiesFile = "src/docs/tag-descriptions.yaml"
         version = "0.1.0"
         format = "yaml"
-    }
-    postman {
-        title = "My API"
-        version = "0.1.0"
-        baseUrl = "https://localhost:8080"
     }
     swaggerSources {
         create(generateSwaggerUIPrefix).apply {
