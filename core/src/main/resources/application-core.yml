@@ -1,2 +1,8 @@
+auth:
+  access-token:
+    expire-duration: P3D
+  refresh-token:
+    expire-duration: P7D
+
 ---
 spring.config.activate.on-profile: local

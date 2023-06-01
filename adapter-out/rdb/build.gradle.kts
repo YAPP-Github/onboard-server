@@ -1,10 +1,10 @@
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
     kotlin("plugin.spring")
     kotlin("plugin.jpa")
-    kotlin("plugin.allopen")
-    kotlin("plugin.noarg")
 }
 
 allOpen {
@@ -22,9 +22,11 @@ noArg {
 dependencies {
     val springVersion by properties
 
+    api(project(":domain"))
     api(project(":port-out"))
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springVersion")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
     runtimeOnly("mysql:mysql-connector-java:8.0.33")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
