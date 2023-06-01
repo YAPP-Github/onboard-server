@@ -30,7 +30,6 @@ tasks {
     withType<BootJar> {
         enabled = true
         mainClass.set("com.yapp.bol.WebApplicationKt")
-        dependsOn("copySwaggerUI")
     }
 
     val generateSwaggerUIPrefix = "Api"
@@ -46,6 +45,7 @@ tasks {
         version = "0.1.0"
         format = "yaml"
     }
+
     swaggerSources {
         create(generateSwaggerUIPrefix).apply {
             setInputFile(file("${project.buildDir}/api-spec/openapi3.yaml"))
