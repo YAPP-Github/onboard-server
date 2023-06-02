@@ -15,6 +15,12 @@ spring:
         open-in-view: false
         hibernate:
             ddl-auto: validate
+cloud:
+    aws:
+        region: ap-northeast-2
+        credentials:
+            access-key: AKIATGEE7OOGM5AN4PFF
+
 ---
 spring.config.activate.on-profile: dev
 spring:
@@ -27,6 +33,11 @@ spring:
         properties:
             hibernate:
                 format_sql: true
+
+cloud:
+    aws:
+        s3:
+            bucket: bol-sandbox
 ---
 spring.config.activate.on-profile: local
 spring:
@@ -39,6 +50,11 @@ spring:
         properties:
             hibernate:
                 format_sql: true
+
+cloud:
+    aws:
+        s3:
+            bucket: bol-sandbox
 ---
 spring.config.activate.on-profile: test
 spring:
