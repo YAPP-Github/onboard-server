@@ -19,7 +19,7 @@ cloud:
     aws:
         region: ap-northeast-2
         credentials:
-            access-key: AKIATGEE7OOGM5AN4PFF
+            access-key: AKIATGEE7OOGP65GA6OG
 
 ---
 spring.config.activate.on-profile: dev
