@@ -25,4 +25,5 @@ EXPOSE 8080
 USER nobody
 ENTRYPOINT java \
   -Dspring.profiles.active=${PHASE:-dev} \
+  -Dcloud.aws.credentials.secret-key=${AWS_SECRET_KEY} \
   -jar /app/*.jar
