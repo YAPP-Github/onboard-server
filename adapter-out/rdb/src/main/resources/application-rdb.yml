@@ -15,8 +15,14 @@ spring:
         open-in-view: false
         hibernate:
             ddl-auto: validate
+cloud:
+    aws:
+        region: ap-northeast-2
+        credentials:
+            access-key: AKIATGEE7OOGP65GA6OG
+
 ---
-spring.config.activate.on-profile: dev
+spring.config.activate.on-profile: sandbox
 spring:
     datasource:
         url: jdbc:mysql://board-sandbox.c5oh2un2pvf0.ap-northeast-2.rds.amazonaws.com/board_sandbox?useUnicode=true&character_set_server=utf8mb4
@@ -27,6 +33,11 @@ spring:
         properties:
             hibernate:
                 format_sql: true
+
+cloud:
+    aws:
+        s3:
+            bucket: bol-sandbox
 ---
 spring.config.activate.on-profile: local
 spring:
@@ -39,6 +50,11 @@ spring:
         properties:
             hibernate:
                 format_sql: true
+
+cloud:
+    aws:
+        s3:
+            bucket: bol-sandbox
 ---
 spring.config.activate.on-profile: test
 spring:
