@@ -1,7 +1,5 @@
 FROM eclipse-temurin:17-jdk-alpine AS BUILDER
 
-ARG PHASE
-
 RUN mkdir /app_source
 COPY . /app_source
 
@@ -23,6 +21,15 @@ ENV TZ=Asia/Seoul
 
 EXPOSE 8080
 USER nobody
-ENTRYPOINT java \
-  -Dspring.profiles.active=${PHASE:-dev} \
-  -jar /app/*.jar
+
+ARG PHASE
+ARG AWS_SECRET_KEY
+
+
+ENV ENV_PHASE=${PHASE}
+ENV ENV_AWS_SECRET_KEY=${AWS_SECRET_KEY}
+
+ENTRYPOINT java -jar \
+  -Dspring.profiles.active=${ENV_PHASE:-dev} \
+  -Dcloud.aws.credentials.secret-key=${ENV_AWS_SECRET_KEY} \
+  /app/*.jar

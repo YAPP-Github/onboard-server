@@ -8,6 +8,7 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
+        environment: Sandbox # TODO: DELETE - 해당 줄은 GITHUB 버그 대처방안으로 임시로 추가된 줄 https://github.com/actions/runner/issues/2414
         steps:
             -   name: Checkout
                 uses: actions/checkout@v3
@@ -15,13 +16,17 @@ jobs:
             -   name: Docker build
                 run: |
                     docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-                    docker build --build-arg PHASE=${{ vars.PHASE }} -t app .
+                    docker build \
+                    --build-arg PHASE=${{ vars.PHASE }} \
+                    --build-arg AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} \
+                    -t app .
                     docker tag app ${{ secrets.DOCKER_USERNAME }}/board:${{ github.run_number }}
                     docker push ${{ secrets.DOCKER_USERNAME }}/board:${{ github.run_number }}
 
     deploy:
         needs: build
         runs-on: ubuntu-latest
+        environment: Sandbox # TODO: DELETE - 해당 줄은 GITHUB 버그 대처방안으로 임시로 추가된 줄 https://github.com/actions/runner/issues/2414
         steps:
             -   name: Deploy
                 uses: appleboy/ssh-action@master
