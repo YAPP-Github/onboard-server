@@ -1,5 +1,6 @@
-package com.yapp.bol.auth
+package com.yapp.bol.auth.security
 
+import com.yapp.bol.auth.AuthService
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse

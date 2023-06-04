@@ -1,4 +1,4 @@
-package com.yapp.bol.auth
+package com.yapp.bol.auth.security
 
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority
