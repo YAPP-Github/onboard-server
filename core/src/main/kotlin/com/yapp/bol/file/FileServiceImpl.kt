@@ -13,7 +13,7 @@ class FileServiceImpl(
         return fileCommandRepository.saveFile(request)
     }
 
-    override fun downloadFile(userId: Long, fileName: String): RawFileData {
+    override fun downloadFile(userId: Long?, fileName: String): RawFileData {
         val fileData = fileQueryRepository.getFile(fileName) ?: throw NotFoundFileException
 
         if (fileData.canAccess(userId).not()) throw NotFoundFileException
@@ -21,7 +21,7 @@ class FileServiceImpl(
         return fileData
     }
 
-    private fun RawFileData.canAccess(userId: Long): Boolean =
+    private fun RawFileData.canAccess(userId: Long?): Boolean =
         when (this.purpose.accessLevel) {
             FileAccessLevel.PUBLIC -> true
             FileAccessLevel.PRIVATE -> this.userId == userId

@@ -4,5 +4,5 @@ import com.yapp.bol.file.dto.RawFileData
 
 interface FileService {
     fun uploadFile(request: RawFileData): FileInfo
-    fun downloadFile(userId: Long, fileName: String): RawFileData
+    fun downloadFile(userId: Long?, fileName: String): RawFileData
 }
