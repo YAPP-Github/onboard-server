@@ -15,5 +15,7 @@ class SocialLoginFailedException(cause: Throwable? = null) : LoginException("Aut
 object InvalidTokenException : LoginException("Auth002", "유효하지 않는 토큰 입니다.")
 object ExpiredTokenException : LoginException("Auth003", "만료된 토큰 입니다.")
 
+object IllegalFileStateException : BolRatingException("File001", 500, "요청한 파일의 Status가 올바르지 않습니다.")
+object NotFoundFileException : BolRatingException("File002", 400, "파일을 찾을 수 없습니다.")
+
 object InvalidRequestException : BolRatingException("BOL001", 400, "유효하지 않은 요청입니다.")
-object IllegalFileStateException : BolRatingException("BOL002", 500, "요청한 파일의 Status가 올바르지 않습니다.")

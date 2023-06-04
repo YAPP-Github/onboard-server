@@ -3,9 +3,15 @@ package com.yapp.bol.file
 import com.yapp.bol.InvalidRequestException
 import com.yapp.bol.file.dto.RawFileData
 import com.yapp.bol.file.dto.UploadFileResponse
-import jakarta.websocket.server.PathParam
+import java.io.InputStream
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.io.InputStreamResource
+import org.springframework.core.io.Resource
+import org.springframework.core.io.UrlResource
+import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -39,5 +45,13 @@ class FileController(
     }
 
     @GetMapping("/{name}")
-    fun downloadFile(@PathParam("name") fileName: String){}
+    fun downloadFile(@PathVariable("name") fileName: String): ResponseEntity<Resource> {
+        val userId = 0L
+        val file = fileService.downloadFile(userId, fileName)
+        val resource = InputStreamResource(file.content)
+
+        return ResponseEntity.ok()
+            .contentType(MediaType.valueOf(file.contentType))
+            .body(resource)
+    }
 }

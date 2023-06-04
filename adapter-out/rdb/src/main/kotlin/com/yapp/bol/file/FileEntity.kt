@@ -15,7 +15,7 @@ import jakarta.persistence.Table
 class FileEntity(
     name: String,
     userId: Long,
-    accessLevel: FileAccessLevel,
+    purpose: FilePurpose,
 ) : AuditingEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +31,8 @@ class FileEntity(
     var userId: Long = userId
         protected set
 
-    @Column(name = "access_level")
+    @Column(name = "purpose")
     @Enumerated(value = EnumType.STRING)
-    var accessLevel: FileAccessLevel = accessLevel
+    var accessLevel: FilePurpose = purpose
         protected set
 }
