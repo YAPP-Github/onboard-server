@@ -1,12 +1,15 @@
 package com.yapp.bol.auth
 
+import com.yapp.bol.UnAuthenticationException
 import com.yapp.bol.auth.security.SecurityExceptionHandler
+import com.yapp.bol.auth.security.TokenAuthentication
 import com.yapp.bol.auth.security.TokenAuthenticationFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
@@ -44,4 +47,13 @@ class SecurityConfiguration {
             "/swagger/**",
         )
     }
+}
+
+fun getSecurityUserId(): Long? {
+    val authentication = SecurityContextHolder.getContext()?.authentication as? TokenAuthentication
+    return authentication?.principal
+}
+
+fun getSecurityUserIdOrThrow(): Long {
+    return getSecurityUserId() ?: throw UnAuthenticationException()
 }
