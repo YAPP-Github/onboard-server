@@ -26,7 +26,6 @@ class ExceptionHandler {
     private fun BolRatingException.toResponse(): ResponseEntity<ErrorResponse> =
         ResponseEntity.status(this.status).body(ErrorResponse(code, message))
 
-
     data class ErrorResponse(
         val code: String,
         val message: String,
