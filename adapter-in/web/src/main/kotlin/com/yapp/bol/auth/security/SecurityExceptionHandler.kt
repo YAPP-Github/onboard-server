@@ -1,7 +1,5 @@
 package com.yapp.bol.auth.security
 
-import com.yapp.bol.UnAuthenticationException
-import com.yapp.bol.UnAuthorizationException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Qualifier
@@ -21,7 +19,7 @@ class SecurityExceptionHandler(
         response: HttpServletResponse,
         authException: AuthenticationException
     ) {
-        handler.resolveException(request, response, null, UnAuthenticationException(authException))
+        handler.resolveException(request, response, null, authException)
     }
 
     override fun handle(
@@ -29,6 +27,6 @@ class SecurityExceptionHandler(
         response: HttpServletResponse,
         accessDeniedException: AccessDeniedException
     ) {
-        handler.resolveException(request, response, null, UnAuthorizationException(accessDeniedException))
+        handler.resolveException(request, response, null, accessDeniedException)
     }
 }
