@@ -28,6 +28,11 @@ internal class TokenService(
         return generateRefreshToken(token.userId)
     }
 
+    fun validateAccessToken(value: String): Token {
+        accessTokenPolicy.assertValidate(value)
+        return tokenQueryRepository.findAccessToken(value).validate()
+    }
+
     fun validateRefreshToken(value: String): Token {
         refreshTokenPolicy.assertValidate(value)
         return tokenQueryRepository.findRefreshToken(value).validate()
