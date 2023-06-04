@@ -1,5 +1,6 @@
 package com.yapp.bol.auth
 
+import com.yapp.bol.AuthException
 import com.yapp.bol.auth.social.SocialLoginClient
 import org.springframework.stereotype.Service
 
@@ -13,6 +14,15 @@ internal class AuthServiceImpl(
     override fun login(loginType: LoginType, token: String): AuthToken {
         return if (loginType == LoginType.REFRESH) loginByRefreshToken(token)
         else socialLogin(loginType, token)
+    }
+
+    override fun getAuthUserByAccessToken(token: String): AuthUser? {
+        try {
+            val token = tokenService.validateAccessToken(token)
+            return AuthUser(token.userId)
+        } catch (e: AuthException) {
+            return null
+        }
     }
 
     private fun socialLogin(loginType: LoginType, token: String): AuthToken {

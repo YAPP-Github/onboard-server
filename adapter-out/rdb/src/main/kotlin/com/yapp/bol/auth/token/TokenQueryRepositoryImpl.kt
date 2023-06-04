@@ -7,11 +7,25 @@ import org.springframework.stereotype.Repository
 
 @Repository
 internal class TokenQueryRepositoryImpl(
+    private val accessTokenRepository: AccessTokenRepository,
     private val refreshTokenRepository: RefreshTokenRepository,
 ) : TokenQueryRepository {
+    override fun findAccessToken(value: String): Token? {
+        val entity = accessTokenRepository.findByAccessToken(value.toBinary()) ?: return null
+        return entity.toToken()
+    }
+
     override fun findRefreshToken(token: String): Token? {
         val entity = refreshTokenRepository.findByRefreshToken(token.toBinary()) ?: return null
         return entity.toToken()
+    }
+
+    private fun AccessTokenEntity.toToken(): Token {
+        return Token(
+            value = this.accessToken,
+            userId = this.userId,
+            expiredAt = this.expiredAt,
+        )
     }
 
     private fun RefreshTokenEntity.toToken(): Token {
