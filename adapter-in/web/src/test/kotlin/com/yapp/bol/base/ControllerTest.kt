@@ -4,6 +4,7 @@ import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.yapp.bol.ExceptionHandler
+import com.yapp.bol.auth.UserInfoResolver
 import io.kotest.core.spec.style.FunSpec
 import org.springframework.http.MediaType
 import org.springframework.restdocs.ManualRestDocumentation
@@ -57,7 +58,7 @@ abstract class ControllerTest : FunSpec() {
                     .withResponseDefaults(prettyPrint())
             )
             .setControllerAdvice(ExceptionHandler())
-//            .setCustomArgumentResolvers()
+            .setCustomArgumentResolvers(UserInfoResolver())
 //            .setMessageConverters()
             .build()
     }
