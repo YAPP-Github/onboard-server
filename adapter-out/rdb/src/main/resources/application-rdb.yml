@@ -22,7 +22,7 @@ cloud:
             access-key: AKIATGEE7OOGP65GA6OG
 
 ---
-spring.config.activate.on-profile: dev
+spring.config.activate.on-profile: sandbox
 spring:
     datasource:
         url: jdbc:mysql://board-sandbox.c5oh2un2pvf0.ap-northeast-2.rds.amazonaws.com/board_sandbox?useUnicode=true&character_set_server=utf8mb4
