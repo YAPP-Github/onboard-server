@@ -1,9 +1,9 @@
 package com.yapp.bol.file
 
 import com.yapp.bol.InvalidRequestException
+import com.yapp.bol.config.BolProperties
 import com.yapp.bol.file.dto.RawFileData
 import com.yapp.bol.file.dto.UploadFileResponse
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.InputStreamResource
 import org.springframework.core.io.Resource
 import org.springframework.http.MediaType
@@ -21,9 +21,8 @@ import org.springframework.web.multipart.MultipartFile
 @RestController
 class FileController(
     private val fileService: FileService,
+    private val bolProperties: BolProperties,
 ) {
-    @Value("\${bol.server.host}")
-    private lateinit var hostUrl: String
 
     @PostMapping
     fun uploadFile(
@@ -39,7 +38,7 @@ class FileController(
         )
         val result = fileService.uploadFile(request)
 
-        return UploadFileResponse("$hostUrl/v1/file/${result.name}")
+        return UploadFileResponse("${bolProperties.host}/v1/file/${result.name}")
     }
 
     @GetMapping("/{name}")
