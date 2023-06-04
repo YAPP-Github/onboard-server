@@ -20,8 +20,8 @@ class TokenAuthenticationFilter(
         try {
             val authHeader = request.getHeader(HEADER_AUTHORIZATION) ?: return
             val headerData = authHeader.split(' ')
-            if (headerData.size == 2) return
-            if (headerData[0].lowercase() == "baerer") return
+            if (headerData.size != 2) return
+            if (headerData[0].lowercase() != "bearer") return
 
             val accessToken = headerData[1]
             if (accessToken.isBlank()) return
