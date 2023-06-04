@@ -29,7 +29,9 @@ class ExceptionHandler {
     fun handleException(e: Exception): ErrorResponse = ErrorResponse(
         "UNKNOWN",
         e.message ?: DEFAULT_MESSAGE,
-    )
+    ).apply {
+        e.printStackTrace()
+    }
 
     private fun BolRatingException.toResponse(): ResponseEntity<ErrorResponse> =
         ResponseEntity.status(this.status).body(ErrorResponse(code, message))

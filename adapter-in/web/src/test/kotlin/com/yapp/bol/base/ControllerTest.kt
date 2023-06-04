@@ -4,7 +4,10 @@ import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.yapp.bol.ExceptionHandler
+import com.yapp.bol.auth.getSecurityUserId
 import io.kotest.core.spec.style.FunSpec
+import io.mockk.every
+import io.mockk.mockkStatic
 import org.springframework.http.MediaType
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.mock.web.MockPart
@@ -35,6 +38,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder
+import kotlin.reflect.jvm.javaMethod
 
 abstract class ControllerTest : FunSpec() {
     protected abstract val controller: Any
@@ -118,6 +122,13 @@ abstract class ControllerTest : FunSpec() {
 
     protected fun put(url: String, buildRequest: MockHttpServletRequestBuilder.() -> Unit): ResultActions =
         mockMvc.perform(put(url).apply(buildRequest))
+
+    protected fun MockHttpServletRequestBuilder.authorizationHeader(userId: Long) {
+        mockkStatic(::getSecurityUserId.javaMethod!!.declaringClass.kotlin)
+        every { getSecurityUserId() } returns userId
+
+        this.header("Authorization", "Bearer Token")
+    }
 
     protected fun ResultActions.isStatus(code: Int): ResultActions =
         andExpect(status().`is`(code))
