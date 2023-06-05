@@ -7,11 +7,15 @@ plugins {
 
 dependencies {
     val springVersion by properties
+    val jjwtVersion by properties
 
     api(project(":domain"))
     api(project(":port-out"))
 
     implementation("org.springframework.boot:spring-boot-starter-webflux:$springVersion")
+    implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
 }
 
 tasks {

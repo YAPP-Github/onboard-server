@@ -34,7 +34,7 @@ internal class JwtUtils(
 
     override fun getUserId(token: String): Long =
         Jwts.parserBuilder()
-            .setSigningKey(getSigningKey())
+//            .setSigningKey(getSigningKey())
             .build()
             .parseClaimsJws(token).body.id.toLong()
 
