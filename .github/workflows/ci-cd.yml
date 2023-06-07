@@ -19,6 +19,7 @@ jobs:
                     docker build \
                     --build-arg PHASE=${{ vars.PHASE }} \
                     --build-arg AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} \
+                    --build-arg GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
                     --build-arg SERVER_HOST=${{ secrets.BOL_API_SERVER_HOST }} \
                     -t app .
                     docker tag app ${{ secrets.DOCKER_USERNAME }}/board:${{ github.run_number }}
