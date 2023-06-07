@@ -6,11 +6,11 @@ import org.springframework.stereotype.Component
 
 @Component
 internal class GoogleIdTokenLoginClient(
-    private val idTokenUtils: IdTokenUtils,
+    private val googleIdTokenService: GoogleIdTokenService,
 ) {
     fun login(token: String): SocialUser {
-        val sut = idTokenUtils.getSub(token) ?: throw SocialLoginFailedException()
+        val googleUserId = googleIdTokenService.getUserId(token) ?: throw SocialLoginFailedException()
 
-        return GoogleSocialUser(id = sut)
+        return GoogleSocialUser(id = googleUserId)
     }
 }

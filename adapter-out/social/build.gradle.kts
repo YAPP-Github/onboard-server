@@ -13,9 +13,7 @@ dependencies {
     api(project(":port-out"))
 
     implementation("org.springframework.boot:spring-boot-starter-webflux:$springVersion")
-    implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion")
-    runtimeOnly("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
-    runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
+    implementation("com.google.api-client:google-api-client:1.32.1")
 }
 
 tasks {
