@@ -42,25 +42,8 @@ class Group(
             name: String,
             description: String,
             organization: String,
-            profileImageUrl: String = DEFAULT_PROFILE_IMAGE_URL,
-        ): Group = Group(
-            id = 0,
-            name = name,
-            description = description,
-            organization = organization,
-            profileImageUrl = profileImageUrl,
-            members = MemberList.of(
-                Member.createOwner(0, name)
-            ),
-            accessCode = ""
-        )
-
-        fun of(
-            name: String,
-            description: String,
-            organization: String,
-            profileImageUrl: String = DEFAULT_PROFILE_IMAGE_URL,
             owner: Member,
+            profileImageUrl: String = DEFAULT_PROFILE_IMAGE_URL,
         ): Group = Group(
             id = 0,
             name = name,
