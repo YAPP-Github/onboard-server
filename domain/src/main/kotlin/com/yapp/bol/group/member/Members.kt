@@ -10,12 +10,8 @@ class Members private constructor(private val members: MutableList<Member>) {
     }
 
     companion object {
-        private fun isOwner(member: Member): Boolean {
-            return member.role == "OWNER"
-        }
-
         fun of(owner: Member): Members {
-            if (!isOwner(owner)) {
+            if (!owner.isOwner()) {
                 throw IllegalArgumentException("그룹 생성자는 OWNER 역할이어야 합니다.")
             }
 
