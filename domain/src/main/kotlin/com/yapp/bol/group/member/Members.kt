@@ -12,10 +12,6 @@ class Members(private val members: MutableList<Member> = mutableListOf()) {
     }
 
     companion object {
-        fun fromList(members: List<Member>): Members {
-            return Members(members.toMutableList())
-        }
-
         fun of(userId: Long, nickname: String): Members {
             val members = Members()
 
