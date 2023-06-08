@@ -1,5 +1,6 @@
 package com.yapp.bol.group
 
+import com.yapp.bol.group.member.Member
 import com.yapp.bol.group.member.Members
 
 class Group(
@@ -43,7 +44,9 @@ class Group(
             organization: String,
             profileImageUrl: String? = DEFAULT_PROFILE_IMAGE_URL,
         ): Group {
-            val members = Members.of(0, "TEST")
+            val members = Members.of(
+                Member(0, 0, "OWNER", name),
+            )
 
             return Group(
                 0, name, description, organization,
@@ -59,7 +62,9 @@ class Group(
             ownerId: Long,
             nickname: String,
         ): Group {
-            val members = Members.of(ownerId, nickname)
+            val members = Members.of(
+                Member(0, 0, "OWNER", name),
+            )
             val accessCode = generateAccessCode()
 
             return Group(

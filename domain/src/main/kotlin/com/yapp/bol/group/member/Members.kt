@@ -1,23 +1,25 @@
 package com.yapp.bol.group.member
 
-class Members(private val members: MutableList<Member> = mutableListOf()) {
-    private fun addOwner(userId: Long, nickname: String) {
-        val owner = Member.createOwner(userId, nickname)
-
-        members.add(owner)
-    }
-
+class Members private constructor(private val members: MutableList<Member>) {
     fun toList(): List<Member> {
         return members.toList()
     }
 
+    fun add(member: Member) {
+        members.add(member)
+    }
+
     companion object {
-        fun of(userId: Long, nickname: String): Members {
-            val members = Members()
+        private fun isOwner(member: Member): Boolean {
+            return member.role == "OWNER"
+        }
 
-            members.addOwner(userId, nickname)
+        fun of(owner: Member): Members {
+            if (!isOwner(owner)) {
+                throw IllegalArgumentException("그룹 생성자는 OWNER 역할이어야 합니다.")
+            }
 
-            return members
+            return Members(mutableListOf(owner))
         }
     }
 }
