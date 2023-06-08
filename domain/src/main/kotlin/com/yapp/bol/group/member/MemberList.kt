@@ -1,6 +1,6 @@
 package com.yapp.bol.group.member
 
-class MemberList private constructor(private val members: MutableList<Member>) {
+class MemberList(val members: MutableList<Member>) {
     fun toList(): List<Member> {
         return members.toList()
     }
