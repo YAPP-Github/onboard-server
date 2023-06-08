@@ -19,6 +19,7 @@ import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.restdocs.payload.RequestFieldsSnippet
 import org.springframework.restdocs.payload.ResponseFieldsSnippet
+import org.springframework.restdocs.request.QueryParametersSnippet
 import org.springframework.restdocs.request.RequestDocumentation.pathParameters
 import org.springframework.restdocs.request.RequestDocumentation.queryParameters
 import org.springframework.restdocs.snippet.Snippet
@@ -146,8 +147,8 @@ abstract class ControllerTest : FunSpec() {
         )
     }
 
-    protected fun queryParameters(vararg fields: DocumentField) {
-        queryParameters(
+    protected fun queryParameters(vararg fields: DocumentField): QueryParametersSnippet {
+        return queryParameters(
             fields.map(DocumentField::toParameterDescriptor).toList()
         )
     }
