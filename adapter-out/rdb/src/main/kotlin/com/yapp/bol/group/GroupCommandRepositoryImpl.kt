@@ -14,3 +14,34 @@ internal class GroupCommandRepositoryImpl(
         return groupEntity.toDomain()
     }
 }
+
+internal fun Group.toEntity(): GroupEntity = GroupEntity(
+    id = id,
+    name = name,
+    description = description,
+    organization = organization,
+    profileImageUrl = profileImageUrl,
+    accessCode = accessCode,
+    members = members.toList().map {
+        it.toEntity()
+    }
+)
+
+internal fun GroupEntity.toDomain(): Group = Group(
+    id = id,
+    name = name,
+    description = description,
+    organization = organization,
+    profileImageUrl = profileImageUrl,
+    accessCode = accessCode,
+    members = members.map {
+        Member(
+            id = it.id,
+            userId = it.userId,
+            role = it.role,
+            nickname = it.nickname,
+        )
+    }.let {
+        MemberList(it.toMutableList())
+    }
+)
