@@ -1,7 +1,7 @@
 package com.yapp.bol.group
 
 import com.yapp.bol.group.member.Member
-import com.yapp.bol.group.member.Members
+import com.yapp.bol.group.member.MemberList
 
 class Group(
     val id: Long,
@@ -9,7 +9,7 @@ class Group(
     val description: String,
     val organization: String,
     val profileImageUrl: String,
-    val members: Members,
+    val members: MemberList,
     val accessCode: String,
 ) {
     init {
@@ -49,7 +49,7 @@ class Group(
             description = description,
             organization = organization,
             profileImageUrl = profileImageUrl,
-            members = Members.of(
+            members = MemberList.of(
                 Member.createOwner(0, name)
             ),
             accessCode = ""
@@ -67,7 +67,7 @@ class Group(
             description = description,
             organization = organization,
             profileImageUrl = profileImageUrl,
-            members = Members.of(owner),
+            members = MemberList.of(owner),
             accessCode = generateAccessCode()
         )
     }

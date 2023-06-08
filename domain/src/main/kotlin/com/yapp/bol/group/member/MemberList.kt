@@ -1,6 +1,6 @@
 package com.yapp.bol.group.member
 
-class Members private constructor(private val members: MutableList<Member>) {
+class MemberList private constructor(private val members: MutableList<Member>) {
     fun toList(): List<Member> {
         return members.toList()
     }
@@ -10,12 +10,12 @@ class Members private constructor(private val members: MutableList<Member>) {
     }
 
     companion object {
-        fun of(owner: Member): Members {
+        fun of(owner: Member): MemberList {
             if (!owner.isOwner()) {
                 throw IllegalArgumentException("그룹 생성자는 OWNER 역할이어야 합니다.")
             }
 
-            return Members(mutableListOf(owner))
+            return MemberList(mutableListOf(owner))
         }
     }
 }
