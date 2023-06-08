@@ -6,7 +6,8 @@ import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
 import com.yapp.bol.group.dto.CreateGroupRequest
 import com.yapp.bol.group.member.Member
-import com.yapp.bol.group.member.Members
+import com.yapp.bol.group.member.MemberList
+import com.yapp.bol.group.member.MemberRole
 import io.mockk.every
 import io.mockk.mockk
 
@@ -25,11 +26,11 @@ class GroupControllerTest : ControllerTest() {
                 organization = "organization",
                 profileImageUrl = "profileImageUrl",
                 accessCode = "1A2B3C",
-                members = Members.of(
+                members = MemberList.of(
                     Member(
                         id = 123,
                         nickname = "nick",
-                        role = "OWNER"
+                        role = MemberRole.OWNER
                     )
                 )
             )
