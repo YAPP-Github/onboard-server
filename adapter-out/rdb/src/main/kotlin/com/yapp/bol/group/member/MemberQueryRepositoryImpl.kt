@@ -10,3 +10,12 @@ internal class MemberQueryRepositoryImpl(
         return memberRepository.findByNickname(nickname)?.toDomain()
     }
 }
+
+private fun MemberEntity.toDomain(): Member {
+    return Member(
+        id = id,
+        userId = userId,
+        role = role,
+        nickname = nickname,
+    )
+}
