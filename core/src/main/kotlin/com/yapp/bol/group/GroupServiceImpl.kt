@@ -10,14 +10,14 @@ internal class GroupServiceImpl(
 ) : GroupService {
 
     override fun createGroup(
-        dto: CreateGroupDto
+        createGroupDto: CreateGroupDto
     ): Group {
         val group = Group.of(
-            name = dto.name,
-            description = dto.description,
-            organization = dto.organization,
-            profileImageUrl = dto.profileImageUrl ?: Group.DEFAULT_PROFILE_IMAGE_URL,
-            owner = Member.createOwner(dto.ownerId, dto.nickname)
+            name = createGroupDto.name,
+            description = createGroupDto.description,
+            organization = createGroupDto.organization,
+            profileImageUrl = createGroupDto.profileImageUrl ?: Group.DEFAULT_PROFILE_IMAGE_URL,
+            owner = Member.createOwner(createGroupDto.ownerId, createGroupDto.nickname)
         )
 
         return groupCommandRepository.createGroup(group)
