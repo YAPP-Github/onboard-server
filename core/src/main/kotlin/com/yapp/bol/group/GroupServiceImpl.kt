@@ -17,7 +17,7 @@ internal class GroupServiceImpl(
             description = dto.description,
             organization = dto.organization,
             profileImageUrl = dto.profileImageUrl ?: Group.DEFAULT_PROFILE_IMAGE_URL,
-            owner = Member.createOwner(dto.ownerId, dto.nickname)
+            owner = Member.createOwner(dto.ownerId, dto.groupId, dto.nickname)
         )
 
         return groupCommandRepository.createGroup(group)

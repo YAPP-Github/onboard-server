@@ -14,7 +14,7 @@ class MemberControllerTest : ControllerTest() {
     init {
         test("GET /v1/group/member/validate") {
             every {
-                memberService.validateMemberName(any())
+                memberService.validateMemberNickname(any())
             } returns true
 
             get("/v1/group/member/validate?nickname=holden") {}

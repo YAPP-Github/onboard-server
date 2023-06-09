@@ -13,6 +13,6 @@ class MemberController(
 ) {
     @GetMapping("/validate")
     fun validateMemberName(@RequestParam nickname: String): ValidateMemberNameResponse {
-        return ValidateMemberNameResponse(memberService.validateMemberName(nickname))
+        return ValidateMemberNameResponse(memberService.validateMemberNickname(nickname))
     }
 }
