@@ -19,5 +19,5 @@ fun Member.toEntity(): MemberEntity = MemberEntity(
     id = this.id,
     userId = this.userId,
     role = this.role,
-    nickname = this.nickname
+    nickname = this.nickname,
 )

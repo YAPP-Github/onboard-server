@@ -5,7 +5,6 @@ import com.yapp.bol.InvalidMemberNicknameException
 class Member(
     val id: Long,
     val userId: Long? = null,
-    val groupId: Long? = null,
     val role: MemberRole, // FIXME: 스프링 시큐리티 추가 전 임시 값
     val nickname: String,
 ) {
