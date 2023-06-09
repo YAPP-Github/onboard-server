@@ -17,12 +17,3 @@ internal class MemberQueryRepositoryImpl(
         }
     }
 }
-
-private fun MemberEntity.toDomain(): Member {
-    return Member(
-        id = id,
-        userId = userId,
-        role = role,
-        nickname = nickname,
-    )
-}
