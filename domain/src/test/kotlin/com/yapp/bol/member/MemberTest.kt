@@ -9,7 +9,7 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 class MemberTest : FunSpec() {
     init {
         test("멤버 생성") {
-            val member = Member(0, null, MemberRole.OWNER, "nickname")
+            val member = Member(0, null, 1, MemberRole.OWNER, "nick")
 
             member.shouldBeInstanceOf<Member>()
         }
@@ -18,7 +18,7 @@ class MemberTest : FunSpec() {
             val nickname = "x".repeat(Member.MAX_NICKNAME_LENGTH + 1)
 
             shouldThrow<IllegalArgumentException> {
-                Member(0, null, MemberRole.OWNER, nickname)
+                Member(0, null, 1, MemberRole.OWNER, nickname)
             }
         }
     }

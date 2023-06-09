@@ -8,7 +8,7 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 
 class GroupTest : FunSpec() {
     init {
-        val owner = Member.createOwner(0, "nick")
+        val owner = Member.createOwner(1, 1, "nick")
 
         test("그룹 생성") {
             val group = Group.of("name", "description", "organization", owner)
