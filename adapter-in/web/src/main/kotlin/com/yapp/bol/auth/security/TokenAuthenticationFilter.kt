@@ -20,12 +20,12 @@ class TokenAuthenticationFilter(
         try {
             val authHeader = request.getHeader(HEADER_AUTHORIZATION) ?: return
             val headerData = authHeader.split(' ')
+
             if (headerData.size != 2) return
-            if (headerData[0].lowercase() != "bearer") return
+            if (headerData[0].lowercase() != AUTHORIZATION_METHOD) return
+            if (headerData[1].isBlank()) return
 
             val accessToken = headerData[1]
-            if (accessToken.isBlank()) return
-
             val authUser = authService.getAuthUserByAccessToken(accessToken) ?: return
             SecurityContextHolder.getContext().authentication = TokenAuthentication(accessToken, authUser.id)
         } finally {
@@ -35,5 +35,6 @@ class TokenAuthenticationFilter(
 
     companion object {
         private const val HEADER_AUTHORIZATION = "Authorization"
+        private const val AUTHORIZATION_METHOD = "bearer"
     }
 }
