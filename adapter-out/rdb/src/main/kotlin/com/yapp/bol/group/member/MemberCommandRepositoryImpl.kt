@@ -10,5 +10,3 @@ internal class MemberCommandRepositoryImpl(
         memberRepository.save(member.toEntity())
     }
 }
-
-fun Member.toEntity(): MemberEntity = MemberEntity(id, userId, role, nickname)
