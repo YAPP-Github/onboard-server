@@ -6,6 +6,5 @@ data class CreateGroupDto(
     val organization: String,
     val profileImageUrl: String?,
     val ownerId: Long,
-    val groupId: Long,
     val nickname: String,
 )

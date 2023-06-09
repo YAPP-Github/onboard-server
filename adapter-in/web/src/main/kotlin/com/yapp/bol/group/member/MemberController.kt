@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController
 class MemberController(
     private val memberService: MemberService,
 ) {
-    @GetMapping("/validate")
-    fun validateMemberName(@RequestParam nickname: String): ValidateMemberNameResponse {
-        return ValidateMemberNameResponse(memberService.validateMemberNickname(nickname))
+    @GetMapping("/validateNickname")
+    fun validateMemberName(@RequestParam groupId: Long, @RequestParam nickname: String): ValidateMemberNameResponse {
+        return ValidateMemberNameResponse(memberService.validateMemberNickname(groupId, nickname))
     }
 }

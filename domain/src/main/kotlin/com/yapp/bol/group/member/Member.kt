@@ -3,7 +3,6 @@ package com.yapp.bol.group.member
 class Member(
     val id: Long,
     val userId: Long? = null,
-    val groupId: Long? = null,
     val role: MemberRole, // FIXME: 스프링 시큐리티 추가 전 임시 값
     val nickname: String,
 ) {
@@ -16,13 +15,12 @@ class Member(
     companion object {
         const val MAX_NICKNAME_LENGTH = 6
 
-        fun createOwner(userId: Long, groupId: Long, nickname: String): Member {
+        fun createOwner(userId: Long, nickname: String): Member {
             return Member(
                 id = 0,
                 userId = userId,
-                groupId = groupId,
                 role = MemberRole.OWNER,
-                nickname = nickname
+                nickname = nickname,
             )
         }
     }
