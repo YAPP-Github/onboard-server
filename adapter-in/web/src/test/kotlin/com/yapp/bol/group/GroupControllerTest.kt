@@ -42,7 +42,7 @@ class GroupControllerTest : ControllerTest() {
             post("/v1/group", request) {}
                 .isStatus(200)
                 .makeDocument(
-                    DocumentInfo(identifier = "test", tag = OpenApiTag.GROUP),
+                    DocumentInfo(identifier = "group", tag = OpenApiTag.GROUP),
                     requestFields(
                         "name" type STRING means "그룹 이름",
                         "description" type STRING means "그룹 설명",

@@ -20,7 +20,7 @@ class MemberControllerTest : ControllerTest() {
             get("/v1/group/member/validate?nickname=holden") {}
                 .isStatus(200)
                 .makeDocument(
-                    DocumentInfo(identifier = "test", tag = OpenApiTag.MEMBER),
+                    DocumentInfo(identifier = "member", tag = OpenApiTag.MEMBER),
                     queryParameters(
                         "nickname" type STRING means "닉네임"
                     ),
