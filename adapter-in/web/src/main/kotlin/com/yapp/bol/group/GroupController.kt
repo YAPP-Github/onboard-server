@@ -15,6 +15,6 @@ class GroupController(
 ) {
     @PostMapping()
     fun createGroup(@RequestBody request: CreateGroupRequest): CreateGroupResponse {
-        return groupService.createGroup(request.toDto()).toDto()
+        return groupService.createGroup(request.toDto(1)).toDto() // FIXME: 시큐리티 적용 필요
     }
 }

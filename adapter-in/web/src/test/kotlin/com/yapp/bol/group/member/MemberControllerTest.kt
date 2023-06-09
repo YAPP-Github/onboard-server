@@ -13,7 +13,7 @@ class MemberControllerTest : ControllerTest() {
     override val controller = MemberController(memberService)
 
     init {
-        test("GET /v1/group/member/validate") {
+        test("GET /v1/group/member/validateNickname") {
             every {
                 memberService.validateMemberNickname(any(), any())
             } returns true

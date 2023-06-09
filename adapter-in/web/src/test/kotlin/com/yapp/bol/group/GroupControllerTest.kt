@@ -17,19 +17,25 @@ class GroupControllerTest : ControllerTest() {
 
     init {
         test("POST /v1/group") {
-            val request = CreateGroupRequest("name", "description", "organization", "profileImageUrl", 123, "nick")
+            val request = CreateGroupRequest(
+                name = "뽀글뽀글",
+                description = "보겜동입니다",
+                organization = "카카오",
+                profileImageUrl = "https://profile.com",
+                nickname = "홀든",
+            )
 
             val group = Group(
                 id = 1,
-                name = "name",
-                description = "description",
-                organization = "organization",
-                profileImageUrl = "profileImageUrl",
+                name = "뽀글뽀글",
+                description = "보겜동입니다",
+                organization = "카카오",
+                profileImageUrl = "https://profile.com",
                 accessCode = "1A2B3C",
                 members = MemberList.of(
                     Member(
                         id = 123,
-                        nickname = "nick",
+                        nickname = "홀든",
                         role = MemberRole.OWNER
                     )
                 )
@@ -48,7 +54,6 @@ class GroupControllerTest : ControllerTest() {
                         "description" type STRING means "그룹 설명",
                         "organization" type STRING means "그룹 소속",
                         "profileImageUrl" type STRING means "그룹 프로필 이미지 URL" isOptional true,
-                        "ownerId" type NUMBER means "그룹장 ID",
                         "nickname" type STRING means "그룹장 닉네임",
                     ),
                     responseFields(

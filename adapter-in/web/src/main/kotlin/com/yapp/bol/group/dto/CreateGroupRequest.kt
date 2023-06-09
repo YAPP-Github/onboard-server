@@ -5,11 +5,10 @@ data class CreateGroupRequest(
     val description: String,
     val organization: String,
     val profileImageUrl: String?,
-    val ownerId: Long,
     val nickname: String,
 )
 
-fun CreateGroupRequest.toDto() = CreateGroupDto(
+fun CreateGroupRequest.toDto(ownerId: Long) = CreateGroupDto(
     name = name,
     description = description,
     organization = organization,
