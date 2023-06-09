@@ -58,7 +58,12 @@ class GroupControllerTest : ControllerTest() {
                     ),
                     responseFields(
                         "id" type NUMBER means "그룹 ID",
-                        "accessCode" type STRING means "그룹 접근 코드",
+                        "name" type STRING means "그룹 이름",
+                        "description" type STRING means "그룹 설명",
+                        "owner" type STRING means "그룹장 닉네임",
+                        "organization" type STRING means "그룹 소속",
+                        "profileImageUrl" type STRING means "그룹 프로필 이미지 URL",
+                        "accessCode" type STRING means "그룹 접근 코드"
                     )
                 )
         }

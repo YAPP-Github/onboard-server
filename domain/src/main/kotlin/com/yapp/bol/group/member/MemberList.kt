@@ -20,6 +20,10 @@ class MemberList(val members: MutableList<Member>) {
         return members.find { it.nickname == nickname }
     }
 
+    fun getOwner(): Member {
+        return members.find { it.isOwner() } ?: throw IllegalStateException("OWNER 멤버가 존재하지 않습니다.")
+    }
+
     private fun validateDistinctNicknames(members: List<Member>): Boolean = (
         members.size == members
             .map { it.nickname }
