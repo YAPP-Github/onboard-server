@@ -12,6 +12,6 @@ fun LoginType.toSocialType(): SocialType =
     when (this) {
         LoginType.KAKAO_ACCESS_TOKEN -> SocialType.KAKAO
         LoginType.NAVER_ACCESS_TOKEN -> SocialType.NAVER
-        LoginType.GOOGLE -> SocialType.GOOGLE
+        LoginType.GOOGLE_ID_TOKEN -> SocialType.GOOGLE
         LoginType.REFRESH -> throw UnsupportedOperationException()
     }

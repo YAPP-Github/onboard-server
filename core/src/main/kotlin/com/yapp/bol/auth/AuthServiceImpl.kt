@@ -16,10 +16,10 @@ internal class AuthServiceImpl(
         else socialLogin(loginType, token)
     }
 
-    override fun getAuthUserByAccessToken(tokenValue: String): AuthUser? {
+    override fun getAuthUserByAccessToken(token: String): AuthUser? {
         return try {
-            val token = tokenService.validateAccessToken(tokenValue)
-            AuthUser(token.userId)
+            val accessToken = tokenService.validateAccessToken(token)
+            AuthUser(accessToken.userId)
         } catch (e: AuthException) {
             null
         }

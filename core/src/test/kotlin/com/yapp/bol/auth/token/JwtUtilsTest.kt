@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 import java.util.Base64
 
 class JwtUtilsTest : FunSpec() {
-    private val sut = JwtUtils(ByteArray(64))
+    private val sut = JwtUtils(ByteArray(64) { 0 })
 
     init {
         val userId = 1L
