@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component
 
 @Component
 internal class SocialLoginClientFacade(
-    private val mockSocialClient: MockSocialClient,
     private val naverSocialLoginClient: NaverAccessTokenLoginClient,
     private val kakaoSocialLoginClient: KakaoAccessTokenLoginClient,
 ) : SocialLoginClient {
@@ -18,7 +17,7 @@ internal class SocialLoginClientFacade(
         when (loginType) {
             LoginType.NAVER_ACCESS_TOKEN -> naverSocialLoginClient.login(token)
             LoginType.KAKAO_ACCESS_TOKEN -> kakaoSocialLoginClient.login(token)
-            LoginType.GOOGLE -> mockSocialClient.login(token)
+            LoginType.GOOGLE -> throw UnsupportedOperationException()
             LoginType.REFRESH -> throw UnsupportedOperationException()
         }
 }

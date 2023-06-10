@@ -24,12 +24,14 @@ USER nobody
 
 ARG PHASE
 ARG AWS_SECRET_KEY
-
+ARG SERVER_HOST
 
 ENV ENV_PHASE=${PHASE}
 ENV ENV_AWS_SECRET_KEY=${AWS_SECRET_KEY}
+ENV ENV_SERVER_HOST=${SERVER_HOST}
 
 ENTRYPOINT java -jar \
   -Dspring.profiles.active=${ENV_PHASE:-dev} \
   -Dcloud.aws.credentials.secret-key=${ENV_AWS_SECRET_KEY} \
+  -Dbol.server.host=${ENV_SERVER_HOST} \
   /app/*.jar

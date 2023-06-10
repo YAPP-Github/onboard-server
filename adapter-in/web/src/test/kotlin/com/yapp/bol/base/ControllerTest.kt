@@ -4,11 +4,19 @@ import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.yapp.bol.ExceptionHandler
+import com.yapp.bol.auth.getSecurityUserId
 import io.kotest.core.spec.style.FunSpec
+import io.mockk.every
+import io.mockk.mockkStatic
 import org.springframework.http.MediaType
+import org.springframework.mock.web.MockMultipartFile
+import org.springframework.mock.web.MockPart
 import org.springframework.restdocs.ManualRestDocumentation
 import org.springframework.restdocs.headers.HeaderDocumentation
+import org.springframework.restdocs.headers.RequestHeadersSnippet
+import org.springframework.restdocs.headers.ResponseHeadersSnippet
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch
@@ -19,6 +27,8 @@ import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.restdocs.payload.RequestFieldsSnippet
 import org.springframework.restdocs.payload.ResponseFieldsSnippet
+import org.springframework.restdocs.request.PathParametersSnippet
+import org.springframework.restdocs.request.QueryParametersSnippet
 import org.springframework.restdocs.request.RequestDocumentation.pathParameters
 import org.springframework.restdocs.request.RequestDocumentation.queryParameters
 import org.springframework.restdocs.snippet.Snippet
@@ -28,6 +38,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder
+import kotlin.reflect.jvm.javaMethod
 
 abstract class ControllerTest : FunSpec() {
     protected abstract val controller: Any
@@ -87,6 +98,22 @@ abstract class ControllerTest : FunSpec() {
             }.apply(buildRequest)
         )
 
+    protected fun multipart(
+        url: String,
+        mockFiles: List<MockMultipartFile>,
+        mockParts: List<MockPart>,
+        buildRequest: MockHttpServletRequestBuilder.() -> Unit
+    ): ResultActions {
+        return mockMvc.perform(
+            RestDocumentationRequestBuilders.multipart(url)
+                .apply {
+                    mockFiles.forEach { this.file(it) }
+                    mockParts.forEach { this.part(it) }
+                }
+                .apply(buildRequest)
+        )
+    }
+
     protected fun delete(url: String, buildRequest: MockHttpServletRequestBuilder.() -> Unit): ResultActions =
         mockMvc.perform(delete(url).apply(buildRequest))
 
@@ -95,6 +122,13 @@ abstract class ControllerTest : FunSpec() {
 
     protected fun put(url: String, buildRequest: MockHttpServletRequestBuilder.() -> Unit): ResultActions =
         mockMvc.perform(put(url).apply(buildRequest))
+
+    protected fun MockHttpServletRequestBuilder.authorizationHeader(userId: Long) {
+        mockkStatic(::getSecurityUserId.javaMethod!!.declaringClass.kotlin)
+        every { getSecurityUserId() } returns userId
+
+        this.header("Authorization", "Bearer Token")
+    }
 
     protected fun ResultActions.isStatus(code: Int): ResultActions =
         andExpect(status().`is`(code))
@@ -122,35 +156,30 @@ abstract class ControllerTest : FunSpec() {
         return DocumentField(this, fieldType.type, fieldType.enums)
     }
 
-    protected infix fun String.means(description: String): DocumentField {
-        return DocumentField(this).apply {
+    protected infix fun String.means(description: String): DocumentField =
+        DocumentField(this).apply {
             means(description)
         }
-    }
 
-    protected fun requestHeaders(vararg fields: DocumentField) {
+    protected fun requestHeaders(vararg fields: DocumentField): RequestHeadersSnippet =
         HeaderDocumentation.requestHeaders(
             fields.map(DocumentField::toHeaderDescriptor).toList()
         )
-    }
 
-    protected fun responseHeaders(vararg fields: DocumentField) {
+    protected fun responseHeaders(vararg fields: DocumentField): ResponseHeadersSnippet =
         HeaderDocumentation.responseHeaders(
             fields.map(DocumentField::toHeaderDescriptor).toList()
         )
-    }
 
-    protected fun pathParameters(vararg fields: DocumentField) {
+    protected fun pathParameters(vararg fields: DocumentField): PathParametersSnippet =
         pathParameters(
             fields.map(DocumentField::toParameterDescriptor).toList()
         )
-    }
 
-    protected fun queryParameters(vararg fields: DocumentField) {
+    protected fun queryParameters(vararg fields: DocumentField): QueryParametersSnippet =
         queryParameters(
             fields.map(DocumentField::toParameterDescriptor).toList()
         )
-    }
 
     protected fun requestFields(vararg fields: DocumentField): RequestFieldsSnippet =
         requestFields(

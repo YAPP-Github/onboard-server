@@ -26,6 +26,7 @@ dependencies {
     api(project(":port-out"))
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springVersion")
+    implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     runtimeOnly("mysql:mysql-connector-java:8.0.33")
 
