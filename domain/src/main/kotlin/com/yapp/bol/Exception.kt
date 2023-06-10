@@ -14,7 +14,7 @@ class SocialLoginFailedException(cause: Throwable? = null) : AuthException("Auth
 object InvalidTokenException : AuthException("Auth002", 400, "유효하지 않는 토큰 입니다.")
 object ExpiredTokenException : AuthException("Auth003", 400, "만료된 토큰 입니다.")
 class UnAuthenticationException(cause: Throwable? = null) : AuthException("Auth004", 401, "로그인이 필요합니다.", cause)
-class UnAuthorizationException(cause: Throwable? = null) : AuthException("Auth004", 403, "권한이 없습니다.", cause)
+class UnAuthorizationException(cause: Throwable? = null) : AuthException("Auth005", 403, "권한이 없습니다.", cause)
 
 object IllegalFileStateException : BolRatingException("File001", 500, "요청한 파일의 Status가 올바르지 않습니다.")
 object NotFoundFileException : BolRatingException("File002", 400, "파일을 찾을 수 없습니다.")
