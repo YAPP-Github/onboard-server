@@ -11,13 +11,10 @@ import org.springframework.stereotype.Component
 internal class GoogleIdTokenService(
     private val googleApiProperties: GoogleApiProperties,
 ) {
-    private val idTokenVerifier by lazy {
-        val transport = NetHttpTransport()
-        val jsonFactory = GsonFactory.getDefaultInstance()
-        GoogleIdTokenVerifier.Builder(transport, jsonFactory)
+    private val idTokenVerifier =
+        GoogleIdTokenVerifier.Builder(NetHttpTransport(), GsonFactory.getDefaultInstance())
             .setAudience(listOf(googleApiProperties.clientId))
             .build()
-    }
 
     fun getUserId(token: String): String? {
         try {
