@@ -17,11 +17,11 @@ internal class AuthServiceImpl(
     }
 
     override fun getAuthUserByAccessToken(token: String): AuthUser? {
-        try {
-            val token = tokenService.validateAccessToken(token)
-            return AuthUser(token.userId)
+        return try {
+            val accessToken = tokenService.validateAccessToken(token)
+            AuthUser(accessToken.userId)
         } catch (e: AuthException) {
-            return null
+            null
         }
     }
 
