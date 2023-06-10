@@ -30,9 +30,7 @@ internal fun GroupEntity.toDomain(): Group = Group(
     organization = organization,
     profileImageUrl = profileImageUrl,
     accessCode = accessCode,
-    members = members.map {
-        it.toDomain()
-    }.let {
-        MemberList(it.toMutableList())
-    }
+    members = MemberList(
+        members.map { it.toDomain() }.toMutableList()
+    )
 )
