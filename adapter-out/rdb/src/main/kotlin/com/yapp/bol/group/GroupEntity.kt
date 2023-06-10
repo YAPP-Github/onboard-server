@@ -5,6 +5,7 @@ import com.yapp.bol.group.member.MemberEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
@@ -39,7 +40,7 @@ internal class GroupEntity(
     @Column(name = "profileImageUrl")
     val profileImageUrl: String = profileImageUrl
 
-    @OneToMany(mappedBy = "groupId", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(mappedBy = "groupId", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     val members: List<MemberEntity> = members
 
     @Column(name = "access_code")

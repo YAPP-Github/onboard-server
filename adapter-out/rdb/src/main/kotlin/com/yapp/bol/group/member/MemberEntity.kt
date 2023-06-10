@@ -12,7 +12,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "member")
-class MemberEntity(id: Long = 0, userId: Long? = null, groupId: Long? = null, role: MemberRole, nickname: String) :
+class MemberEntity(id: Long = 0, userId: Long? = null, groupId: Long = 0, role: MemberRole, nickname: String) :
     AuditingEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,5 +33,5 @@ class MemberEntity(id: Long = 0, userId: Long? = null, groupId: Long? = null, ro
     val deleted: Boolean = false
 
     @Column(name = "group_id")
-    val groupId: Long? = groupId
+    val groupId: Long = groupId
 }
