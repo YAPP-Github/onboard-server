@@ -1,5 +1,3 @@
-    @OneToMany(mappedBy = "groupId", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)    val members: List<MemberEntity> = members
-
 package com.yapp.bol.group
 
 import com.yapp.bol.AuditingEntity
