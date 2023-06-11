@@ -11,11 +11,11 @@ class MemberList(val members: MutableList<Member>) {
             throw EmptyMemberListException
         }
 
-        if (!validateDistinctNicknames(members)) {
+        if (validateDistinctNicknames(members).not()) {
             throw DuplicatedMembersNicknameException
         }
 
-        if (!members.any(Member::isOwner)) {
+        if (members.any(Member::isOwner).not()) {
             throw NoOwnerException
         }
     }
