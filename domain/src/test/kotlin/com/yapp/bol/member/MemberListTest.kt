@@ -12,7 +12,7 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 class MemberListTest : FunSpec() {
     init {
         test("멤버 리스트 생성") {
-            val members = MemberList.of(Member.createOwner(1, "nick"))
+            val members = MemberList.of(MEMBER_OWNER)
 
             members.shouldBeInstanceOf<MemberList>()
         }
@@ -25,8 +25,8 @@ class MemberListTest : FunSpec() {
 
         test("멤버 리스트 생성시 멤버의 닉네임은 중복될 수 없다.") {
             val nickname = "holden"
-            val member = Member.createOwner(1, nickname)
-            val member2 = Member.createOwner(2, nickname)
+            val member = Member.createOwner(1, nickname, 0)
+            val member2 = Member.createOwner(2, nickname, 0)
 
             shouldThrow<DuplicatedMembersNicknameException> {
                 MemberList(mutableListOf(member, member2))
@@ -35,8 +35,8 @@ class MemberListTest : FunSpec() {
 
         test("멤버 리스트에 닉네임이 중복된 멤버는 추가할 수 없다") {
             val nickname = "holden"
-            val member = Member.createOwner(1, nickname)
-            val member2 = Member.createOwner(2, nickname)
+            val member = Member.createOwner(1, nickname, 0)
+            val member2 = Member.createOwner(2, nickname, 0)
 
             val memberList = MemberList(mutableListOf(member))
 

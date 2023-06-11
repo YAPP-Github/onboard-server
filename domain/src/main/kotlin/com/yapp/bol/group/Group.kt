@@ -3,8 +3,6 @@ package com.yapp.bol.group
 import com.yapp.bol.InvalidGroupDescriptionException
 import com.yapp.bol.InvalidGroupNameException
 import com.yapp.bol.InvalidGroupOrganizationException
-import com.yapp.bol.group.member.Member
-import com.yapp.bol.group.member.MemberList
 
 class Group(
     val id: Long,
@@ -12,7 +10,6 @@ class Group(
     val description: String,
     val organization: String,
     val profileImageUrl: String,
-    val members: MemberList,
     val accessCode: String,
 ) {
     init {
@@ -52,7 +49,6 @@ class Group(
             name: String,
             description: String,
             organization: String,
-            owner: Member,
             profileImageUrl: String = DEFAULT_PROFILE_IMAGE_URL,
         ): Group = Group(
             id = 0,
@@ -60,7 +56,6 @@ class Group(
             description = description,
             organization = organization,
             profileImageUrl = profileImageUrl,
-            members = MemberList.of(owner),
             accessCode = generateAccessCode()
         )
     }

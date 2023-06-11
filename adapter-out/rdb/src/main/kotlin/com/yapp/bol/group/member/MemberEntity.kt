@@ -26,7 +26,7 @@ class MemberEntity(id: Long = 0, userId: Long? = null, groupId: Long = 0, role: 
     @Column(name = "role")
     val role: MemberRole = role
 
-    @Column(name = "nickname", unique = true)
+    @Column(name = "nickname")
     val nickname: String = nickname
 
     @Column(name = "deleted")
@@ -41,6 +41,7 @@ fun MemberEntity.toDomain(): Member = Member(
     userId = this.userId,
     role = this.role,
     nickname = this.nickname,
+    groupId = this.groupId
 )
 
 fun Member.toEntity(): MemberEntity = MemberEntity(
@@ -48,4 +49,5 @@ fun Member.toEntity(): MemberEntity = MemberEntity(
     userId = this.userId,
     role = this.role,
     nickname = this.nickname,
+    groupId = this.groupId
 )

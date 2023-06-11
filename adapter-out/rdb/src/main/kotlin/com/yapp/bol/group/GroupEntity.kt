@@ -1,19 +1,11 @@
 package com.yapp.bol.group
 
 import com.yapp.bol.AuditingEntity
-import com.yapp.bol.group.member.MemberEntity
-import com.yapp.bol.group.member.MemberList
-import com.yapp.bol.group.member.toDomain
-import com.yapp.bol.group.member.toEntity
-import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 
 @Entity
@@ -25,7 +17,6 @@ internal class GroupEntity(
     organization: String,
     profileImageUrl: String,
     accessCode: String,
-    members: List<MemberEntity>,
 ) : AuditingEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,10 +35,6 @@ internal class GroupEntity(
     @Column(name = "profileImageUrl")
     val profileImageUrl: String = profileImageUrl
 
-    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    val members: List<MemberEntity> = members
-
     @Column(name = "access_code")
     val accessCode: String = accessCode
 
@@ -62,9 +49,6 @@ internal fun Group.toEntity(): GroupEntity = GroupEntity(
     organization = organization,
     profileImageUrl = profileImageUrl,
     accessCode = accessCode,
-    members = members.toList().map {
-        it.toEntity()
-    }
 )
 
 internal fun GroupEntity.toDomain(): Group = Group(
@@ -74,7 +58,4 @@ internal fun GroupEntity.toDomain(): Group = Group(
     organization = organization,
     profileImageUrl = profileImageUrl,
     accessCode = accessCode,
-    members = MemberList(
-        members.map { it.toDomain() }.toMutableList()
-    )
 )
