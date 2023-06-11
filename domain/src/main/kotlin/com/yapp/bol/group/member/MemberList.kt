@@ -1,9 +1,23 @@
 package com.yapp.bol.group.member
 
+import com.yapp.bol.DuplicatedMemberNicknameException
+import com.yapp.bol.DuplicatedMembersNicknameException
+import com.yapp.bol.EmptyMemberListException
+import com.yapp.bol.NoOwnerException
+
 class MemberList(val members: MutableList<Member>) {
     init {
-        require(members.isNotEmpty()) { "멤버는 최소 1명 이상이어야 합니다." }
-        require(validateDistinctNicknames(members)) { DUPLICATED_NICKNAME_EXCEPTION_MESSAGE }
+        if (members.isEmpty()) {
+            throw EmptyMemberListException
+        }
+
+        if (!validateDistinctNicknames(members)) {
+            throw DuplicatedMembersNicknameException
+        }
+
+        if (!members.any(Member::isOwner)) {
+            throw NoOwnerException
+        }
     }
 
     fun toList(): List<Member> {
@@ -11,7 +25,9 @@ class MemberList(val members: MutableList<Member>) {
     }
 
     fun add(member: Member) {
-        require(validateDistinctNickname(member)) { DUPLICATED_NICKNAME_EXCEPTION_MESSAGE }
+        if (!validateDistinctNickname(member)) {
+            throw DuplicatedMemberNicknameException
+        }
 
         members.add(member)
     }
@@ -21,7 +37,7 @@ class MemberList(val members: MutableList<Member>) {
     }
 
     fun getOwner(): Member {
-        return members.find { it.isOwner() } ?: throw IllegalStateException("OWNER 멤버가 존재하지 않습니다.")
+        return members.find(Member::isOwner) ?: throw NoOwnerException
     }
 
     private fun validateDistinctNicknames(members: List<Member>): Boolean = (
@@ -37,18 +53,6 @@ class MemberList(val members: MutableList<Member>) {
         )
 
     companion object {
-        private const val DUPLICATED_NICKNAME_EXCEPTION_MESSAGE = "멤버의 닉네임은 중복될 수 없습니다."
-
-        fun of(owner: Member): MemberList {
-            validateOwnerRole(owner)
-
-            return MemberList(mutableListOf(owner))
-        }
-
-        private fun validateOwnerRole(owner: Member) {
-            if (!owner.isOwner()) {
-                throw IllegalArgumentException("그룹 생성자는 OWNER 역할이어야 합니다.")
-            }
-        }
+        fun of(owner: Member) = MemberList(mutableListOf(owner))
     }
 }

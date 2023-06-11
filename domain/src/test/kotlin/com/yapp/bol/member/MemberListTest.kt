@@ -1,5 +1,8 @@
 package com.yapp.bol.member
 
+import com.yapp.bol.DuplicatedMemberNicknameException
+import com.yapp.bol.DuplicatedMembersNicknameException
+import com.yapp.bol.EmptyMemberListException
 import com.yapp.bol.group.member.Member
 import com.yapp.bol.group.member.MemberList
 import io.kotest.assertions.throwables.shouldThrow
@@ -15,7 +18,7 @@ class MemberListTest : FunSpec() {
         }
 
         test("멤버 리스트 생성시 멤버는 최소 1명 이상이어야 한다.") {
-            shouldThrow<IllegalArgumentException> {
+            shouldThrow<EmptyMemberListException> {
                 MemberList(mutableListOf())
             }
         }
@@ -25,7 +28,7 @@ class MemberListTest : FunSpec() {
             val member = Member.createOwner(1, nickname)
             val member2 = Member.createOwner(2, nickname)
 
-            shouldThrow<IllegalArgumentException> {
+            shouldThrow<DuplicatedMembersNicknameException> {
                 MemberList(mutableListOf(member, member2))
             }
         }
@@ -37,7 +40,7 @@ class MemberListTest : FunSpec() {
 
             val memberList = MemberList(mutableListOf(member))
 
-            shouldThrow<IllegalArgumentException> {
+            shouldThrow<DuplicatedMemberNicknameException> {
                 memberList.add(member2)
             }
         }

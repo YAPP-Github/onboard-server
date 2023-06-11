@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 class GroupController(
     private val groupService: GroupService,
 ) {
-    @PostMapping()
+    @PostMapping
     fun createGroup(@RequestBody request: CreateGroupRequest): CreateGroupResponse {
         return groupService.createGroup(request.toDto(1)).toCreateGroupResponse() // FIXME: 시큐리티 적용 필요
     }

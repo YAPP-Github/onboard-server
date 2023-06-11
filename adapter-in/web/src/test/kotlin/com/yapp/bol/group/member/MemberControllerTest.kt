@@ -13,12 +13,12 @@ class MemberControllerTest : ControllerTest() {
     override val controller = MemberController(memberService)
 
     init {
-        test("GET /v1/group/member/validateNickname") {
+        test("GET /v1/group/{groupId}/member/validateNickname") {
             every {
                 memberService.validateMemberNickname(any(), any())
             } returns true
 
-            get("/v1/group/member/validateNickname?groupId=1&nickname=holden") {}
+            get("/v1/group/1/member/validateNickname?groupId=1&nickname=holden") {}
                 .isStatus(200)
                 .makeDocument(
                     DocumentInfo(identifier = "member", tag = OpenApiTag.MEMBER),

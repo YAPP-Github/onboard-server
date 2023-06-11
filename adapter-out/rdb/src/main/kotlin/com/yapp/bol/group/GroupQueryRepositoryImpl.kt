@@ -1,5 +1,6 @@
 package com.yapp.bol.group
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -7,11 +8,7 @@ internal class GroupQueryRepositoryImpl(
     private val groupRepository: GroupRepository,
 ) : GroupQueryRepository {
     override fun findById(id: Long): Group? {
-        return groupRepository.findById(id)
-            .orElse(null)
-            ?.let {
-                it.toDomain()
-            }
+        return groupRepository.findByIdOrNull(id)?.toDomain()
     }
 
     override fun findGroupByName(name: String): Group? {

@@ -1,5 +1,6 @@
 package com.yapp.bol.member
 
+import com.yapp.bol.InvalidMemberNicknameException
 import com.yapp.bol.group.member.Member
 import com.yapp.bol.group.member.MemberRole
 import io.kotest.assertions.throwables.shouldThrow
@@ -17,7 +18,7 @@ class MemberTest : FunSpec() {
         test("멤버 닉네임 길이 제한") {
             val nickname = "x".repeat(Member.MAX_NICKNAME_LENGTH + 1)
 
-            shouldThrow<IllegalArgumentException> {
+            shouldThrow<InvalidMemberNicknameException> {
                 Member(0, null, MemberRole.OWNER, nickname)
             }
         }
