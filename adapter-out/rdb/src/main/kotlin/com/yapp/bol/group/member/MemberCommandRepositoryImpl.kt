@@ -11,10 +11,10 @@ internal class MemberCommandRepositoryImpl(
     }
 
     override fun createMembers(members: MemberList): MemberList {
-        val memberEntities = memberRepository.saveAll(members.toList().map { it.toEntity() })
+        val memberEntities = memberRepository.saveAll(members.toList().map(Member::toEntity))
 
         return memberEntities
-            .map { it.toDomain() }
+            .map(MemberEntity::toDomain)
             .let { MemberList(it.toMutableList()) }
     }
 }
