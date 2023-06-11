@@ -1,9 +1,10 @@
-    @OneToMany(mappedBy = "groupId", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)    val members: List<MemberEntity> = members
-
 package com.yapp.bol.group
 
 import com.yapp.bol.AuditingEntity
 import com.yapp.bol.group.member.MemberEntity
+import com.yapp.bol.group.member.MemberList
+import com.yapp.bol.group.member.toDomain
+import com.yapp.bol.group.member.toEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -53,3 +54,27 @@ internal class GroupEntity(
     @Column(name = "deleted")
     val deleted: Boolean = false
 }
+
+internal fun Group.toEntity(): GroupEntity = GroupEntity(
+    id = id,
+    name = name,
+    description = description,
+    organization = organization,
+    profileImageUrl = profileImageUrl,
+    accessCode = accessCode,
+    members = members.toList().map {
+        it.toEntity()
+    }
+)
+
+internal fun GroupEntity.toDomain(): Group = Group(
+    id = id,
+    name = name,
+    description = description,
+    organization = organization,
+    profileImageUrl = profileImageUrl,
+    accessCode = accessCode,
+    members = MemberList(
+        members.map { it.toDomain() }.toMutableList()
+    )
+)

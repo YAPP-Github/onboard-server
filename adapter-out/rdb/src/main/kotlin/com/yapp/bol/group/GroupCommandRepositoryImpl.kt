@@ -1,6 +1,5 @@
 package com.yapp.bol.group
 
-import com.yapp.bol.group.member.toEntity
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 

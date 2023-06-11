@@ -35,3 +35,17 @@ class MemberEntity(id: Long = 0, userId: Long? = null, groupId: Long = 0, role: 
     @Column(name = "group_id", nullable = false)
     val groupId: Long = groupId
 }
+
+fun MemberEntity.toDomain(): Member = Member(
+    id = this.id,
+    userId = this.userId,
+    role = this.role,
+    nickname = this.nickname,
+)
+
+fun Member.toEntity(): MemberEntity = MemberEntity(
+    id = this.id,
+    userId = this.userId,
+    role = this.role,
+    nickname = this.nickname,
+)
