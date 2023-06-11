@@ -5,7 +5,7 @@ import com.yapp.bol.InvalidGroupNameException
 import com.yapp.bol.InvalidGroupOrganizationException
 
 class Group(
-    val id: Long,
+    val id: Long = 0,
     val name: String,
     val description: String,
     val organization: String,
@@ -51,7 +51,6 @@ class Group(
             organization: String,
             profileImageUrl: String = DEFAULT_PROFILE_IMAGE_URL,
         ): Group = Group(
-            id = 0,
             name = name,
             description = description,
             organization = organization,
