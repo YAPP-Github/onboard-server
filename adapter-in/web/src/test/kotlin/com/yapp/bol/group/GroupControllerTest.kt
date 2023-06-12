@@ -32,18 +32,20 @@ class GroupControllerTest : ControllerTest() {
                 organization = "카카오",
                 profileImageUrl = "https://profile.com",
                 accessCode = "1A2B3C",
-                members = MemberList.of(
-                    Member(
-                        id = 123,
-                        nickname = "홀든",
-                        role = MemberRole.OWNER
-                    )
+            )
+
+            val members = MemberList.of(
+                Member(
+                    id = 123,
+                    nickname = "홀든",
+                    groupId = group.id,
+                    role = MemberRole.OWNER
                 )
             )
 
             every {
                 groupService.createGroup(any())
-            } returns group
+            } returns GroupMemberList(group = group, members = members)
 
             post("/v1/group", request) {}
                 .isStatus(200)
