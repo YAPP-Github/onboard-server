@@ -8,7 +8,7 @@ internal class MemberQueryRepositoryImpl(
     private val memberRepository: MemberRepository
 ) : MemberQueryRepository {
     @Transactional(readOnly = true)
-    override fun findByNicknameAndGroupId(groupId: Long, nickname: String): Member? {
+    override fun findByNicknameAndGroupId(nickname: String, groupId: Long): Member? {
         return memberRepository.findByNicknameAndGroupId(nickname, groupId)?.toDomain()
     }
 

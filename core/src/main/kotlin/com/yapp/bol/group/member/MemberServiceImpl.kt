@@ -9,7 +9,7 @@ internal class MemberServiceImpl(
     private val memberCommandRepository: MemberCommandRepository
 ) : MemberService {
     override fun validateMemberNickname(groupId: Long, nickname: String): Boolean {
-        return memberQueryRepository.findByNicknameAndGroupId(groupId, nickname) == null
+        return memberQueryRepository.findByNicknameAndGroupId(nickname, groupId) == null
     }
 
     override fun createMembers(createMemberDtos: List<CreateMemberDto>): MemberList {
