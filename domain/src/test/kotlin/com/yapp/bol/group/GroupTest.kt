@@ -1,5 +1,8 @@
 package com.yapp.bol.group
 
+import com.yapp.bol.InvalidGroupDescriptionException
+import com.yapp.bol.InvalidGroupNameException
+import com.yapp.bol.InvalidGroupOrganizationException
 import com.yapp.bol.group.member.Member
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
@@ -8,7 +11,7 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 
 class GroupTest : FunSpec() {
     init {
-        val owner = Member.createOwner(0, "nick")
+        val owner = Member.createOwner(1, "nick")
 
         test("그룹 생성") {
             val group = Group.of("name", "description", "organization", owner)
@@ -19,7 +22,7 @@ class GroupTest : FunSpec() {
         test("그룹 이름 길이 제한") {
             val name = "x".repeat(Group.MAX_NAME_LENGTH + 1)
 
-            shouldThrow<IllegalArgumentException> {
+            shouldThrow<InvalidGroupNameException> {
                 Group.of(name, "description", "organization", owner)
             }
         }
@@ -27,7 +30,7 @@ class GroupTest : FunSpec() {
         test("그룹 설명 길이 제한") {
             val description = "x".repeat(Group.MAX_DESCRIPTION_LENGTH + 1)
 
-            shouldThrow<IllegalArgumentException> {
+            shouldThrow<InvalidGroupDescriptionException> {
                 Group.of("name", description, "organization", owner)
             }
         }
@@ -35,7 +38,7 @@ class GroupTest : FunSpec() {
         test("그룹 소속 길이 제한") {
             val organization = "x".repeat(Group.MAX_ORGANIZATION_LENGTH + 1)
 
-            shouldThrow<IllegalArgumentException> {
+            shouldThrow<InvalidGroupOrganizationException> {
                 Group.of("name", "description", organization, owner)
             }
         }
