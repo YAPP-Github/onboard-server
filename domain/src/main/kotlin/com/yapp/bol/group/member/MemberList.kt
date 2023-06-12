@@ -1,21 +1,58 @@
 package com.yapp.bol.group.member
 
+import com.yapp.bol.DuplicatedMemberNicknameException
+import com.yapp.bol.DuplicatedMembersNicknameException
+import com.yapp.bol.EmptyMemberListException
+import com.yapp.bol.NoOwnerException
+
 class MemberList(val members: MutableList<Member>) {
+    init {
+        if (members.isEmpty()) {
+            throw EmptyMemberListException
+        }
+
+        if (!validateDistinctNicknames(members)) {
+            throw DuplicatedMembersNicknameException
+        }
+
+        if (!members.any(Member::isOwner)) {
+            throw NoOwnerException
+        }
+    }
+
     fun toList(): List<Member> {
         return members.toList()
     }
 
     fun add(member: Member) {
+        if (!validateDistinctNickname(member)) {
+            throw DuplicatedMemberNicknameException
+        }
+
         members.add(member)
     }
 
-    companion object {
-        fun of(owner: Member): MemberList {
-            if (!owner.isOwner()) {
-                throw IllegalArgumentException("그룹 생성자는 OWNER 역할이어야 합니다.")
-            }
+    fun findMemberByNickname(nickname: String): Member? {
+        return members.find { it.nickname == nickname }
+    }
 
-            return MemberList(mutableListOf(owner))
-        }
+    fun getOwner(): Member {
+        return members.find(Member::isOwner) ?: throw NoOwnerException
+    }
+
+    private fun validateDistinctNicknames(members: List<Member>): Boolean = (
+        members.size == members
+            .map { it.nickname }
+            .distinct()
+            .size
+        )
+
+    private fun validateDistinctNickname(member: Member): Boolean = (
+        this.members
+            .all { it.nickname != member.nickname }
+        )
+
+    companion object {
+        fun of(owner: Member) = MemberList(mutableListOf(owner))
     }
 }

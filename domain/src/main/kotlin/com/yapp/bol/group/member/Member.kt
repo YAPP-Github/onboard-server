@@ -1,5 +1,7 @@
 package com.yapp.bol.group.member
 
+import com.yapp.bol.InvalidMemberNicknameException
+
 class Member(
     val id: Long,
     val userId: Long? = null,
@@ -7,7 +9,9 @@ class Member(
     val nickname: String,
 ) {
     init {
-        require(nickname.length <= MAX_NICKNAME_LENGTH) { "닉네임은 $MAX_NICKNAME_LENGTH 자 이내여야 합니다." }
+        if (nickname.length > MAX_NICKNAME_LENGTH) {
+            throw InvalidMemberNicknameException
+        }
     }
 
     fun isOwner(): Boolean = this.role == MemberRole.OWNER
@@ -16,7 +20,12 @@ class Member(
         const val MAX_NICKNAME_LENGTH = 6
 
         fun createOwner(userId: Long, nickname: String): Member {
-            return Member(0, userId, MemberRole.OWNER, nickname)
+            return Member(
+                id = 0,
+                userId = userId,
+                role = MemberRole.OWNER,
+                nickname = nickname,
+            )
         }
     }
 }

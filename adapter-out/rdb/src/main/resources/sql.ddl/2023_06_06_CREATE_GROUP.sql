@@ -10,3 +10,4 @@ CREATE TABLE group_table (
     updated_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY PK_groups (group_id)
 );
+

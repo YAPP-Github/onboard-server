@@ -1,5 +1,8 @@
 package com.yapp.bol.group
 
+import com.yapp.bol.InvalidGroupDescriptionException
+import com.yapp.bol.InvalidGroupNameException
+import com.yapp.bol.InvalidGroupOrganizationException
 import com.yapp.bol.group.member.Member
 import com.yapp.bol.group.member.MemberList
 
@@ -13,9 +16,16 @@ class Group(
     val accessCode: String,
 ) {
     init {
-        require(name.length <= MAX_NAME_LENGTH) { "그룹 이름은 $MAX_NAME_LENGTH 자 이내여야 합니다." }
-        require(description.length <= MAX_DESCRIPTION_LENGTH) { "그룹 설명은 $MAX_DESCRIPTION_LENGTH 자 이내여야 합니다." }
-        require(organization.length <= MAX_ORGANIZATION_LENGTH) { "그룹 소속은 $MAX_ORGANIZATION_LENGTH 자 이내여야 합니다." }
+        if (name.length > MAX_NAME_LENGTH) {
+            throw InvalidGroupNameException
+        }
+        if (description.length > MAX_DESCRIPTION_LENGTH) {
+            throw InvalidGroupDescriptionException
+        }
+
+        if (organization.length > MAX_ORGANIZATION_LENGTH) {
+            throw InvalidGroupOrganizationException
+        }
     }
 
     companion object {
