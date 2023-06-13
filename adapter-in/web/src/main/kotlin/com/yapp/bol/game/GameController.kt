@@ -15,9 +15,9 @@ class GameController(
 
     @GetMapping("/{groupId}")
     fun groupId(
-        @PathVariable("groupId") groupId: Long,
+        @PathVariable("groupId") groupId: String,
     ): GameListResponse {
-        val games = gameService.getGameList(groupId)
+        val games = gameService.getGameList(groupId.toLong())
 
         return GameListResponse(
             games.map { it.toResponse() }
