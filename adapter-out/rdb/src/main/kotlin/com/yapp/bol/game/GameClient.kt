@@ -11,7 +11,7 @@ class GameClient(
     }
 
     private fun GameEntity.toDomain(): Game = Game(
-        id = GameId(this.id),
+        id = this.id,
         name = this.name,
         minMember = this.minMember,
         maxMember = this.maxMember,
