@@ -9,7 +9,9 @@ sealed class BolRatingException(
     override val cause: Throwable? = null
 ) : RuntimeException(message, cause)
 
-sealed class AuthException(code: String, status: Int, msg: String, cause: Throwable? = null) : BolRatingException(code, status, msg, cause)
+sealed class AuthException(code: String, status: Int, message: String, cause: Throwable? = null) :
+    BolRatingException(code, status, message, cause)
+
 class SocialLoginFailedException(cause: Throwable? = null) : AuthException("Auth001", 400, "로그인이 실패했습니다.", cause)
 object InvalidTokenException : AuthException("Auth002", 400, "유효하지 않는 토큰 입니다.")
 object ExpiredTokenException : AuthException("Auth003", 400, "만료된 토큰 입니다.")
@@ -21,7 +23,8 @@ object NotFoundFileException : BolRatingException("File002", 400, "파일을 찾
 
 object InvalidRequestException : BolRatingException("BOL001", 400, "유효하지 않은 요청입니다.")
 
-sealed class GroupException(code: String, msg: String, cause: Throwable? = null) : BolRatingException(code, msg, cause)
+sealed class GroupException(code: String, message: String, cause: Throwable? = null) :
+    BolRatingException(code = code, status = 400, message = message, cause = cause)
 
 object InvalidGroupNameException : GroupException("Group001", "그룹 이름이 잘못되었습니다.")
 
@@ -31,7 +34,8 @@ object InvalidGroupDescriptionException :
 object InvalidGroupOrganizationException :
     GroupException("Group003", "그룹 소속이 잘못되었습니다.")
 
-sealed class MemberException(code: String, msg: String, cause: Throwable? = null) : BolRatingException(code, msg, cause)
+sealed class MemberException(code: String, message: String, cause: Throwable? = null) :
+    BolRatingException(code = code, status = 400, message = message, cause = cause)
 
 object InvalidMemberNicknameException : MemberException("Member001", "멤버 닉네임이 잘못되었습니다.")
 
