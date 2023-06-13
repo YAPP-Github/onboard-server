@@ -1,6 +1,6 @@
 package com.yapp.bol.group.dto
 
-import com.yapp.bol.group.Group
+import com.yapp.bol.group.GroupMemberList
 
 data class CreateGroupResponse(
     val id: Long,
@@ -12,12 +12,12 @@ data class CreateGroupResponse(
     val accessCode: String,
 )
 
-fun Group.toCreateGroupResponse() = CreateGroupResponse(
-    id = this.id,
-    name = this.name,
-    description = this.description,
-    owner = this.members.getOwner().nickname,
-    organization = organization,
-    profileImageUrl = profileImageUrl,
-    accessCode = accessCode,
+fun GroupMemberList.toCreateGroupResponse() = CreateGroupResponse(
+    id = group.id,
+    name = group.name,
+    description = group.description,
+    owner = members.getOwner().nickname,
+    organization = group.organization,
+    profileImageUrl = group.profileImageUrl,
+    accessCode = group.accessCode,
 )
