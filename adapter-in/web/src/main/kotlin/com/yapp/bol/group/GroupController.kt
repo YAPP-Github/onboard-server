@@ -19,8 +19,9 @@ class GroupController(
     private val groupService: GroupService,
 ) {
     @PostMapping
-    fun createGroup(@RequestBody request: CreateGroupRequest): CreateGroupResponse =
-        groupService.createGroup(request.toDto(1)).toCreateGroupResponse() // FIXME: 시큐리티 적용 필요
+    fun createGroup(@RequestBody request: CreateGroupRequest): CreateGroupResponse {
+        return groupService.createGroup(request.toDto(1)).toCreateGroupResponse() // FIXME: 시큐리티 적용 필요
+    }
 
     @GetMapping("/search")
     fun searchGroup(
@@ -33,4 +34,7 @@ class GroupController(
             pageNumber = pageNumber,
             pageSize = pageSize,
         )
+
+        return SearchGroupResponse(groups = groupWithMemberCount)
+    }
 }
