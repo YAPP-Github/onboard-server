@@ -1,13 +1,16 @@
 package com.yapp.bol.group
 
+import com.yapp.bol.base.BOOLEAN
 import com.yapp.bol.base.ControllerTest
 import com.yapp.bol.base.NUMBER
+import com.yapp.bol.base.OBJECT
 import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
 import com.yapp.bol.group.dto.CreateGroupRequest
 import com.yapp.bol.group.member.Member
 import com.yapp.bol.group.member.MemberList
 import com.yapp.bol.group.member.MemberRole
+import com.yapp.bol.pageable.ApplicationSlice
 import io.mockk.every
 import io.mockk.mockk
 
@@ -25,27 +28,9 @@ class GroupControllerTest : ControllerTest() {
                 nickname = "홀든",
             )
 
-            val group = Group(
-                id = 1,
-                name = "뽀글뽀글",
-                description = "보겜동입니다",
-                organization = "카카오",
-                profileImageUrl = "https://profile.com",
-                accessCode = "1A2B3C",
-            )
-
-            val members = MemberList.of(
-                Member(
-                    id = 123,
-                    nickname = "홀든",
-                    groupId = group.id,
-                    role = MemberRole.OWNER
-                )
-            )
-
             every {
                 groupService.createGroup(any())
-            } returns GroupMemberList(group = group, members = members)
+            } returns GroupMemberList(group = GROUP, members = MEMBER_LIST)
 
             post("/v1/group", request) {}
                 .isStatus(200)
@@ -69,5 +54,60 @@ class GroupControllerTest : ControllerTest() {
                     )
                 )
         }
+
+        test("GET /v1/group/search") {
+            val name = "뽀글뽀글"
+            val pageNumber = 0
+            val pageSize = 10
+
+            every {
+                groupService.searchGroup(any(), any(), any())
+            } returns ApplicationSlice<GroupWithMemberCount>(
+                content = listOf(GROUP_WITH_MEMBER_COUNT),
+                hasNext = false,
+            )
+
+            get("/v1/group/search?name=$name&pageNumber=$pageNumber&pageSize=$pageSize") {}
+                .isStatus(200)
+                .makeDocument(
+                    DocumentInfo(identifier = "searchGroup", tag = OpenApiTag.GROUP),
+                    queryParameters(
+                        "name" type STRING means "그룹 이름"
+                    ),
+                    responseFields(
+                        "content" type OBJECT means "그룹 목록",
+                        "hasNext" type BOOLEAN means "다음 페이지 존재 여부",
+                    )
+                )
+        }
+    }
+
+    companion object {
+        val GROUP = Group(
+            id = 1,
+            name = "뽀글뽀글",
+            description = "보겜동입니다",
+            organization = "카카오",
+            profileImageUrl = "https://profile.com",
+            accessCode = "1A2B3C",
+        )
+
+        val MEMBER_LIST = MemberList.of(
+            Member(
+                id = 123,
+                nickname = "홀든",
+                groupId = GROUP.id,
+                role = MemberRole.OWNER
+            )
+        )
+
+        val GROUP_WITH_MEMBER_COUNT = GroupWithMemberCount(
+            id = GROUP.id,
+            name = GROUP.name,
+            description = GROUP.description,
+            organization = GROUP.organization,
+            profileImageUrl = GROUP.profileImageUrl,
+            memberCount = MEMBER_LIST.members.size
+        )
     }
 }
