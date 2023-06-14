@@ -9,8 +9,7 @@ sealed class BolRatingException(
     override val cause: Throwable? = null
 ) : RuntimeException(message, cause)
 
-sealed class AuthException(code: String, status: Int, message: String, cause: Throwable? = null) :
-    BolRatingException(code, status, message, cause)
+sealed class AuthException(code: String, status: Int, message: String, cause: Throwable? = null) : BolRatingException(code, status, message, cause)
 
 class SocialLoginFailedException(cause: Throwable? = null) : AuthException("Auth001", 400, "로그인이 실패했습니다.", cause)
 object InvalidTokenException : AuthException("Auth002", 400, "유효하지 않는 토큰 입니다.")
