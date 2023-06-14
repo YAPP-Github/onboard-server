@@ -4,7 +4,6 @@ import com.yapp.bol.base.ARRAY
 import com.yapp.bol.base.BOOLEAN
 import com.yapp.bol.base.ControllerTest
 import com.yapp.bol.base.NUMBER
-import com.yapp.bol.base.OBJECT
 import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
 import com.yapp.bol.group.dto.CreateGroupRequest
@@ -78,15 +77,14 @@ class GroupControllerTest : ControllerTest() {
                         "pageSize" type NUMBER means "페이지 크기",
                     ),
                     responseFields(
-                        "groups" type OBJECT means "그룹 목록",
-                        "groups.content" type ARRAY means "그룹 목록",
-                        "groups.content[].id" type NUMBER means "그룹 ID",
-                        "groups.content[].name" type STRING means "그룹 이름",
-                        "groups.content[].description" type STRING means "그룹 설명",
-                        "groups.content[].organization" type STRING means "그룹 소속",
-                        "groups.content[].profileImageUrl" type STRING means "그룹 프로필 이미지 URL",
-                        "groups.content[].memberCount" type NUMBER means "그룹 멤버 수",
-                        "groups.hasNext" type BOOLEAN means "다음 페이지 존재 여부",
+                        "content" type ARRAY means "그룹 목록",
+                        "content[].id" type NUMBER means "그룹 ID",
+                        "content[].name" type STRING means "그룹 이름",
+                        "content[].description" type STRING means "그룹 설명",
+                        "content[].organization" type STRING means "그룹 소속",
+                        "content[].profileImageUrl" type STRING means "그룹 프로필 이미지 URL",
+                        "content[].memberCount" type NUMBER means "그룹 멤버 수",
+                        "hasNext" type BOOLEAN means "다음 페이지 존재 여부",
                     )
                 )
         }
