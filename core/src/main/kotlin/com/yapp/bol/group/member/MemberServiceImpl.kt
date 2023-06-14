@@ -26,4 +26,8 @@ internal class MemberServiceImpl(
 
         return memberCommandRepository.createMembers(members)
     }
+
+    override fun findMembersByGroupId(groupId: Long): List<Member> {
+        return memberQueryRepository.findByGroupId(groupId)
+    }
 }
