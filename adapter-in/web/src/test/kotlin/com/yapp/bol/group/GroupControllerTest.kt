@@ -72,7 +72,9 @@ class GroupControllerTest : ControllerTest() {
                 .makeDocument(
                     DocumentInfo(identifier = "searchGroup", tag = OpenApiTag.GROUP),
                     queryParameters(
-                        "name" type STRING means "그룹 이름"
+                        "name" type STRING means "그룹 이름",
+                        "pageNumber" type NUMBER means "페이지 번호",
+                        "pageSize" type NUMBER means "페이지 크기",
                     ),
                     responseFields(
                         "content" type OBJECT means "그룹 목록",
