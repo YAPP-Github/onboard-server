@@ -1,5 +1,6 @@
 package com.yapp.bol.game.dto
 
+import com.yapp.bol.file.FileNameConverter
 import com.yapp.bol.game.Game
 
 data class GameResponse(
@@ -15,5 +16,5 @@ fun Game.toResponse(): GameResponse = GameResponse(
     name = this.name,
     minMember = this.minMember,
     maxMember = this.maxMember,
-    img = this.img,
+    img = FileNameConverter.convertFileUrl(this.img),
 )

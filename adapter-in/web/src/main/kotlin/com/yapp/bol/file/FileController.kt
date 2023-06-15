@@ -41,7 +41,7 @@ class FileController(
         )
         val result = fileService.uploadFile(request)
 
-        return UploadFileResponse("${bolProperties.host}/v1/file/${result.name}")
+        return UploadFileResponse(FileNameConverter.convertFileUrl(result.name))
     }
 
     @GetMapping("/{name}")
