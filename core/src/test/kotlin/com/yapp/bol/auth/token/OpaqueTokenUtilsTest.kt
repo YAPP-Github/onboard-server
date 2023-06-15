@@ -1,12 +1,13 @@
 package com.yapp.bol.auth.token
 
+import com.yapp.bol.auth.UserId
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import java.time.LocalDateTime
 
 class OpaqueTokenUtilsTest : FunSpec() {
     init {
-        val userId = 1L
+        val userId = UserId(1L)
         val expiredTime = LocalDateTime.now().plusDays(3)
         for (length in 20..200 step 4) {
             context("길이 : $length") {

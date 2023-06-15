@@ -1,5 +1,6 @@
 package com.yapp.bol.group
 
+import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.dto.CreateGroupRequest
 import com.yapp.bol.group.dto.CreateGroupResponse
 import com.yapp.bol.group.dto.toCreateGroupResponse
@@ -16,6 +17,6 @@ class GroupController(
 ) {
     @PostMapping
     fun createGroup(@RequestBody request: CreateGroupRequest): CreateGroupResponse {
-        return groupService.createGroup(request.toDto(1)).toCreateGroupResponse() // FIXME: 시큐리티 적용 필요
+        return groupService.createGroup(request.toDto(UserId(1))).toCreateGroupResponse() // FIXME: 시큐리티 적용 필요
     }
 }

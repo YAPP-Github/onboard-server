@@ -3,6 +3,7 @@ package com.yapp.bol.file
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.yapp.bol.IllegalFileStateException
+import com.yapp.bol.auth.UserId
 import com.yapp.bol.aws.AwsProperties
 import com.yapp.bol.file.dto.RawFileData
 import java.util.UUID
@@ -44,7 +45,7 @@ class FileClient(
         val contentType = s3Object.objectMetadata.contentType ?: throw IllegalFileStateException
 
         return RawFileData(
-            userId = userId.toLong(),
+            userId = UserId(userId.toLong()),
             content = s3Object.objectContent.delegateStream,
             contentType = contentType,
             purpose = purpose,

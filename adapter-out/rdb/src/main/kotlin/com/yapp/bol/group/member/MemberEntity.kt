@@ -1,6 +1,8 @@
 package com.yapp.bol.group.member
 
 import com.yapp.bol.AuditingEntity
+import com.yapp.bol.auth.UserId
+import com.yapp.bol.group.GroupId
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -12,15 +14,21 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "member")
-class MemberEntity(id: Long = 0, userId: Long? = null, groupId: Long = 0, role: MemberRole, nickname: String) :
+class MemberEntity(
+    id: MemberId = MemberId(0),
+    userId: UserId? = null,
+    groupId: GroupId = GroupId(0),
+    role: MemberRole,
+    nickname: String
+) :
     AuditingEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id", nullable = false)
-    val id: Long = id
+    val id: MemberId = id
 
     @Column(name = "users_id")
-    val userId: Long? = userId
+    val userId: UserId? = userId
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
@@ -33,7 +41,7 @@ class MemberEntity(id: Long = 0, userId: Long? = null, groupId: Long = 0, role: 
     val deleted: Boolean = false
 
     @Column(name = "group_id", nullable = false)
-    val groupId: Long = groupId
+    val groupId: GroupId = groupId
 }
 
 fun MemberEntity.toDomain(): Member = Member(

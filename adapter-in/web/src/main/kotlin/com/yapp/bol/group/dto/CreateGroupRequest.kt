@@ -1,5 +1,7 @@
 package com.yapp.bol.group.dto
 
+import com.yapp.bol.auth.UserId
+
 data class CreateGroupRequest(
     val name: String,
     val description: String,
@@ -8,7 +10,7 @@ data class CreateGroupRequest(
     val nickname: String?,
 )
 
-fun CreateGroupRequest.toDto(ownerId: Long) = CreateGroupDto(
+fun CreateGroupRequest.toDto(ownerId: UserId) = CreateGroupDto(
     name = name,
     description = description,
     organization = organization,

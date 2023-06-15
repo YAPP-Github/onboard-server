@@ -1,6 +1,7 @@
 package com.yapp.bol.file
 
 import com.yapp.bol.AuditingEntity
+import com.yapp.bol.auth.UserId
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -14,7 +15,7 @@ import jakarta.persistence.Table
 @Entity
 class FileEntity(
     name: String,
-    userId: Long,
+    userId: UserId,
     purpose: FilePurpose,
 ) : AuditingEntity() {
     @Id
@@ -28,7 +29,7 @@ class FileEntity(
         protected set
 
     @Column(name = "users_id")
-    var userId: Long = userId
+    var userId: UserId = userId
         protected set
 
     @Column(name = "purpose")

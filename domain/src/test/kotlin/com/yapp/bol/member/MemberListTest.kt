@@ -3,6 +3,8 @@ package com.yapp.bol.member
 import com.yapp.bol.DuplicatedMemberNicknameException
 import com.yapp.bol.DuplicatedMembersNicknameException
 import com.yapp.bol.EmptyMemberListException
+import com.yapp.bol.auth.UserId
+import com.yapp.bol.group.GroupId
 import com.yapp.bol.group.member.Member
 import com.yapp.bol.group.member.MemberList
 import io.kotest.assertions.throwables.shouldThrow
@@ -25,8 +27,8 @@ class MemberListTest : FunSpec() {
 
         test("멤버 리스트 생성시 멤버의 닉네임은 중복될 수 없다.") {
             val nickname = "holden"
-            val member = Member.createOwner(1, nickname, 0)
-            val member2 = Member.createOwner(2, nickname, 0)
+            val member = Member.createOwner(UserId(1), nickname, GroupId(0))
+            val member2 = Member.createOwner(UserId(2), nickname, GroupId(0))
 
             shouldThrow<DuplicatedMembersNicknameException> {
                 MemberList(mutableListOf(member, member2))
@@ -35,8 +37,8 @@ class MemberListTest : FunSpec() {
 
         test("멤버 리스트에 닉네임이 중복된 멤버는 추가할 수 없다") {
             val nickname = "holden"
-            val member = Member.createOwner(1, nickname, 0)
-            val member2 = Member.createOwner(2, nickname, 0)
+            val member = Member.createOwner(UserId(1), nickname, GroupId(0))
+            val member2 = Member.createOwner(UserId(2), nickname, GroupId(0))
 
             val memberList = MemberList(mutableListOf(member))
 

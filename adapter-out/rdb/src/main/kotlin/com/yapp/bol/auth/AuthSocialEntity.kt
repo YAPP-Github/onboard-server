@@ -15,7 +15,7 @@ import jakarta.persistence.Table
 internal class AuthSocialEntity(
     socialType: SocialType,
     socialId: String,
-    userId: Long,
+    userId: UserId,
 ) : AuditingEntity() {
     @Id
     @Enumerated(EnumType.STRING)
@@ -29,6 +29,6 @@ internal class AuthSocialEntity(
         protected set
 
     @Column(name = "users_id")
-    var userId: Long = userId
+    var userId: UserId = userId
         protected set
 }

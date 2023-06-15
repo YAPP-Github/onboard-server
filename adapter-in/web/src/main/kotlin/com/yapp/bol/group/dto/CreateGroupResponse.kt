@@ -13,7 +13,7 @@ data class CreateGroupResponse(
 )
 
 fun GroupMemberList.toCreateGroupResponse() = CreateGroupResponse(
-    id = group.id,
+    id = group.id.value,
     name = group.name,
     description = group.description,
     owner = members.getOwner().nickname,

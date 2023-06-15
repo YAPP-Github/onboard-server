@@ -1,6 +1,7 @@
 package com.yapp.bol.auth.token
 
 import com.yapp.bol.AuditingEntity
+import com.yapp.bol.auth.UserId
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
@@ -10,7 +11,7 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "auth_access_token")
 internal class AccessTokenEntity(
-    userId: Long,
+    userId: UserId,
     accessToken: ByteArray,
     expiredAt: LocalDateTime,
 ) : AuditingEntity() {
@@ -20,7 +21,7 @@ internal class AccessTokenEntity(
         protected set
 
     @Column(name = "users_id")
-    var userId: Long = userId
+    var userId: UserId = userId
         protected set
 
     @Column(name = "access_token", columnDefinition = "BINARY(30)")

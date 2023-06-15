@@ -49,11 +49,11 @@ class SecurityConfiguration {
     }
 }
 
-fun getSecurityUserId(): Long? {
+fun getSecurityUserId(): UserId? {
     val authentication = SecurityContextHolder.getContext()?.authentication as? TokenAuthentication
     return authentication?.principal
 }
 
-fun getSecurityUserIdOrThrow(): Long {
+fun getSecurityUserIdOrThrow(): UserId {
     return getSecurityUserId() ?: throw UnAuthenticationException()
 }

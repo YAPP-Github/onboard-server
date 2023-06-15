@@ -27,7 +27,7 @@ class AuthServiceImplTest : FunSpec() {
     override fun isolationMode() = IsolationMode.InstancePerTest
 
     init {
-        val userId = 123L
+        val userId = UserId(123L)
         val accessTokenMock = Token("accessToken", userId, LocalDateTime.now())
         val refreshTokenMock = Token("refreshToken", userId, LocalDateTime.now())
 

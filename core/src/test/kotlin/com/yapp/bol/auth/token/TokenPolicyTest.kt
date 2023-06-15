@@ -1,6 +1,7 @@
 package com.yapp.bol.auth.token
 
 import com.yapp.bol.auth.Token
+import com.yapp.bol.auth.UserId
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -16,7 +17,7 @@ class TokenPolicyTest : FunSpec() {
     init {
         test("TokenPolicy.Generate 테스트") {
             // given
-            val userId = 123L
+            val userId = UserId(123L)
             val now = LocalDateTime.of(1970, 1, 1, 0, 0, 0)
             val expireDuration = Duration.ofDays(7)
             val expiredAt = now.plus(expireDuration)

@@ -15,7 +15,7 @@ class AuthQueryRepositoryImplTest : FunSpec() {
         val loginType = LoginType.KAKAO_ACCESS_TOKEN
         val socialType = loginType.toSocialType()
         val socialId = "Kakao ID"
-        val userId = 123L
+        val userId = UserId(123L)
         val authSocialEntity = AuthSocialEntity(socialType, socialId, userId)
 
         test("findAuthUser(id) - null") {

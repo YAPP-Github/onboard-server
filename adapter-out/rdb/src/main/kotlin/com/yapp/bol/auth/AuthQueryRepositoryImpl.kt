@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 internal class AuthQueryRepositoryImpl(
     private val authSocialRepository: AuthSocialRepository,
 ) : AuthQueryRepository {
-    override fun findAuthUser(id: Long): AuthUser? {
+    override fun findAuthUser(id: UserId): AuthUser? {
         val authSocial = authSocialRepository.findByUserId(id) ?: return null
 
         return AuthUser(authSocial.userId)

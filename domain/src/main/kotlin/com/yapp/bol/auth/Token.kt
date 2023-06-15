@@ -7,10 +7,10 @@ import java.util.Base64
 
 data class Token(
     val value: String,
-    val userId: Long,
+    val userId: UserId,
     val expiredAt: LocalDateTime,
 ) {
-    constructor(value: ByteArray, userId: Long, expiredAt: LocalDateTime) : this(
+    constructor(value: ByteArray, userId: UserId, expiredAt: LocalDateTime) : this(
         Base64.getEncoder().encodeToString(value),
         userId,
         expiredAt,
