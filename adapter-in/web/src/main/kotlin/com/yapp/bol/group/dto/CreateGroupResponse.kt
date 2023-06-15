@@ -1,7 +1,5 @@
 package com.yapp.bol.group.dto
 
-import com.yapp.bol.group.GroupMemberList
-
 data class CreateGroupResponse(
     val id: Long,
     val name: String,

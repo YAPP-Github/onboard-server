@@ -2,6 +2,7 @@ package com.yapp.bol.group
 
 import com.yapp.bol.group.dto.CreateGroupRequest
 import com.yapp.bol.group.dto.CreateGroupResponse
+import com.yapp.bol.group.dto.GroupWithMemberCount
 import com.yapp.bol.group.dto.toCreateGroupResponse
 import com.yapp.bol.group.dto.toDto
 import com.yapp.bol.pageable.ApplicationSlice

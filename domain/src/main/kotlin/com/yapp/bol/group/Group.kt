@@ -5,18 +5,12 @@ import com.yapp.bol.InvalidGroupNameException
 import com.yapp.bol.InvalidGroupOrganizationException
 
 class Group(
-    id: Long = 0,
-    name: String,
-    description: String,
-    organization: String,
-    profileImageUrl: String,
+    val id: Long = 0,
+    val name: String,
+    val description: String,
+    val organization: String,
+    val profileImageUrl: String,
     val accessCode: String,
-) : BaseGroup(
-    id = id,
-    name = name,
-    description = description,
-    organization = organization,
-    profileImageUrl = profileImageUrl
 ) {
     init {
         if (name.length > MAX_NAME_LENGTH) {

@@ -1,6 +1,8 @@
 package com.yapp.bol.group
 
 import com.yapp.bol.group.dto.CreateGroupDto
+import com.yapp.bol.group.dto.GroupMemberList
+import com.yapp.bol.group.dto.GroupWithMemberCount
 import com.yapp.bol.group.member.MemberRole
 import com.yapp.bol.group.member.MemberService
 import com.yapp.bol.group.member.dto.CreateMemberDto
@@ -55,7 +57,7 @@ internal class GroupServiceImpl(
         val groupWithMemberCount = groups.content.map { group ->
             val members = memberService.findMembersByGroupId(group.id)
 
-            group.toGroupWithMemberCount(members.size)
+            GroupWithMemberCount.of(group, members)
         }
 
         return ApplicationSlice(groupWithMemberCount, groups.hasNext)

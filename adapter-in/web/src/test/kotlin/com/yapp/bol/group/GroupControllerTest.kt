@@ -7,6 +7,8 @@ import com.yapp.bol.base.NUMBER
 import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
 import com.yapp.bol.group.dto.CreateGroupRequest
+import com.yapp.bol.group.dto.GroupMemberList
+import com.yapp.bol.group.dto.GroupWithMemberCount
 import com.yapp.bol.group.member.Member
 import com.yapp.bol.group.member.MemberList
 import com.yapp.bol.group.member.MemberRole
