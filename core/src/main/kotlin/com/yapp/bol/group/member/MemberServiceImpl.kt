@@ -1,8 +1,8 @@
 package com.yapp.bol.group.member
 
+import com.yapp.bol.DuplicatedMemberNicknameException
 import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.GroupId
-import com.yapp.bol.group.member.dto.CreateMemberDto
 import org.springframework.stereotype.Service
 
 @Service
@@ -14,17 +14,32 @@ internal class MemberServiceImpl(
         return memberQueryRepository.findByNicknameAndGroupId(nickname, groupId) == null
     }
 
-    override fun createMembers(createMemberDtos: List<CreateMemberDto>): MemberList {
-        val members = createMemberDtos.map {
-            OwnerMember(
-                userId = it.userId ?: UserId(0),
-                groupId = it.groupId,
-                nickname = it.nickname,
-            )
-        }.let {
-            MemberList(it.get(0))
-        }
+    override fun createMember(userId: UserId?, groupId: GroupId, inputNickname: String?, isOwner: Boolean): Member {
+        val nickname = inputNickname ?: "기본 닉네임" // TODO: UserEntity 에서 조회
 
-        return memberCommandRepository.createMembers(members)
+        if (validateMemberNickname(groupId, nickname).not()) throw DuplicatedMemberNicknameException
+
+        val member = createMemberDomain(userId, groupId, nickname, isOwner)
+        return memberCommandRepository.createMember(member)
     }
+
+    private fun createMemberDomain(userId: UserId?, groupId: GroupId, nickname: String, isOwner: Boolean): Member =
+        if (userId == null) {
+            GuestMember(
+                groupId = groupId,
+                nickname = nickname,
+            )
+        } else if (isOwner) {
+            OwnerMember(
+                userId = userId,
+                groupId = groupId,
+                nickname = nickname,
+            )
+        } else {
+            HostMember(
+                userId = userId,
+                groupId = groupId,
+                nickname = nickname,
+            )
+        }
 }

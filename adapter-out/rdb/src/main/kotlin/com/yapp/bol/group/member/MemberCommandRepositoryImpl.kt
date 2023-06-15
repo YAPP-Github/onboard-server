@@ -9,14 +9,4 @@ internal class MemberCommandRepositoryImpl(
     override fun createMember(member: Member): Member {
         return memberRepository.save(member.toEntity()).toDomain()
     }
-
-    override fun createMembers(members: MemberList): MemberList {
-        val memberEntities = memberRepository.saveAll(members.toList().map(Member::toEntity))
-
-        return memberEntities
-            .map(MemberEntity::toDomain)
-            .let {
-                MemberList(it.find(Member::isOwner) as OwnerMember)
-            }
-    }
 }

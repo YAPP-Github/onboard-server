@@ -1,9 +1,9 @@
 package com.yapp.bol.group
 
 import com.yapp.bol.group.dto.CreateGroupDto
-import com.yapp.bol.group.member.MemberRole
+import com.yapp.bol.group.member.MemberList
 import com.yapp.bol.group.member.MemberService
-import com.yapp.bol.group.member.dto.CreateMemberDto
+import com.yapp.bol.group.member.OwnerMember
 import org.springframework.stereotype.Service
 
 @Service
@@ -24,18 +24,16 @@ internal class GroupServiceImpl(
 
         val groupPersisted = groupCommandRepository.createGroup(group)
 
-        val createMemberDto = CreateMemberDto(
+        val owner = memberService.createMember(
             userId = createGroupDto.ownerId,
-            groupId = groupPersisted.id,
             nickname = createGroupDto.nickname,
-            role = MemberRole.OWNER,
-        )
-
-        val members = memberService.createMembers(listOf(createMemberDto))
+            groupId = groupPersisted.id,
+            isOwner = true,
+        ) as OwnerMember
 
         return GroupMemberList(
             group = groupPersisted,
-            members = members,
+            members = MemberList(owner),
         )
     }
 }
