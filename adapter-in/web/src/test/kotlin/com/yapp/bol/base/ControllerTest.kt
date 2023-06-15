@@ -5,6 +5,7 @@ import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.yapp.bol.ExceptionHandler
 import com.yapp.bol.auth.getSecurityUserId
+import com.yapp.bol.file.FileNameConverter
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.every
 import io.mockk.mockkStatic
@@ -47,6 +48,7 @@ abstract class ControllerTest : FunSpec() {
     private lateinit var mockMvc: MockMvc
 
     init {
+        FileNameConverter().setHost("http://test.com")
         beforeSpec {
             setUpMockMvc()
         }
