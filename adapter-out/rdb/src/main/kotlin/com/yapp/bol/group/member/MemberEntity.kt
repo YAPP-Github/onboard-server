@@ -44,13 +44,28 @@ class MemberEntity(
     val groupId: GroupId = groupId
 }
 
-fun MemberEntity.toDomain(): Member = Member(
-    id = this.id,
-    userId = this.userId,
-    role = this.role,
-    nickname = this.nickname,
-    groupId = this.groupId
-)
+fun MemberEntity.toDomain(): Member =
+    if (userId == null) {
+        GuestMember(
+            id = this.id,
+            groupId = this.groupId,
+            nickname = this.nickname,
+        )
+    } else if (this.role == MemberRole.OWNER) {
+        OwnerMember(
+            id = this.id,
+            userId = this.userId,
+            groupId = this.groupId,
+            nickname = this.nickname,
+        )
+    } else {
+        HostMember(
+            id = this.id,
+            userId = this.userId,
+            groupId = this.groupId,
+            nickname = this.nickname,
+        )
+    }
 
 fun Member.toEntity(): MemberEntity = MemberEntity(
     id = this.id,

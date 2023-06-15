@@ -15,6 +15,8 @@ internal class MemberCommandRepositoryImpl(
 
         return memberEntities
             .map(MemberEntity::toDomain)
-            .let { MemberList(it.toMutableList()) }
+            .let {
+                MemberList(it.find(Member::isOwner) as OwnerMember)
+            }
     }
 }

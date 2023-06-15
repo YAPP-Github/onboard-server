@@ -1,15 +1,17 @@
 package com.yapp.bol.member
 
 import com.yapp.bol.InvalidMemberNicknameException
+import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.GroupId
+import com.yapp.bol.group.member.GuestMember
+import com.yapp.bol.group.member.HostMember
 import com.yapp.bol.group.member.Member
-import com.yapp.bol.group.member.MemberId
-import com.yapp.bol.group.member.MemberRole
+import com.yapp.bol.group.member.OwnerMember
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.types.shouldBeInstanceOf
 
-val MEMBER_OWNER = Member(MemberId(0), null, MemberRole.OWNER, "nick", GroupId(0))
+val MEMBER_OWNER = OwnerMember(userId = UserId(0), nickname = "nick", groupId = GroupId(0))
 
 class MemberTest : FunSpec() {
     init {
@@ -21,7 +23,13 @@ class MemberTest : FunSpec() {
             val nickname = "x".repeat(Member.MAX_NICKNAME_LENGTH + 1)
 
             shouldThrow<InvalidMemberNicknameException> {
-                Member(MemberId(0), null, MemberRole.OWNER, nickname, GroupId(0))
+                OwnerMember(userId = UserId(0), nickname = nickname, groupId = GroupId(0))
+            }
+            shouldThrow<InvalidMemberNicknameException> {
+                HostMember(userId = UserId(0), nickname = nickname, groupId = GroupId(0))
+            }
+            shouldThrow<InvalidMemberNicknameException> {
+                GuestMember(nickname = nickname, groupId = GroupId(0))
             }
         }
     }
