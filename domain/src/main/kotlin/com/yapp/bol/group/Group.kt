@@ -11,12 +11,6 @@ class Group(
     val organization: String?,
     val profileImageUrl: String,
     val accessCode: String,
-) : BaseGroup(
-    id = id,
-    name = name,
-    description = description,
-    organization = organization,
-    profileImageUrl = profileImageUrl
 ) {
     init {
         if (name.length > MAX_NAME_LENGTH) {
