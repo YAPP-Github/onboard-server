@@ -1,7 +1,9 @@
 package com.yapp.bol.group.member
 
-interface MemberQueryRepository {
-    fun findByNicknameAndGroupId(nickname: String, groupId: Long): Member?
+import com.yapp.bol.group.GroupId
 
-    fun findByGroupId(groupId: Long): List<Member>
+interface MemberQueryRepository {
+    fun findByNicknameAndGroupId(nickname: String, groupId: GroupId): Member?
+
+    fun findByGroupId(groupId: GroupId): List<Member>
 }
