@@ -21,7 +21,7 @@ internal class GroupEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "group_id", nullable = false)
-    val id: GroupId = id
+    val id: Long = id.value
 
     @Column(name = "name")
     val name: String = name
@@ -52,7 +52,7 @@ internal fun Group.toEntity(): GroupEntity = GroupEntity(
 )
 
 internal fun GroupEntity.toDomain(): Group = Group(
-    id = id,
+    id = GroupId(id),
     name = name,
     description = description,
     organization = organization,

@@ -29,6 +29,6 @@ internal class AuthSocialEntity(
         protected set
 
     @Column(name = "users_id")
-    var userId: UserId = userId
+    var userId: Long = userId.value
         protected set
 }

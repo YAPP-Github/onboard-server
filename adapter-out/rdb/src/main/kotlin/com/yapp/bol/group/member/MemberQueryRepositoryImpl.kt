@@ -10,11 +10,11 @@ internal class MemberQueryRepositoryImpl(
 ) : MemberQueryRepository {
     @Transactional(readOnly = true)
     override fun findByNicknameAndGroupId(nickname: String, groupId: GroupId): Member? {
-        return memberRepository.findByNicknameAndGroupId(nickname, groupId)?.toDomain()
+        return memberRepository.findByNicknameAndGroupId(nickname, groupId.value)?.toDomain()
     }
 
     @Transactional(readOnly = true)
     override fun findByGroupId(groupId: GroupId): List<Member> {
-        return memberRepository.findByGroupId(groupId).map { it.toDomain() }
+        return memberRepository.findByGroupId(groupId.value).map { it.toDomain() }
     }
 }
