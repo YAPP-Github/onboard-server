@@ -23,7 +23,7 @@ abstract class Member internal constructor(
         if (nickname.length > MAX_NICKNAME_LENGTH) {
             throw InvalidMemberNicknameException
         }
-        if (userId == null && isGuest()) throw InvalidMemberRoleException
+        if (userId == null && isGuest().not()) throw InvalidMemberRoleException
     }
 
     fun isOwner(): Boolean = this is OwnerMember
