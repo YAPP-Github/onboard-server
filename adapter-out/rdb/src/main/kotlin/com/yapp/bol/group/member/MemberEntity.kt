@@ -2,7 +2,6 @@ package com.yapp.bol.group.member
 
 import com.yapp.bol.AuditingEntity
 import com.yapp.bol.auth.UserId
-import com.yapp.bol.group.GroupId
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -63,10 +62,10 @@ fun MemberEntity.toDomain(): Member =
         )
     }
 
-fun Member.toEntity(groupId: GroupId): MemberEntity = MemberEntity(
+fun Member.toEntity(groupId: Long): MemberEntity = MemberEntity(
     id = this.id.value,
     userId = this.userId?.value,
     role = this.role,
     nickname = this.nickname,
-    groupId = groupId.value,
+    groupId = groupId,
 )

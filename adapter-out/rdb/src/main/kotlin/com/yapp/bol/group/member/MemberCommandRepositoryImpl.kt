@@ -8,6 +8,6 @@ internal class MemberCommandRepositoryImpl(
     private val memberRepository: MemberRepository,
 ) : MemberCommandRepository {
     override fun createMember(groupId: GroupId, member: Member): Member {
-        return memberRepository.save(member.toEntity(groupId)).toDomain()
+        return memberRepository.save(member.toEntity(groupId.value)).toDomain()
     }
 }
