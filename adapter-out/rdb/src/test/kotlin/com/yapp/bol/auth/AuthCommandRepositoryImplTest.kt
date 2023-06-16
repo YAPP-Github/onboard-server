@@ -19,7 +19,7 @@ class AuthCommandRepositoryImplTest : FunSpec() {
             // given
             val loginType = LoginType.KAKAO_ACCESS_TOKEN
             val socialId = "kakaoID"
-            val user = UserEntity.of(UserId(1234L))
+            val user = UserEntity.of(1234L)
 
             every { userRepository.save(any()) } returns user
             every { authSocialRepository.save(any()) } returns AuthSocialEntity(

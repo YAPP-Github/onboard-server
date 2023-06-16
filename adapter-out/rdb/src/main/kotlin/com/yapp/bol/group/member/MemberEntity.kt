@@ -15,9 +15,9 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "member")
 class MemberEntity(
-    id: MemberId = MemberId(0),
-    userId: UserId? = null,
-    groupId: GroupId = GroupId(0),
+    id: Long = 0,
+    userId: Long? = null,
+    groupId: Long = 0,
     role: MemberRole,
     nickname: String
 ) :
@@ -25,10 +25,10 @@ class MemberEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id", nullable = false)
-    val id: MemberId = id
+    val id: Long = id
 
     @Column(name = "users_id")
-    val userId: UserId? = userId
+    val userId: Long? = userId
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
@@ -41,36 +41,36 @@ class MemberEntity(
     val deleted: Boolean = false
 
     @Column(name = "group_id", nullable = false)
-    val groupId: GroupId = groupId
+    val groupId: Long = groupId
 }
 
 fun MemberEntity.toDomain(): Member =
     if (userId == null) {
         GuestMember(
-            id = this.id,
-            groupId = this.groupId,
+            id = MemberId(this.id),
+            groupId = GroupId(this.groupId),
             nickname = this.nickname,
         )
     } else if (this.role == MemberRole.OWNER) {
         OwnerMember(
-            id = this.id,
-            userId = this.userId,
-            groupId = this.groupId,
+            id = MemberId(this.id),
+            userId = UserId(this.userId),
+            groupId = GroupId(this.groupId),
             nickname = this.nickname,
         )
     } else {
         HostMember(
-            id = this.id,
-            userId = this.userId,
-            groupId = this.groupId,
+            id = MemberId(this.id),
+            userId = UserId(this.userId),
+            groupId = GroupId(this.groupId),
             nickname = this.nickname,
         )
     }
 
 fun Member.toEntity(): MemberEntity = MemberEntity(
-    id = this.id,
-    userId = this.userId,
+    id = this.id.value,
+    userId = this.userId?.value,
     role = this.role,
     nickname = this.nickname,
-    groupId = this.groupId
+    groupId = this.groupId.value,
 )

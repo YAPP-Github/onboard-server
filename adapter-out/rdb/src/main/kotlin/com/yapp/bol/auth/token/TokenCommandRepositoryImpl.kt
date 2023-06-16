@@ -22,14 +22,14 @@ internal class TokenCommandRepositoryImpl(
 
     private fun Token.toAccessToken(): AccessTokenEntity =
         AccessTokenEntity(
-            userId = this.userId,
+            userId = this.userId.value,
             accessToken = this.toBinary(),
             expiredAt = this.expiredAt,
         )
 
     private fun Token.toRefreshToken(): RefreshTokenEntity =
         RefreshTokenEntity(
-            userId = this.userId,
+            userId = this.userId.value,
             refreshToken = this.toBinary(),
             expiredAt = this.expiredAt,
         )

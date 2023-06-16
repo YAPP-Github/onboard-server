@@ -8,15 +8,15 @@ internal class AuthQueryRepositoryImpl(
     private val authSocialRepository: AuthSocialRepository,
 ) : AuthQueryRepository {
     override fun findAuthUser(id: UserId): AuthUser? {
-        val authSocial = authSocialRepository.findByUserId(id) ?: return null
+        val authSocial = authSocialRepository.findByUserId(id.value) ?: return null
 
-        return AuthUser(authSocial.userId)
+        return AuthUser(UserId(authSocial.userId))
     }
 
     override fun findAuthUser(socialType: LoginType, socialId: String): AuthUser? {
         val authSocial =
             authSocialRepository.findByIdOrNull(SocialInfo(socialType.toSocialType(), socialId)) ?: return null
 
-        return AuthUser(authSocial.userId)
+        return AuthUser(UserId(authSocial.userId))
     }
 }

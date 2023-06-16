@@ -1,7 +1,6 @@
 package com.yapp.bol.user
 
 import com.yapp.bol.AuditingEntity
-import com.yapp.bol.auth.UserId
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
@@ -15,7 +14,7 @@ internal class UserEntity : AuditingEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "users_id", nullable = false)
-    var id: UserId = UserId(0)
+    var id: Long = 0
         protected set
 
     @Column(name = "name")
@@ -27,7 +26,7 @@ internal class UserEntity : AuditingEntity() {
         protected set
 
     companion object {
-        fun of(id: UserId): UserEntity =
+        fun of(id: Long): UserEntity =
             UserEntity().apply {
                 this.id = id
             }
