@@ -9,4 +9,4 @@ spring.config.activate.on-profile: local
 
 bol:
   server:
-    host: http://localhost:8080
+    host: localhost:8080

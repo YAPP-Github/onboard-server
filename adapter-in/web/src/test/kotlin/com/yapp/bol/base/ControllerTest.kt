@@ -48,7 +48,7 @@ abstract class ControllerTest : FunSpec() {
     private lateinit var mockMvc: MockMvc
 
     init {
-        FileNameConverter().setHost("http://test.com")
+        FileNameConverter().setHost("test.com")
         beforeSpec {
             setUpMockMvc()
         }
