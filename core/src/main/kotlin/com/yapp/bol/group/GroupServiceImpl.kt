@@ -2,8 +2,11 @@ package com.yapp.bol.group
 
 import com.yapp.bol.AccessCodeNotMatchException
 import com.yapp.bol.NotFoundGroupException
+import com.yapp.bol.UnAuthorizationException
+import com.yapp.bol.group.dto.AddGuestDto
 import com.yapp.bol.group.dto.CreateGroupDto
 import com.yapp.bol.group.dto.JoinGroupDto
+import com.yapp.bol.group.member.MemberQueryRepository
 import com.yapp.bol.group.member.MemberService
 import com.yapp.bol.group.member.OwnerMember
 import org.springframework.stereotype.Service
@@ -13,6 +16,7 @@ internal class GroupServiceImpl(
     private val groupQueryRepository: GroupQueryRepository,
     private val groupCommandRepository: GroupCommandRepository,
     private val memberService: MemberService,
+    private val memberQueryRepository: MemberQueryRepository,
 ) : GroupService {
 
     override fun createGroup(
@@ -39,5 +43,12 @@ internal class GroupServiceImpl(
         if (group.accessCode != request.accessCode) throw AccessCodeNotMatchException
 
         memberService.createHostMember(request.userId, request.groupId, request.nickname)
+    }
+
+    override fun addGuest(request: AddGuestDto) {
+        memberQueryRepository.findByGroupIdAndUserId(request.groupId, request.requestUserId)
+            ?: throw UnAuthorizationException()
+
+        memberService.createGuestMember(request.groupId, request.nickname)
     }
 }

@@ -7,4 +7,6 @@ interface MemberService {
     fun validateMemberNickname(groupId: GroupId, nickname: String): Boolean
 
     fun createHostMember(userId: UserId, groupId: GroupId, nickname: String?): HostMember
+
+    fun createGuestMember(groupId: GroupId, nickname: String): GuestMember
 }

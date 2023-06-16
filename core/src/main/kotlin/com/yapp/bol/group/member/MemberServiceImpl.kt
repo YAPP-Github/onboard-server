@@ -26,4 +26,10 @@ internal class MemberServiceImpl(
 
         return memberCommandRepository.createMember(groupId, member) as HostMember
     }
+
+    override fun createGuestMember(groupId: GroupId, nickname: String): GuestMember {
+        val member = GuestMember(nickname = nickname)
+
+        return memberCommandRepository.createMember(groupId, member) as GuestMember
+    }
 }
