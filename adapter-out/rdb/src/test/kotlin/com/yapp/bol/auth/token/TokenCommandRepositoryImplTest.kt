@@ -26,7 +26,7 @@ class TokenCommandRepositoryImplTest : FunSpec() {
         test("saveAccessToken") {
             // given
             every { accessTokenRepository.save(any()) } returns AccessTokenEntity(
-                userId = UserId(123L),
+                userId = 123L,
                 accessToken = ByteArray(20),
                 expiredAt = token.expiredAt,
             )
@@ -41,7 +41,7 @@ class TokenCommandRepositoryImplTest : FunSpec() {
         test("saveRefreshToken") {
             // given
             every { refreshTokenRepository.save(any()) } returns RefreshTokenEntity(
-                userId = UserId(123L),
+                userId = 123L,
                 refreshToken = ByteArray(20),
                 expiredAt = token.expiredAt,
             )
