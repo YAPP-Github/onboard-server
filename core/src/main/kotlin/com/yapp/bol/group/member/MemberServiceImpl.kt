@@ -1,5 +1,6 @@
 package com.yapp.bol.group.member
 
+import com.yapp.bol.AlreadyExistMemberException
 import com.yapp.bol.DuplicatedMemberNicknameException
 import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.GroupId
@@ -15,6 +16,10 @@ internal class MemberServiceImpl(
     }
 
     override fun createHostMember(userId: UserId, groupId: GroupId, nickname: String?): HostMember {
+        if (memberQueryRepository.findByGroupIdAndUserId(groupId, userId) != null) {
+            throw AlreadyExistMemberException
+        }
+
         val nicknameResult = nickname ?: "기본 닉네임" // TODO: UserEntity 에서 조회
 
         if (validateMemberNickname(groupId, nicknameResult).not()) throw DuplicatedMemberNicknameException

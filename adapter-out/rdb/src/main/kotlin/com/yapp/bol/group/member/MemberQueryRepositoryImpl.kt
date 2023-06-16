@@ -1,5 +1,6 @@
 package com.yapp.bol.group.member
 
+import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.GroupId
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
@@ -16,5 +17,10 @@ internal class MemberQueryRepositoryImpl(
     @Transactional(readOnly = true)
     override fun findByGroupId(groupId: GroupId): List<Member> {
         return memberRepository.findByGroupId(groupId.value).map { it.toDomain() }
+    }
+
+    @Transactional(readOnly = true)
+    override fun findByGroupIdAndUserId(groupId: GroupId, userId: UserId): Member? {
+        return memberRepository.findByGroupIdAndUserId(groupId.value, userId.value)?.toDomain()
     }
 }
