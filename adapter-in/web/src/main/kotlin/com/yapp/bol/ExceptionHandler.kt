@@ -13,15 +13,21 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class ExceptionHandler {
 
     @ExceptionHandler(BolRatingException::class)
-    fun handleException(e: BolRatingException): ResponseEntity<ErrorResponse> = e.toResponse()
+    fun handleException(e: BolRatingException): ResponseEntity<ErrorResponse> = e.toResponse().apply {
+        e.printStackTrace()
+    }
 
     @ExceptionHandler(AuthenticationException::class)
     fun handleException(e: AuthenticationException): ResponseEntity<ErrorResponse> =
-        handleException(UnAuthenticationException(e))
+        handleException(UnAuthenticationException(e)).apply {
+            e.printStackTrace()
+        }
 
     @ExceptionHandler(AccessDeniedException::class)
     fun handleException(e: AccessDeniedException): ResponseEntity<ErrorResponse> =
-        handleException(UnAuthorizationException(e))
+        handleException(UnAuthorizationException(e)).apply {
+            e.printStackTrace()
+        }
 
     @Order(value = Ordered.LOWEST_PRECEDENCE)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

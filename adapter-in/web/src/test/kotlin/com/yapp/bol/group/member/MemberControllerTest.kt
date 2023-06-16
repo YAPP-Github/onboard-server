@@ -1,16 +1,21 @@
 package com.yapp.bol.group.member
 
+import com.yapp.bol.auth.UserId
 import com.yapp.bol.base.BOOLEAN
 import com.yapp.bol.base.ControllerTest
 import com.yapp.bol.base.NUMBER
 import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
+import com.yapp.bol.group.GroupId
+import com.yapp.bol.group.GroupService
+import com.yapp.bol.group.member.dto.JoinGroupRequest
 import io.mockk.every
 import io.mockk.mockk
 
 class MemberControllerTest : ControllerTest() {
+    private val groupService: GroupService = mockk()
     private val memberService: MemberService = mockk()
-    override val controller = MemberController(memberService)
+    override val controller = MemberController(groupService, memberService)
 
     init {
         test("GET /v1/group/{groupId}/member/validateNickname") {
@@ -29,6 +34,30 @@ class MemberControllerTest : ControllerTest() {
                     responseFields(
                         "isAvailable" type BOOLEAN means "그룹 내에서 닉네임 중복 여부"
                     )
+                )
+        }
+
+        test("그룹 가입 - Host Member") {
+            val groupId = GroupId(1)
+            val userId = UserId(1)
+            val request = JoinGroupRequest("nickname", "accessCode")
+
+            every { groupService.joinGroup(any()) } returns Unit
+
+            post("/v1/group/{groupId}/member/join", request, arrayOf(groupId.value)) {
+                authorizationHeader(userId)
+            }
+                .isStatus(200)
+                .makeDocument(
+                    DocumentInfo(identifier = "member/{method-name}", tag = OpenApiTag.MEMBER),
+                    pathParameters(
+                        "groupId" type NUMBER means "그룹 ID",
+                    ),
+                    requestFields(
+                        "nickname" type STRING means "그룹 전용 닉네임, null 일 경우 유저 기본 닉네임을 사용" isOptional false,
+                        "accessCode" type STRING means "그룹에 가입하기 위한 참여 코드"
+                    ),
+                    responseFields()
                 )
         }
     }

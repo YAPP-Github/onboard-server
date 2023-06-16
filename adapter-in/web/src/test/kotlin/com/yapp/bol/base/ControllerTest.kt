@@ -78,21 +78,26 @@ abstract class ControllerTest : FunSpec() {
 
     protected fun get(
         url: String,
-        vararg pathParams: String,
+        pathParams: Array<Any> = emptyArray(),
         buildRequest: MockHttpServletRequestBuilder.() -> Unit
     ): ResultActions =
-        mockMvc.perform(get(url, pathParams).apply(buildRequest))
+        mockMvc.perform(get(url, *pathParams).apply(buildRequest))
 
-    protected fun post(url: String, buildRequest: MockHttpServletRequestBuilder.() -> Unit): ResultActions =
-        mockMvc.perform(post(url).apply(buildRequest))
+    protected fun post(
+        url: String,
+        pathParams: Array<Any> = emptyArray(),
+        buildRequest: MockHttpServletRequestBuilder.() -> Unit
+    ): ResultActions =
+        mockMvc.perform(post(url, *pathParams).apply(buildRequest))
 
     protected fun post(
         url: String,
         request: Any,
+        pathParams: Array<Any> = emptyArray(),
         buildRequest: MockHttpServletRequestBuilder.() -> Unit
     ): ResultActions =
         mockMvc.perform(
-            post(url).apply {
+            post(url, *pathParams).apply {
                 contentType(MediaType.APPLICATION_JSON)
                 content(objectMapper.writeValueAsString(request))
             }.apply(buildRequest)
@@ -114,14 +119,26 @@ abstract class ControllerTest : FunSpec() {
         )
     }
 
-    protected fun delete(url: String, buildRequest: MockHttpServletRequestBuilder.() -> Unit): ResultActions =
-        mockMvc.perform(delete(url).apply(buildRequest))
+    protected fun delete(
+        url: String,
+        pathParams: Array<Any> = emptyArray(),
+        buildRequest: MockHttpServletRequestBuilder.() -> Unit
+    ): ResultActions =
+        mockMvc.perform(delete(url, *pathParams).apply(buildRequest))
 
-    protected fun patch(url: String, buildRequest: MockHttpServletRequestBuilder.() -> Unit): ResultActions =
-        mockMvc.perform(patch(url).apply(buildRequest))
+    protected fun patch(
+        url: String,
+        pathParams: Array<Any> = emptyArray(),
+        buildRequest: MockHttpServletRequestBuilder.() -> Unit
+    ): ResultActions =
+        mockMvc.perform(patch(url, *pathParams).apply(buildRequest))
 
-    protected fun put(url: String, buildRequest: MockHttpServletRequestBuilder.() -> Unit): ResultActions =
-        mockMvc.perform(put(url).apply(buildRequest))
+    protected fun put(
+        url: String,
+        pathParams: Array<Any> = emptyArray(),
+        buildRequest: MockHttpServletRequestBuilder.() -> Unit
+    ): ResultActions =
+        mockMvc.perform(put(url, *pathParams).apply(buildRequest))
 
     protected fun MockHttpServletRequestBuilder.authorizationHeader(userId: UserId) {
         SecurityContextHolder.getContext().authentication = TokenAuthentication("Token", userId)
