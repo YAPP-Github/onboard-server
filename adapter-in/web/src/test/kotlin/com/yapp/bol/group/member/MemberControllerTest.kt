@@ -67,7 +67,7 @@ class MemberControllerTest : ControllerTest() {
             val userId = UserId(1)
             val request = AddGuestRequest("nickname")
 
-            every { groupService.joinGroup(any()) } returns Unit
+            every { groupService.addGuest(any()) } returns Unit
 
             post("/v1/group/{groupId}/member/guest", request, arrayOf(groupId.value)) {
                 authorizationHeader(userId)
