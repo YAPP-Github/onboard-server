@@ -4,7 +4,9 @@ import com.yapp.bol.EmptyResponse
 import com.yapp.bol.auth.getSecurityUserIdOrThrow
 import com.yapp.bol.group.GroupId
 import com.yapp.bol.group.GroupService
+import com.yapp.bol.group.dto.AddGuestDto
 import com.yapp.bol.group.dto.JoinGroupDto
+import com.yapp.bol.group.member.dto.AddGuestRequest
 import com.yapp.bol.group.member.dto.JoinGroupRequest
 import com.yapp.bol.group.member.dto.ValidateMemberNameResponse
 import org.springframework.security.access.prepost.PreAuthorize
@@ -44,6 +46,25 @@ class MemberController(
                 userId = userId,
                 nickname = request.nickname,
                 accessCode = request.accessCode,
+            )
+        )
+
+        return EmptyResponse
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/guest")
+    fun addGuestMember(
+        @PathVariable groupId: GroupId,
+        @RequestBody request: AddGuestRequest,
+    ): EmptyResponse {
+        val userId = getSecurityUserIdOrThrow()
+
+        groupService.addGuest(
+            AddGuestDto(
+                groupId = groupId,
+                requestUserId = userId,
+                nickname = request.nickname,
             )
         )
 

@@ -8,6 +8,7 @@ import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
 import com.yapp.bol.group.GroupId
 import com.yapp.bol.group.GroupService
+import com.yapp.bol.group.member.dto.AddGuestRequest
 import com.yapp.bol.group.member.dto.JoinGroupRequest
 import io.mockk.every
 import io.mockk.mockk
@@ -56,6 +57,29 @@ class MemberControllerTest : ControllerTest() {
                     requestFields(
                         "nickname" type STRING means "그룹 전용 닉네임, null 일 경우 유저 기본 닉네임을 사용" isOptional false,
                         "accessCode" type STRING means "그룹에 가입하기 위한 참여 코드"
+                    ),
+                    responseFields()
+                )
+        }
+
+        test("게스트 추가 - Host Member") {
+            val groupId = GroupId(1)
+            val userId = UserId(1)
+            val request = AddGuestRequest("nickname")
+
+            every { groupService.joinGroup(any()) } returns Unit
+
+            post("/v1/group/{groupId}/member/guest", request, arrayOf(groupId.value)) {
+                authorizationHeader(userId)
+            }
+                .isStatus(200)
+                .makeDocument(
+                    DocumentInfo(identifier = "member/{method-name}", tag = OpenApiTag.MEMBER),
+                    pathParameters(
+                        "groupId" type NUMBER means "그룹 ID",
+                    ),
+                    requestFields(
+                        "nickname" type STRING means "그룹 전용 닉네임, null 일 경우 유저 기본 닉네임을 사용" isOptional false,
                     ),
                     responseFields()
                 )

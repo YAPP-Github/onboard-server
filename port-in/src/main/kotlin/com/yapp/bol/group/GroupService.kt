@@ -1,5 +1,6 @@
 package com.yapp.bol.group
 
+import com.yapp.bol.group.dto.AddGuestDto
 import com.yapp.bol.group.dto.CreateGroupDto
 import com.yapp.bol.group.dto.JoinGroupDto
 
@@ -9,4 +10,6 @@ interface GroupService {
     ): GroupMemberList
 
     fun joinGroup(request: JoinGroupDto)
+
+    fun addGuest(request: AddGuestDto)
 }
