@@ -34,7 +34,7 @@ class AuthCommandRepositoryImplTest : FunSpec() {
             // then
             verify { userRepository.save(any()) }
             verify { authSocialRepository.save(any()) }
-            result.id shouldBe user.id
+            result.id.value shouldBe user.id
         }
     }
 }
