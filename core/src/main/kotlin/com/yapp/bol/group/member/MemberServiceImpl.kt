@@ -14,31 +14,28 @@ internal class MemberServiceImpl(
         return memberQueryRepository.findByNicknameAndGroupId(nickname, groupId) == null
     }
 
-    override fun createMember(userId: UserId?, groupId: GroupId, inputNickname: String?, isOwner: Boolean): Member {
-        val nickname = inputNickname ?: "기본 닉네임" // TODO: UserEntity 에서 조회
+    override fun createMember(userId: UserId?, groupId: GroupId, nickname: String?, isOwner: Boolean): Member {
+        val nicknameResult = nickname ?: "기본 닉네임" // TODO: UserEntity 에서 조회
 
-        if (validateMemberNickname(groupId, nickname).not()) throw DuplicatedMemberNicknameException
+        if (validateMemberNickname(groupId, nicknameResult).not()) throw DuplicatedMemberNicknameException
 
-        val member = createMemberDomain(userId, groupId, nickname, isOwner)
-        return memberCommandRepository.createMember(member)
+        val member = createMemberDomain(userId, nicknameResult, isOwner)
+        return memberCommandRepository.createMember(groupId, member)
     }
 
-    private fun createMemberDomain(userId: UserId?, groupId: GroupId, nickname: String, isOwner: Boolean): Member =
+    private fun createMemberDomain(userId: UserId?, nickname: String, isOwner: Boolean): Member =
         if (userId == null) {
             GuestMember(
-                groupId = groupId,
                 nickname = nickname,
             )
         } else if (isOwner) {
             OwnerMember(
                 userId = userId,
-                groupId = groupId,
                 nickname = nickname,
             )
         } else {
             HostMember(
                 userId = userId,
-                groupId = groupId,
                 nickname = nickname,
             )
         }

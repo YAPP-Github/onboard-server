@@ -38,7 +38,6 @@ class GroupControllerTest : ControllerTest() {
                 OwnerMember(
                     userId = UserId(123),
                     nickname = "홀든",
-                    groupId = group.id,
                 )
             )
 

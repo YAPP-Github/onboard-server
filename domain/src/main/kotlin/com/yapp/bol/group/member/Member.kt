@@ -3,7 +3,6 @@ package com.yapp.bol.group.member
 import com.yapp.bol.InvalidMemberNicknameException
 import com.yapp.bol.InvalidMemberRoleException
 import com.yapp.bol.auth.UserId
-import com.yapp.bol.group.GroupId
 
 @JvmInline
 value class MemberId(val value: Long)
@@ -12,7 +11,6 @@ abstract class Member internal constructor(
     val id: MemberId,
     val userId: UserId?,
     val nickname: String,
-    val groupId: GroupId,
 ) {
     val role: MemberRole = when {
         isOwner() -> MemberRole.OWNER
