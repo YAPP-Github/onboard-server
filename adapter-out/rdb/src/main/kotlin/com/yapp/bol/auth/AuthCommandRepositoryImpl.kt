@@ -11,8 +11,8 @@ internal class AuthCommandRepositoryImpl(
 ) : AuthCommandRepository {
     override fun registerUser(loginType: LoginType, socialId: String): AuthUser {
         val user = userRepository.save(UserEntity())
-        authSocialRepository.save(AuthSocialEntity(loginType.toSocialType(), socialId, user.id))
+        authSocialRepository.save(AuthSocialEntity(loginType.toSocialType(), socialId, UserId(user.id)))
 
-        return AuthUser(user.id)
+        return AuthUser(UserId(user.id))
     }
 }
