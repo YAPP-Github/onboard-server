@@ -14,29 +14,16 @@ internal class MemberServiceImpl(
         return memberQueryRepository.findByNicknameAndGroupId(nickname, groupId) == null
     }
 
-    override fun createMember(userId: UserId?, groupId: GroupId, nickname: String?, isOwner: Boolean): Member {
+    override fun createHostMember(userId: UserId, groupId: GroupId, nickname: String?): HostMember {
         val nicknameResult = nickname ?: "기본 닉네임" // TODO: UserEntity 에서 조회
 
         if (validateMemberNickname(groupId, nicknameResult).not()) throw DuplicatedMemberNicknameException
 
-        val member = createMemberDomain(userId, nicknameResult, isOwner)
-        return memberCommandRepository.createMember(groupId, member)
-    }
+        val member = HostMember(
+            userId = userId,
+            nickname = nicknameResult
+        )
 
-    private fun createMemberDomain(userId: UserId?, nickname: String, isOwner: Boolean): Member =
-        if (userId == null) {
-            GuestMember(
-                nickname = nickname,
-            )
-        } else if (isOwner) {
-            OwnerMember(
-                userId = userId,
-                nickname = nickname,
-            )
-        } else {
-            HostMember(
-                userId = userId,
-                nickname = nickname,
-            )
-        }
+        return memberCommandRepository.createMember(groupId, member) as HostMember
+    }
 }
