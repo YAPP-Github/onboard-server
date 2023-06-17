@@ -14,14 +14,12 @@ internal class MemberServiceImpl(
         return memberQueryRepository.findByNicknameAndGroupId(nickname, groupId) == null
     }
 
-    override fun createHostMember(userId: UserId, groupId: GroupId, nickname: String?): HostMember {
-        val nicknameResult = nickname ?: "기본 닉네임" // TODO: UserEntity 에서 조회
-
-        if (validateMemberNickname(groupId, nicknameResult).not()) throw DuplicatedMemberNicknameException
+    override fun createHostMember(userId: UserId, groupId: GroupId, nickname: String): HostMember {
+        if (validateMemberNickname(groupId, nickname).not()) throw DuplicatedMemberNicknameException
 
         val member = HostMember(
             userId = userId,
-            nickname = nicknameResult
+            nickname = nickname
         )
 
         return memberCommandRepository.createMember(groupId, member) as HostMember

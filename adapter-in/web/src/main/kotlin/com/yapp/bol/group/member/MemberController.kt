@@ -24,7 +24,7 @@ class MemberController(
     private val groupService: GroupService,
     private val memberService: MemberService,
 ) {
-    @GetMapping("/validateNickname")
+    @GetMapping("/member/validateNickname")
     fun validateMemberName(
         @PathVariable groupId: GroupId,
         @RequestParam nickname: String,
@@ -33,7 +33,7 @@ class MemberController(
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/join")
+    @PostMapping("/host")
     fun joinHostMember(
         @PathVariable groupId: GroupId,
         @RequestBody request: JoinGroupRequest,
