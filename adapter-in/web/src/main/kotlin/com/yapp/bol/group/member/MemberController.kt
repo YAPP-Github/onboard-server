@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/v1/group/{groupId}/member")
+@RequestMapping("/v1/group/{groupId}")
 class MemberController(
     private val groupService: GroupService,
     private val memberService: MemberService,

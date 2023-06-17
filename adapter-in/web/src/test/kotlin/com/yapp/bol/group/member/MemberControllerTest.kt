@@ -69,7 +69,7 @@ class MemberControllerTest : ControllerTest() {
 
             every { groupService.addGuest(any()) } returns Unit
 
-            post("/v1/group/{groupId}/member/guest", request, arrayOf(groupId.value)) {
+            post("/v1/group/{groupId}/guest", request, arrayOf(groupId.value)) {
                 authorizationHeader(userId)
             }
                 .isStatus(200)
