@@ -22,7 +22,7 @@ class GameControllerTest : ControllerTest() {
             )
             every { gameService.getGameList(groupId) } returns games
 
-            get("/v1/game/{groupId}", groupId.toString()) {}
+            get("/v1/group/{groupId}/game", groupId.toString()) {}
                 .isStatus(200)
                 .makeDocument(
                     DocumentInfo(identifier = "game/{method-name}", tag = OpenApiTag.GAME),
