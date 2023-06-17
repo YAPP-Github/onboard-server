@@ -16,9 +16,9 @@ class GameControllerTest : ControllerTest() {
         test("게임 목록 가져오기") {
             val groupId = 1L
             val games = listOf(
-                Game(GameId(0), "게임 1", 2, 4, GameRankType.SCORE_HIGH, "imageName"),
-                Game(GameId(1), "게임 2", 2, 5, GameRankType.SCORE_HIGH, "imageName"),
-                Game(GameId(2), "게임 3", 1, 4, GameRankType.SCORE_HIGH, "imageName"),
+                Game(GameId(0), "게임 1", 2, 4, GameRankType.SCORE_HIGH, "ImgUrl"),
+                Game(GameId(1), "게임 2", 2, 5, GameRankType.SCORE_HIGH, "ImgUrl"),
+                Game(GameId(2), "게임 3", 1, 4, GameRankType.SCORE_HIGH, "ImgUrl"),
             )
             every { gameService.getGameList(groupId) } returns games
 
