@@ -9,9 +9,6 @@ import org.springframework.transaction.annotation.Transactional
 internal class MemberQueryRepositoryImpl(
     private val memberRepository: MemberRepository
 ) : MemberQueryRepository {
-    override fun findByGroupIdAndUserId(groupId: GroupId, userId: UserId): Member? {
-        return memberRepository.findByGroupIdAndUserId(groupId = groupId.value, userId = userId.value)?.toDomain()
-    }
 
     @Transactional(readOnly = true)
     override fun findByNicknameAndGroupId(nickname: String, groupId: GroupId): Member? {
@@ -21,5 +18,10 @@ internal class MemberQueryRepositoryImpl(
     @Transactional(readOnly = true)
     override fun findByGroupId(groupId: GroupId): List<Member> {
         return memberRepository.findByGroupId(groupId.value).map { it.toDomain() }
+    }
+
+    @Transactional(readOnly = true)
+    override fun findByGroupIdAndUserId(groupId: GroupId, userId: UserId): Member? {
+        return memberRepository.findByGroupIdAndUserId(groupId.value, userId.value)?.toDomain()
     }
 }

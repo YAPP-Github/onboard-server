@@ -38,7 +38,7 @@ internal class GroupServiceImpl(
     }
 
     override fun joinGroup(request: JoinGroupDto) {
-        val group = groupQueryRepository.findById(request.groupId.value) ?: throw NotFoundGroupException
+        val group = groupQueryRepository.findById(request.groupId) ?: throw NotFoundGroupException
 
         if (group.accessCode != request.accessCode) throw AccessCodeNotMatchException
 

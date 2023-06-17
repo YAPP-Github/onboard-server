@@ -28,8 +28,8 @@ class GroupServiceImplTest : FunSpec() {
             val request = JoinGroupDto(
                 groupId = GroupId(0),
                 userId = UserId(0),
-                nickname = "name",
-                accessCode = "accessCode",
+                nickname = "닉네임",
+                accessCode = "123456",
             )
 
             val mockGroup = Group(
@@ -37,11 +37,11 @@ class GroupServiceImplTest : FunSpec() {
                 description = "description",
                 organization = "organization",
                 profileImageUrl = "profileImageUrl",
-                accessCode = "accessCode"
+                accessCode = request.accessCode
             )
 
             test("Success") {
-                every { groupQueryRepository.findById(request.groupId.value) } returns mockGroup
+                every { groupQueryRepository.findById(request.groupId) } returns mockGroup
                 every { memberService.createHostMember(any(), any(), any()) } returns HostMember(
                     userId = request.userId,
                     nickname = request.nickname,
@@ -53,7 +53,7 @@ class GroupServiceImplTest : FunSpec() {
             }
 
             test("존재하지 않는 그룹") {
-                every { groupQueryRepository.findById(request.groupId.value) } returns null
+                every { groupQueryRepository.findById(request.groupId) } returns null
 
                 shouldThrow<NotFoundGroupException> {
                     sut.joinGroup(request)
@@ -61,7 +61,7 @@ class GroupServiceImplTest : FunSpec() {
             }
 
             test("엑세스 코드 불일치") {
-                every { groupQueryRepository.findById(request.groupId.value) } returns mockGroup
+                every { groupQueryRepository.findById(request.groupId) } returns mockGroup
 
                 shouldThrow<AccessCodeNotMatchException> {
                     sut.joinGroup(request.copy(accessCode = "qwerty"))
@@ -105,4 +105,3 @@ class GroupServiceImplTest : FunSpec() {
         }
     }
 }
-
