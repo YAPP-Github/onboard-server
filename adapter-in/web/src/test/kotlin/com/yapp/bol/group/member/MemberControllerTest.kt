@@ -44,7 +44,7 @@ class MemberControllerTest : ControllerTest() {
 
             every { groupService.joinGroup(any()) } returns Unit
 
-            post("/v1/group/{groupId}/member/join", request, arrayOf(groupId.value)) {
+            post("/v1/group/{groupId}/host", request, arrayOf(groupId.value)) {
                 authorizationHeader(userId)
             }
                 .isStatus(200)

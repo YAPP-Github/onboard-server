@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/v1/group/{groupId}/member")
+@RequestMapping("/v1/group/{groupId}")
 class MemberController(
     private val groupService: GroupService,
     private val memberService: MemberService,
 ) {
-    @GetMapping("/validateNickname")
+    @GetMapping("/member/validateNickname")
     fun validateMemberName(
         @PathVariable groupId: GroupId,
         @RequestParam nickname: String,
@@ -31,7 +31,7 @@ class MemberController(
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/join")
+    @PostMapping("/host")
     fun joinHostMember(
         @PathVariable groupId: GroupId,
         @RequestBody request: JoinGroupRequest,
