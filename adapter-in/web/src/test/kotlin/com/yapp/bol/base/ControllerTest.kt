@@ -81,7 +81,7 @@ abstract class ControllerTest : FunSpec() {
         vararg pathParams: String,
         buildRequest: MockHttpServletRequestBuilder.() -> Unit
     ): ResultActions =
-        mockMvc.perform(get(url, pathParams).apply(buildRequest))
+        mockMvc.perform(get(url, *pathParams).apply(buildRequest))
 
     protected fun post(url: String, buildRequest: MockHttpServletRequestBuilder.() -> Unit): ResultActions =
         mockMvc.perform(post(url).apply(buildRequest))
