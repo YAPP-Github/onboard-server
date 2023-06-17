@@ -54,7 +54,7 @@ class MemberControllerTest : ControllerTest() {
                         "groupId" type NUMBER means "그룹 ID",
                     ),
                     requestFields(
-                        "nickname" type STRING means "그룹 전용 닉네임, null 일 경우 유저 기본 닉네임을 사용" isOptional false,
+                        "nickname" type STRING means "그룹 전용 닉네임, null 일 경우 유저 기본 닉네임을 사용",
                         "accessCode" type STRING means "그룹에 가입하기 위한 참여 코드"
                     ),
                     responseFields()

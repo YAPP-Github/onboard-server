@@ -6,5 +6,5 @@ import com.yapp.bol.group.GroupId
 interface MemberService {
     fun validateMemberNickname(groupId: GroupId, nickname: String): Boolean
 
-    fun createHostMember(userId: UserId, groupId: GroupId, nickname: String?): HostMember
+    fun createHostMember(userId: UserId, groupId: GroupId, nickname: String): HostMember
 }
