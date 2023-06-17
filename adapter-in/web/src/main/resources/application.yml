@@ -3,10 +3,3 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 20MB
-
----
-spring.config.activate.on-profile: local
-
-bol:
-  server:
-    host: localhost:8080

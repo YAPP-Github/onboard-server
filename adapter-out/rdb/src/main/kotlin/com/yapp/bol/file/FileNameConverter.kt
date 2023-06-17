@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component
 class FileNameConverter {
     @Value("\${bol.server.host}")
     fun setHost(host: String) {
-        FileNameConverter.host = host
+        Companion.host = host
     }
 
     companion object {
         private lateinit var host: String
 
-        fun convertFileUrl(name: String): String = "http://$host/v1/file/$name"
+        fun convertFileUrl(name: String): String = "http://$host/v1/file/$name" // TODO: change https
     }
 }

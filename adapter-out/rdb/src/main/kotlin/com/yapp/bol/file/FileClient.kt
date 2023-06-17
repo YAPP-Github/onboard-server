@@ -31,7 +31,7 @@ class FileClient(
         val entity = FileEntity(key, file.userId, file.purpose)
         fileRepository.save(entity)
 
-        return FileInfo(key, file.contentType)
+        return FileInfo(FileNameConverter.convertFileUrl(key), file.contentType)
     }
 
     override fun getFile(name: String): RawFileData {
