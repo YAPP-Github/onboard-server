@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/v1/game")
+@RequestMapping("/v1/group")
 class GameController(
     private val gameService: GameService,
 ) {
 
-    @GetMapping("/{groupId}")
+    @GetMapping("/{groupId}/game")
     fun groupId(
         @PathVariable("groupId") groupId: String,
     ): GameListResponse {
