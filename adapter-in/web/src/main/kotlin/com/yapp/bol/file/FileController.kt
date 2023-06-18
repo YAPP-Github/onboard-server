@@ -6,6 +6,7 @@ import com.yapp.bol.auth.getSecurityUserIdOrThrow
 import com.yapp.bol.config.BolProperties
 import com.yapp.bol.file.dto.RawFileData
 import com.yapp.bol.file.dto.UploadFileResponse
+import java.nio.file.Files
 import org.springframework.core.io.InputStreamResource
 import org.springframework.core.io.Resource
 import org.springframework.http.MediaType
@@ -40,6 +41,8 @@ class FileController(
             purpose = purpose,
         )
         val result = fileService.uploadFile(request)
+
+        Files.probeContentType()
 
         return UploadFileResponse("${bolProperties.host}/v1/file/${result.name}")
     }

@@ -1,7 +1,6 @@
 package com.yapp.bol.group.member
 
 import com.yapp.bol.AuditingEntity
-import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.GroupId
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -44,28 +43,55 @@ class MemberEntity(
     val groupId: Long = groupId
 }
 
-fun MemberEntity.toDomain(): Member =
-    if (userId == null) {
-        GuestMember(
-            id = MemberId(this.id),
-            groupId = GroupId(this.groupId),
-            nickname = this.nickname,
-        )
-    } else if (this.role == MemberRole.OWNER) {
-        OwnerMember(
-            id = MemberId(this.id),
-            userId = UserId(this.userId),
-            groupId = GroupId(this.groupId),
-            nickname = this.nickname,
-        )
-    } else {
-        HostMember(
-            id = MemberId(this.id),
-            userId = UserId(this.userId),
-            groupId = GroupId(this.groupId),
-            nickname = this.nickname,
-        )
+fun MemberEntity.toDomain(): Member {
+    if(this.userId == null) return toGuestMember()
+
+    return when (this.role) {
+        MemberRole.GUEST -> toGuestMember()
+        MemberRole.HOST ->
+            GuestMember(
+                id = MemberId(this.id),
+                groupId = GroupId(this.groupId),
+                nickname = this.nickname,
+            )
+
+        MemberRole.OWNER ->
+            GuestMember(
+                id = MemberId(this.id),
+                groupId = GroupId(this.groupId),
+                nickname = this.nickname,
+            )
     }
+}
+
+private fun MemberEntity.toGuestMember() :GuestMember =
+    GuestMember(
+        id = MemberId(this.id),
+        groupId = GroupId(this.groupId),
+        nickname = this.nickname,
+    )
+
+//    if (userId == null || role == MemberRole.GUEST) {
+//        GuestMember(
+//            id = MemberId(this.id),
+//            groupId = GroupId(this.groupId),
+//            nickname = this.nickname,
+//        )
+//    } else if (this.role == MemberRole.OWNER) {
+//        OwnerMember(
+//            id = MemberId(this.id),
+//            userId = UserId(this.userId),
+//            groupId = GroupId(this.groupId),
+//            nickname = this.nickname,
+//        )
+//    } else {
+//        HostMember(
+//            id = MemberId(this.id),
+//            userId = UserId(this.userId),
+//            groupId = GroupId(this.groupId),
+//            nickname = this.nickname,
+//        )
+//    }
 
 fun Member.toEntity(): MemberEntity = MemberEntity(
     id = this.id.value,

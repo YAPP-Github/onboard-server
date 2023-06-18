@@ -15,11 +15,11 @@ val MEMBER_OWNER = OwnerMember(userId = UserId(0), nickname = "nick", groupId = 
 
 class MemberTest : FunSpec() {
     init {
-        test("멤버 생성") {
+        test("맴버 생성") {
             MEMBER_OWNER.shouldBeInstanceOf<Member>()
         }
 
-        test("멤버 닉네임 길이 제한") {
+        test("맴버 닉네임 길이 제한") {
             val nickname = "x".repeat(Member.MAX_NICKNAME_LENGTH + 1)
 
             shouldThrow<InvalidMemberNicknameException> {
