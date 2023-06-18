@@ -12,7 +12,7 @@ import com.yapp.bol.group.dto.GroupWithMemberCount
 import com.yapp.bol.group.member.Member
 import com.yapp.bol.group.member.MemberList
 import com.yapp.bol.group.member.MemberRole
-import com.yapp.bol.pageable.ApplicationSlice
+import com.yapp.bol.pageable.PaginationCursor
 import io.mockk.every
 import io.mockk.mockk
 
@@ -64,7 +64,7 @@ class GroupControllerTest : ControllerTest() {
 
             every {
                 groupService.searchGroup(any(), any(), any())
-            } returns ApplicationSlice<GroupWithMemberCount>(
+            } returns PaginationCursor<GroupWithMemberCount>(
                 content = listOf(GROUP_WITH_MEMBER_COUNT),
                 hasNext = false,
             )

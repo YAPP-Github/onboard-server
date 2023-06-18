@@ -6,7 +6,7 @@ import com.yapp.bol.group.dto.GroupWithMemberCount
 import com.yapp.bol.group.member.MemberRole
 import com.yapp.bol.group.member.MemberService
 import com.yapp.bol.group.member.dto.CreateMemberDto
-import com.yapp.bol.pageable.ApplicationSlice
+import com.yapp.bol.pageable.PaginationCursor
 import org.springframework.stereotype.Service
 
 @Service
@@ -47,7 +47,7 @@ internal class GroupServiceImpl(
         name: String,
         pageNumber: Int,
         pageSize: Int
-    ): ApplicationSlice<GroupWithMemberCount> {
+    ): PaginationCursor<GroupWithMemberCount> {
         val groups = groupQueryRepository.findByNameLike(
             name = name,
             pageNumber = pageNumber,
@@ -60,6 +60,6 @@ internal class GroupServiceImpl(
             GroupWithMemberCount.of(group, members)
         }
 
-        return ApplicationSlice(groupWithMemberCount, groups.hasNext)
+        return PaginationCursor(groupWithMemberCount, groups.hasNext)
     }
 }

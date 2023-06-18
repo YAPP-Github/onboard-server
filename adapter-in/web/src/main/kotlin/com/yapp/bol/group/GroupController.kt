@@ -5,7 +5,7 @@ import com.yapp.bol.group.dto.CreateGroupResponse
 import com.yapp.bol.group.dto.GroupWithMemberCount
 import com.yapp.bol.group.dto.toCreateGroupResponse
 import com.yapp.bol.group.dto.toDto
-import com.yapp.bol.pageable.ApplicationSlice
+import com.yapp.bol.pageable.PaginationCursor
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -27,7 +27,7 @@ class GroupController(
         @RequestParam name: String,
         pageNumber: Int,
         pageSize: Int
-    ): ApplicationSlice<GroupWithMemberCount> =
+    ): PaginationCursor<GroupWithMemberCount> =
         groupService.searchGroup(
             name = name,
             pageNumber = pageNumber,

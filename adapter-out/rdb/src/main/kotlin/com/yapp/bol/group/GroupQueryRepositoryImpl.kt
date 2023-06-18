@@ -1,6 +1,6 @@
 package com.yapp.bol.group
 
-import com.yapp.bol.pageable.ApplicationSlice
+import com.yapp.bol.pageable.PaginationCursor
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Slice
 import org.springframework.data.repository.findByIdOrNull
@@ -14,12 +14,12 @@ internal class GroupQueryRepositoryImpl(
         return groupRepository.findByIdOrNull(id)?.toDomain()
     }
 
-    override fun findByNameLike(name: String, pageNumber: Int, pageSize: Int): ApplicationSlice<Group> {
+    override fun findByNameLike(name: String, pageNumber: Int, pageSize: Int): PaginationCursor<Group> {
         val pageable = PageRequest.of(pageNumber, pageSize)
 
         val slice: Slice<GroupEntity> = groupRepository.findByNameLike("%$name%", pageable)
         val content: List<Group> = slice.content.map(GroupEntity::toDomain)
 
-        return ApplicationSlice(content, slice.hasNext())
+        return PaginationCursor(content, slice.hasNext())
     }
 }
