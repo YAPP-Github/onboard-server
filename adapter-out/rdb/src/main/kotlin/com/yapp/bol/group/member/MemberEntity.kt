@@ -44,7 +44,7 @@ class MemberEntity(
 }
 
 fun MemberEntity.toDomain(): Member {
-    if(this.userId == null) return toGuestMember()
+    if (this.userId == null) return toGuestMember()
 
     return when (this.role) {
         MemberRole.GUEST -> toGuestMember()
@@ -64,7 +64,7 @@ fun MemberEntity.toDomain(): Member {
     }
 }
 
-private fun MemberEntity.toGuestMember() :GuestMember =
+private fun MemberEntity.toGuestMember(): GuestMember =
     GuestMember(
         id = MemberId(this.id),
         groupId = GroupId(this.groupId),
