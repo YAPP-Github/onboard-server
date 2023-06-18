@@ -1,5 +1,6 @@
 package com.yapp.bol.game
 
+import com.yapp.bol.file.FileNameConverter
 import org.springframework.stereotype.Component
 
 @Component
@@ -16,6 +17,6 @@ class GameClient(
         minMember = this.minMember,
         maxMember = this.maxMember,
         rankType = this.rankType,
-        img = img.name,
+        img = FileNameConverter.convertFileUrl(img.name),
     )
 }
