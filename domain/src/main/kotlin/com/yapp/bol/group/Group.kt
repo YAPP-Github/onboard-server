@@ -48,7 +48,7 @@ class Group(
         fun of(
             name: String,
             description: String,
-            organization: String,
+            organization: String?,
             profileImageUrl: String = DEFAULT_PROFILE_IMAGE_URL,
         ): Group = Group(
             name = name,
