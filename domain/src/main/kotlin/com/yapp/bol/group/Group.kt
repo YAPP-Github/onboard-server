@@ -34,8 +34,8 @@ class Group(
 
         const val DEFAULT_PROFILE_IMAGE_URL =
             "https://github.com/YAPP-Github" +
-                "/22nd-Android-Team-2-BE" +
-                "/assets/46865281/2a3caefb-e0ab-4f60-b745-273a889f0c96" // FIXME: 임시 이미지
+                    "/22nd-Android-Team-2-BE" +
+                    "/assets/46865281/2a3caefb-e0ab-4f60-b745-273a889f0c96" // FIXME: 임시 이미지
 
         private fun generateAccessCode(): String {
             val chars = ('A'..'Z') + ('0'..'9')
