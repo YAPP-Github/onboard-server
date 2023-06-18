@@ -6,7 +6,7 @@ class GuestMember(
     id: MemberId = MemberId(0),
     nickname: String,
     groupId: GroupId,
-) : Member(
+) : ParticipantMember(
     id = id,
     nickname = nickname,
     groupId = groupId,

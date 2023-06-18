@@ -8,7 +8,7 @@ class HostMember(
     userId: UserId,
     nickname: String,
     groupId: GroupId,
-) : Member(
+) : ParticipantMember(
     id = id,
     userId = userId,
     nickname = nickname,
