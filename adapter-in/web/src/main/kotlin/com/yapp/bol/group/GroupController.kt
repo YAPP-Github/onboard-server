@@ -24,9 +24,9 @@ class GroupController(
 
     @GetMapping("/search")
     fun searchGroup(
-        @RequestParam name: String,
-        @RequestParam pageNumber: Int,
-        @RequestParam pageSize: Int
+        @RequestParam name: String?,
+        @RequestParam(defaultValue = "0") pageNumber: Int,
+        @RequestParam(defaultValue = "10") pageSize: Int
     ): PaginationCursor<GroupWithMemberCount> =
         groupService.searchGroup(
             name = name,
