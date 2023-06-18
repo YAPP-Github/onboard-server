@@ -83,7 +83,7 @@ class GroupControllerTest : ControllerTest() {
                         "content[].id" type NUMBER means "그룹 ID",
                         "content[].name" type STRING means "그룹 이름",
                         "content[].description" type STRING means "그룹 설명",
-                        "content[].organization" type STRING means "그룹 소속",
+                        "content[].organization" type STRING means "그룹 소속" isOptional true,
                         "content[].profileImageUrl" type STRING means "그룹 프로필 이미지 URL",
                         "content[].memberCount" type NUMBER means "그룹 멤버 수",
                         "hasNext" type BOOLEAN means "다음 페이지 존재 여부",
@@ -115,7 +115,7 @@ class GroupControllerTest : ControllerTest() {
             id = GROUP.id,
             name = GROUP.name,
             description = GROUP.description,
-            organization = GROUP.organization,
+            organization = GROUP.organization ?: "",
             profileImageUrl = GROUP.profileImageUrl,
             memberCount = MEMBER_LIST.members.size
         )

@@ -15,7 +15,7 @@ fun GroupMemberList.toCreateGroupResponse() = CreateGroupResponse(
     name = group.name,
     description = group.description,
     owner = members.getOwner().nickname,
-    organization = group.organization,
+    organization = group.organization ?: "",
     profileImageUrl = group.profileImageUrl,
     accessCode = group.accessCode,
 )
