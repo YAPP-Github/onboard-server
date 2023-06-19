@@ -71,28 +71,6 @@ private fun MemberEntity.toGuestMember(): GuestMember =
         nickname = this.nickname,
     )
 
-//    if (userId == null || role == MemberRole.GUEST) {
-//        GuestMember(
-//            id = MemberId(this.id),
-//            groupId = GroupId(this.groupId),
-//            nickname = this.nickname,
-//        )
-//    } else if (this.role == MemberRole.OWNER) {
-//        OwnerMember(
-//            id = MemberId(this.id),
-//            userId = UserId(this.userId),
-//            groupId = GroupId(this.groupId),
-//            nickname = this.nickname,
-//        )
-//    } else {
-//        HostMember(
-//            id = MemberId(this.id),
-//            userId = UserId(this.userId),
-//            groupId = GroupId(this.groupId),
-//            nickname = this.nickname,
-//        )
-//    }
-
 fun Member.toEntity(): MemberEntity = MemberEntity(
     id = this.id.value,
     userId = this.userId?.value,

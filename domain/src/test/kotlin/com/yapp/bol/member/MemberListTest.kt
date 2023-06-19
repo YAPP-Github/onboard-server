@@ -9,6 +9,7 @@ import com.yapp.bol.group.member.OwnerMember
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.types.shouldBeInstanceOf
+
 class MemberListTest : FunSpec() {
     init {
         test("맴버 리스트 생성") {
