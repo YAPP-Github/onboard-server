@@ -1,49 +1,29 @@
 package com.yapp.bol.member
 
-import com.yapp.bol.DuplicatedMemberNicknameException
 import com.yapp.bol.DuplicatedMembersNicknameException
-import com.yapp.bol.EmptyMemberListException
 import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.GroupId
-import com.yapp.bol.group.member.Member
+import com.yapp.bol.group.member.HostMember
 import com.yapp.bol.group.member.MemberList
+import com.yapp.bol.group.member.OwnerMember
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.types.shouldBeInstanceOf
 
 class MemberListTest : FunSpec() {
     init {
-        test("멤버 리스트 생성") {
-            val members = MemberList.of(MEMBER_OWNER)
-
+        test("맴버 리스트 생성") {
+            val members = MemberList(MEMBER_OWNER)
             members.shouldBeInstanceOf<MemberList>()
         }
 
-        test("멤버 리스트 생성시 멤버는 최소 1명 이상이어야 한다.") {
-            shouldThrow<EmptyMemberListException> {
-                MemberList(mutableListOf())
-            }
-        }
-
-        test("멤버 리스트 생성시 멤버의 닉네임은 중복될 수 없다.") {
+        test("맴버 리스트 생성시 맴버의 닉네임은 중복될 수 없다.") {
             val nickname = "holden"
-            val member = Member.createOwner(UserId(1), nickname, GroupId(0))
-            val member2 = Member.createOwner(UserId(2), nickname, GroupId(0))
+            val owner = OwnerMember(userId = UserId(1), nickname = nickname, groupId = GroupId(0))
+            val member = HostMember(userId = UserId(2), nickname = nickname, groupId = GroupId(0))
 
             shouldThrow<DuplicatedMembersNicknameException> {
-                MemberList(mutableListOf(member, member2))
-            }
-        }
-
-        test("멤버 리스트에 닉네임이 중복된 멤버는 추가할 수 없다") {
-            val nickname = "holden"
-            val member = Member.createOwner(UserId(1), nickname, GroupId(0))
-            val member2 = Member.createOwner(UserId(2), nickname, GroupId(0))
-
-            val memberList = MemberList(mutableListOf(member))
-
-            shouldThrow<DuplicatedMemberNicknameException> {
-                memberList.add(member2)
+                MemberList(owner, mutableListOf(member))
             }
         }
     }

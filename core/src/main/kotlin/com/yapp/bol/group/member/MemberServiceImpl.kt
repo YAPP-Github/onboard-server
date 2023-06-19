@@ -1,5 +1,6 @@
 package com.yapp.bol.group.member
 
+import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.GroupId
 import com.yapp.bol.group.member.dto.CreateMemberDto
 import org.springframework.stereotype.Service
@@ -15,14 +16,13 @@ internal class MemberServiceImpl(
 
     override fun createMembers(createMemberDtos: List<CreateMemberDto>): MemberList {
         val members = createMemberDtos.map {
-            Member(
-                userId = it.userId,
+            OwnerMember(
+                userId = it.userId ?: UserId(0),
                 groupId = it.groupId,
                 nickname = it.nickname,
-                role = it.role,
             )
         }.let {
-            MemberList(it.toMutableList())
+            MemberList(it.get(0))
         }
 
         return memberCommandRepository.createMembers(members)
