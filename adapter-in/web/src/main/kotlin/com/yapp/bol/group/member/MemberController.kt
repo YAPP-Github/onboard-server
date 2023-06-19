@@ -1,5 +1,6 @@
 package com.yapp.bol.group.member
 
+import com.yapp.bol.group.GroupId
 import com.yapp.bol.group.member.dto.ValidateMemberNameResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -13,7 +14,10 @@ class MemberController(
     private val memberService: MemberService,
 ) {
     @GetMapping("/validateNickname")
-    fun validateMemberName(@PathVariable groupId: Long, @RequestParam nickname: String): ValidateMemberNameResponse {
+    fun validateMemberName(
+        @PathVariable groupId: GroupId,
+        @RequestParam nickname: String,
+    ): ValidateMemberNameResponse {
         return ValidateMemberNameResponse(memberService.validateMemberNickname(groupId, nickname))
     }
 }

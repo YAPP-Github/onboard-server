@@ -6,6 +6,7 @@ import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
 import com.yapp.bol.group.dto.CreateGroupRequest
 import com.yapp.bol.group.member.Member
+import com.yapp.bol.group.member.MemberId
 import com.yapp.bol.group.member.MemberList
 import com.yapp.bol.group.member.MemberRole
 import io.mockk.every
@@ -26,7 +27,7 @@ class GroupControllerTest : ControllerTest() {
             )
 
             val group = Group(
-                id = 1,
+                id = GroupId(1),
                 name = "뽀글뽀글",
                 description = "보겜동입니다",
                 organization = "카카오",
@@ -36,7 +37,7 @@ class GroupControllerTest : ControllerTest() {
 
             val members = MemberList.of(
                 Member(
-                    id = 123,
+                    id = MemberId(123),
                     nickname = "홀든",
                     groupId = group.id,
                     role = MemberRole.OWNER

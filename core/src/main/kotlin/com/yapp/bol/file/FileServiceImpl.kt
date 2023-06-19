@@ -1,6 +1,7 @@
 package com.yapp.bol.file
 
 import com.yapp.bol.NotFoundFileException
+import com.yapp.bol.auth.UserId
 import com.yapp.bol.file.dto.RawFileData
 import org.springframework.stereotype.Service
 
@@ -13,7 +14,7 @@ class FileServiceImpl(
         return fileCommandRepository.saveFile(request)
     }
 
-    override fun downloadFile(userId: Long?, fileName: String): RawFileData {
+    override fun downloadFile(userId: UserId?, fileName: String): RawFileData {
         val fileData = fileQueryRepository.getFile(fileName) ?: throw NotFoundFileException
 
         if (fileData.canAccess(userId).not()) throw NotFoundFileException
@@ -21,7 +22,7 @@ class FileServiceImpl(
         return fileData
     }
 
-    private fun RawFileData.canAccess(userId: Long?): Boolean =
+    private fun RawFileData.canAccess(userId: UserId?): Boolean =
         when (this.purpose.accessLevel) {
             FileAccessLevel.PUBLIC -> true
             FileAccessLevel.PRIVATE -> this.userId == userId

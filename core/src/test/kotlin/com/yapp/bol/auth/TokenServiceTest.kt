@@ -21,7 +21,7 @@ class TokenServiceTest : FunSpec() {
         context("Access Token") {
             test("generate - Success") {
                 // given
-                val userId = 123L
+                val userId = UserId(123L)
                 val token = Token("value", userId, LocalDateTime.now())
                 every { tokenPolicy.generate(userId) } returns token
                 justRun { tokenCommandRepository.saveAccessToken(any()) }
@@ -38,7 +38,7 @@ class TokenServiceTest : FunSpec() {
         context("Refresh Token") {
             test("generate - Success") {
                 // given
-                val userId = 123L
+                val userId = UserId(123L)
                 val token = Token("value", userId, LocalDateTime.now())
                 every { tokenPolicy.generate(userId) } returns token
                 justRun { tokenCommandRepository.saveRefreshToken(any()) }

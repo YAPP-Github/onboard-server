@@ -1,6 +1,7 @@
 package com.yapp.bol.auth.token
 
 import com.yapp.bol.auth.Token
+import com.yapp.bol.auth.UserId
 import java.security.SecureRandom
 import java.time.LocalDateTime
 import java.util.Base64
@@ -12,7 +13,7 @@ internal class OpaqueTokenUtils(
 
     private val random = SecureRandom()
 
-    override fun generate(userId: Long, expiredAt: LocalDateTime): Token {
+    override fun generate(userId: UserId, expiredAt: LocalDateTime): Token {
         val arr = ByteArray(tokenByteSize)
         random.nextBytes(arr)
         val value = Base64.getEncoder().encodeToString(arr)
