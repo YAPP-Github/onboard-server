@@ -24,7 +24,7 @@ class FileClient(
         val metadata = ObjectMetadata().apply {
             contentType = file.contentType
             addUserMetadata(METADATA_PURPOSE, file.purpose.toString())
-            addUserMetadata(METADATA_USER_ID, file.userId.toString())
+            addUserMetadata(METADATA_USER_ID, file.userId.value.toString())
         }
 
         s3Client.putObject(bucketName, key, file.content, metadata)
