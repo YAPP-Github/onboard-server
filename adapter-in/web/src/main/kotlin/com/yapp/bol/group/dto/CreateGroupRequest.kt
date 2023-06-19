@@ -16,5 +16,5 @@ fun CreateGroupRequest.toDto(ownerId: UserId) = CreateGroupDto(
     organization = organization,
     profileImageUrl = profileImageUrl,
     ownerId = ownerId,
-    nickname = nickname ?: "닉네임", // FIXME: 시큐리티 적용
+    nickname = nickname
 )

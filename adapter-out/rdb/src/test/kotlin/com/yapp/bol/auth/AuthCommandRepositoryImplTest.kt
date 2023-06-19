@@ -25,7 +25,7 @@ class AuthCommandRepositoryImplTest : FunSpec() {
             every { authSocialRepository.save(any()) } returns AuthSocialEntity(
                 loginType.toSocialType(),
                 socialId,
-                user.id
+                user.id,
             )
 
             // when

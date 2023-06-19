@@ -21,8 +21,6 @@ class UnAuthorizationException(cause: Throwable? = null) : AuthException("Auth00
 object IllegalFileStateException : BolRatingException("File001", 500, "요청한 파일의 Status가 올바르지 않습니다.")
 object NotFoundFileException : BolRatingException("File002", 400, "파일을 찾을 수 없습니다.")
 
-object InvalidRequestException : BolRatingException("BOL001", 400, "유효하지 않은 요청입니다.")
-
 sealed class GroupException(code: String, message: String, cause: Throwable? = null) :
     BolRatingException(code = code, status = 400, message = message, cause = cause)
 
@@ -40,7 +38,11 @@ object AccessCodeNotMatchException : GroupException("Group005", "참여 코드�
 sealed class MemberException(code: String, status: Int, message: String, cause: Throwable? = null) :
     BolRatingException(code = code, status = status, message = message, cause = cause)
 
-object InvalidMemberNicknameException : MemberException("Member001", 400, "맴버 닉네임이 잘못되었습니다.")
-object DuplicatedMembersNicknameException : MemberException("Member002", 500, "맴버들 간에 중복된 닉네임이 존재합니다.")
-object MultiOwnerException : MemberException("Member003", 500, "그룹장이 2명 이상 존재합니다.")
-object InvalidMemberRoleException : MemberException("Member004", 500, "맴버의 상태가 잘 못 되어 었습니다.")
+object InvalidMemberNicknameException : MemberException("Member001", 400, "멤버 닉네임이 잘못되었습니다.")
+object DuplicatedMemberNicknameException : MemberException("Member002", 400, "중복된 멤버 닉네임입니다.")
+object DuplicatedMembersNicknameException : MemberException("Member003", 500, "멤버들 간에 중복된 닉네임이 존재합니다.")
+object MultiOwnerException : MemberException("Member004", 500, "그룹장이 2명 이상 존재합니다.")
+object InvalidMemberRoleException : MemberException("Member005", 500, "멤버의 상태가 잘 못 되어 었습니다.")
+object AlreadyExistMemberException : MemberException("Member006", 400, "이미 가입된 그룹입니다.")
+
+object InvalidRequestException : BolRatingException("BOL001", 400, "유효하지 않은 요청입니다.")

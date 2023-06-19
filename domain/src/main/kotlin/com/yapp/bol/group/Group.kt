@@ -7,13 +7,13 @@ import com.yapp.bol.InvalidGroupOrganizationException
 @JvmInline
 value class GroupId(val value: Long)
 
-class Group(
+data class Group(
     val id: GroupId = GroupId(0),
     val name: String,
     val description: String,
     val organization: String,
-    val profileImageUrl: String,
-    val accessCode: String,
+    val profileImageUrl: String = DEFAULT_PROFILE_IMAGE_URL,
+    val accessCode: String = generateAccessCode(),
 ) {
     init {
         if (name.length > MAX_NAME_LENGTH) {
@@ -47,18 +47,5 @@ class Group(
                 .map { chars.random() }
                 .joinToString("")
         }
-
-        fun of(
-            name: String,
-            description: String,
-            organization: String,
-            profileImageUrl: String = DEFAULT_PROFILE_IMAGE_URL,
-        ): Group = Group(
-            name = name,
-            description = description,
-            organization = organization,
-            profileImageUrl = profileImageUrl,
-            accessCode = generateAccessCode()
-        )
     }
 }
