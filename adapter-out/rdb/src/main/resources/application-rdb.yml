@@ -8,7 +8,7 @@ spring:
             minimum-idle: 1
             maximum-pool-size: 5
     jpa:
-        database-platform: org.hibernate.dialect.MySQL57Dialect
+        database-platform: org.hibernate.dialect.MySQL8Dialect
         database: MYSQL
         generate-ddl: false
         show-sql: false

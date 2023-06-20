@@ -7,4 +7,6 @@ enum class OpenApiTag(
     AUTH("Auth"),
     FILE("File"),
     GAME("Game"),
+    GROUP("Group"),
+    MEMBER("Member"),
 }
