@@ -1,6 +1,7 @@
 package com.yapp.bol.group.member
 
 import com.yapp.bol.AuditingEntity
+import com.yapp.bol.auth.UserId
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -46,17 +47,16 @@ fun MemberEntity.toDomain(): Member {
 
     return when (this.role) {
         MemberRole.GUEST -> toGuestMember()
-        MemberRole.HOST ->
-            GuestMember(
-                id = MemberId(this.id),
-                nickname = this.nickname,
-            )
-
-        MemberRole.OWNER ->
-            GuestMember(
-                id = MemberId(this.id),
-                nickname = this.nickname,
-            )
+        MemberRole.HOST -> HostMember(
+            id = MemberId(this.id),
+            userId = UserId(this.userId),
+            nickname = this.nickname,
+        )
+        MemberRole.OWNER -> OwnerMember(
+            id = MemberId(this.id),
+            userId = UserId(this.userId),
+            nickname = this.nickname,
+        )
     }
 }
 
