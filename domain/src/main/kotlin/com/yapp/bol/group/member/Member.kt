@@ -1,32 +1,36 @@
 package com.yapp.bol.group.member
 
 import com.yapp.bol.InvalidMemberNicknameException
+import com.yapp.bol.InvalidMemberRoleException
+import com.yapp.bol.auth.UserId
 
-class Member(
-    val id: Long = 0,
-    val userId: Long? = null,
-    val role: MemberRole, // FIXME: 스프링 시큐리티 추가 전 임시 값
+@JvmInline
+value class MemberId(val value: Long)
+
+abstract class Member internal constructor(
+    val id: MemberId,
+    val userId: UserId?,
     val nickname: String,
-    val groupId: Long,
 ) {
+    val role: MemberRole = when {
+        isOwner() -> MemberRole.OWNER
+        isGuest() -> MemberRole.GUEST
+        isHost() -> MemberRole.HOST
+        else -> throw InvalidMemberRoleException
+    }
+
     init {
         if (nickname.length > MAX_NICKNAME_LENGTH) {
             throw InvalidMemberNicknameException
         }
+        if (userId == null && isGuest()) throw InvalidMemberRoleException
     }
 
-    fun isOwner(): Boolean = this.role == MemberRole.OWNER
+    fun isOwner(): Boolean = this is OwnerMember
+    fun isGuest(): Boolean = userId == null || this is GuestMember
+    fun isHost(): Boolean = this is HostMember
 
     companion object {
         const val MAX_NICKNAME_LENGTH = 6
-
-        fun createOwner(userId: Long, nickname: String, groupId: Long): Member {
-            return Member(
-                userId = userId,
-                role = MemberRole.OWNER,
-                nickname = nickname,
-                groupId = groupId,
-            )
-        }
     }
 }

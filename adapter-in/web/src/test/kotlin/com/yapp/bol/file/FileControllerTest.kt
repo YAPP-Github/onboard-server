@@ -1,5 +1,6 @@
 package com.yapp.bol.file
 
+import com.yapp.bol.auth.UserId
 import com.yapp.bol.base.ControllerTest
 import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
@@ -18,7 +19,7 @@ class FileControllerTest : ControllerTest() {
 
     init {
         test("File Upload") {
-            val userId = 0L
+            val userId = UserId(0L)
             val inputStream: InputStream = "data".byteInputStream()
             val contentType = "image/jpeg"
             val purpose = FilePurpose.GROUP_IMAGE

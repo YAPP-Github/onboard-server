@@ -17,8 +17,8 @@ class AuthControllerTest : ControllerTest() {
         test("POST /v1/auth/login") {
             val request = LoginRequest(LoginType.KAKAO_ACCESS_TOKEN, "Token")
             val authToken = AuthToken(
-                Token("ACCESS_TOKEN", 123L, LocalDateTime.now()),
-                Token("REFRESH_TOKEN", 123L, LocalDateTime.now())
+                Token("ACCESS_TOKEN", UserId(123L), LocalDateTime.now()),
+                Token("REFRESH_TOKEN", UserId(123L), LocalDateTime.now())
             )
             every { authService.login(any(), any()) } returns authToken
 

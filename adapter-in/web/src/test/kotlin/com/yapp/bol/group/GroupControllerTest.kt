@@ -1,13 +1,13 @@
 package com.yapp.bol.group
 
+import com.yapp.bol.auth.UserId
 import com.yapp.bol.base.ControllerTest
 import com.yapp.bol.base.NUMBER
 import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
 import com.yapp.bol.group.dto.CreateGroupRequest
-import com.yapp.bol.group.member.Member
 import com.yapp.bol.group.member.MemberList
-import com.yapp.bol.group.member.MemberRole
+import com.yapp.bol.group.member.OwnerMember
 import io.mockk.every
 import io.mockk.mockk
 
@@ -26,7 +26,7 @@ class GroupControllerTest : ControllerTest() {
             )
 
             val group = Group(
-                id = 1,
+                id = GroupId(1),
                 name = "뽀글뽀글",
                 description = "보겜동입니다",
                 organization = "카카오",
@@ -34,12 +34,10 @@ class GroupControllerTest : ControllerTest() {
                 accessCode = "1A2B3C",
             )
 
-            val members = MemberList.of(
-                Member(
-                    id = 123,
+            val members = MemberList(
+                OwnerMember(
+                    userId = UserId(123),
                     nickname = "홀든",
-                    groupId = group.id,
-                    role = MemberRole.OWNER
                 )
             )
 

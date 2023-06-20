@@ -8,5 +8,6 @@ CREATE TABLE member (
     created_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY PK_member (member_id),
-    KEY IDX_groupId (group_id)
+    KEY IDX_groupId (group_id),
+    UNIQUE UNQ_userId_groupId (user_id, group_id)
 );

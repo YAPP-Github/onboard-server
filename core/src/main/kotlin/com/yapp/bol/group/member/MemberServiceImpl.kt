@@ -1,6 +1,9 @@
 package com.yapp.bol.group.member
 
-import com.yapp.bol.group.member.dto.CreateMemberDto
+import com.yapp.bol.AlreadyExistMemberException
+import com.yapp.bol.DuplicatedMemberNicknameException
+import com.yapp.bol.auth.UserId
+import com.yapp.bol.group.GroupId
 import org.springframework.stereotype.Service
 
 @Service
@@ -8,22 +11,22 @@ internal class MemberServiceImpl(
     private val memberQueryRepository: MemberQueryRepository,
     private val memberCommandRepository: MemberCommandRepository
 ) : MemberService {
-    override fun validateMemberNickname(groupId: Long, nickname: String): Boolean {
+    override fun validateMemberNickname(groupId: GroupId, nickname: String): Boolean {
         return memberQueryRepository.findByNicknameAndGroupId(nickname, groupId) == null
     }
 
-    override fun createMembers(createMemberDtos: List<CreateMemberDto>): MemberList {
-        val members = createMemberDtos.map {
-            Member(
-                userId = it.userId,
-                groupId = it.groupId,
-                nickname = it.nickname,
-                role = it.role,
-            )
-        }.let {
-            MemberList(it.toMutableList())
+    override fun createHostMember(userId: UserId, groupId: GroupId, nickname: String): HostMember {
+        if (memberQueryRepository.findByGroupIdAndUserId(groupId, userId) != null) {
+            throw AlreadyExistMemberException
         }
 
-        return memberCommandRepository.createMembers(members)
+        if (validateMemberNickname(groupId, nickname).not()) throw DuplicatedMemberNicknameException
+
+        val member = HostMember(
+            userId = userId,
+            nickname = nickname
+        )
+
+        return memberCommandRepository.createMember(groupId, member) as HostMember
     }
 }

@@ -13,6 +13,6 @@ internal class AuthCommandRepositoryImpl(
         val user = userRepository.save(UserEntity())
         authSocialRepository.save(AuthSocialEntity(loginType.toSocialType(), socialId, user.id))
 
-        return AuthUser(user.id)
+        return AuthUser(UserId(user.id))
     }
 }
