@@ -6,7 +6,7 @@ class HostMember(
     id: MemberId = MemberId(0),
     userId: UserId,
     nickname: String,
-) : Member(
+) : ParticipantMember(
     id = id,
     userId = userId,
     nickname = nickname,

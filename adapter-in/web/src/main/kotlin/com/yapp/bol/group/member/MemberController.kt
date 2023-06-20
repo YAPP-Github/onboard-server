@@ -22,6 +22,7 @@ class MemberController(
     private val groupService: GroupService,
     private val memberService: MemberService,
 ) {
+
     @GetMapping("/member/validateNickname")
     fun validateMemberName(
         @PathVariable groupId: GroupId,
