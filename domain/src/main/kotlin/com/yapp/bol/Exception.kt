@@ -41,8 +41,7 @@ sealed class MemberException(code: String, status: Int, message: String, cause: 
 object InvalidMemberNicknameException : MemberException("Member001", 400, "멤버 닉네임이 잘못되었습니다.")
 object DuplicatedMemberNicknameException : MemberException("Member002", 400, "중복된 멤버 닉네임입니다.")
 object DuplicatedMembersNicknameException : MemberException("Member003", 500, "멤버들 간에 중복된 닉네임이 존재합니다.")
-object MultiOwnerException : MemberException("Member004", 500, "그룹장이 2명 이상 존재합니다.")
-object InvalidMemberRoleException : MemberException("Member005", 500, "멤버의 상태가 잘 못 되어 었습니다.")
+object InvalidMemberRoleException : MemberException("Member004", 500, "멤버의 상태가 잘 못 되어 었습니다.")
 
 object AlreadyExistMemberException : MemberException("Member006", 400, "이미 가입된 그룹입니다.")
 
