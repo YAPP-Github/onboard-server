@@ -1,13 +1,14 @@
 package com.yapp.bol.game
 
 import com.yapp.bol.file.FileNameConverter
+import com.yapp.bol.group.GroupId
 import org.springframework.stereotype.Component
 
 @Component
 class GameClient(
     private val gameRepository: GameRepository,
 ) : GameQueryRepository {
-    override fun getGameListByGroupId(groupId: Long): List<Game> {
+    override fun getGameListByGroupId(groupId: GroupId): List<Game> {
         return gameRepository.getAll().map { it.toDomain() }
     }
 

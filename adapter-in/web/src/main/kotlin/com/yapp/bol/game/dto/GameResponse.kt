@@ -1,9 +1,10 @@
 package com.yapp.bol.game.dto
 
 import com.yapp.bol.game.Game
+import com.yapp.bol.game.GameId
 
 data class GameResponse(
-    val id: Long,
+    val id: GameId,
     val name: String,
     val minMember: Int,
     val maxMember: Int,
@@ -11,7 +12,7 @@ data class GameResponse(
 )
 
 fun Game.toResponse(): GameResponse = GameResponse(
-    id = this.id.value,
+    id = this.id,
     name = this.name,
     minMember = this.minMember,
     maxMember = this.maxMember,

@@ -2,6 +2,7 @@ package com.yapp.bol.game
 
 import com.yapp.bol.game.dto.GameListResponse
 import com.yapp.bol.game.dto.toResponse
+import com.yapp.bol.group.GroupId
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -15,9 +16,9 @@ class GameController(
 
     @GetMapping("/{groupId}/game")
     fun groupId(
-        @PathVariable("groupId") groupId: String,
+        @PathVariable("groupId") groupId: GroupId,
     ): GameListResponse {
-        val games = gameService.getGameList(groupId.toLong())
+        val games = gameService.getGameList(groupId)
 
         return GameListResponse(
             games.map { it.toResponse() }

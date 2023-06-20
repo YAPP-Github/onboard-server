@@ -1,5 +1,7 @@
 package com.yapp.bol.game
 
+import com.yapp.bol.group.GroupId
+
 interface GameQueryRepository {
-    fun getGameListByGroupId(groupId: Long): List<Game>
+    fun getGameListByGroupId(groupId: GroupId): List<Game>
 }

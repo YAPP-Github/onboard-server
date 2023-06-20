@@ -5,6 +5,7 @@ import com.yapp.bol.base.ControllerTest
 import com.yapp.bol.base.NUMBER
 import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
+import com.yapp.bol.group.GroupId
 import io.mockk.every
 import io.mockk.mockk
 
@@ -14,7 +15,7 @@ class GameControllerTest : ControllerTest() {
 
     init {
         test("게임 목록 가져오기") {
-            val groupId = 1L
+            val groupId = GroupId(1)
             val games = listOf(
                 Game(GameId(0), "게임 1", 2, 4, GameRankType.SCORE_HIGH, "ImgUrl"),
                 Game(GameId(1), "게임 2", 2, 5, GameRankType.SCORE_HIGH, "ImgUrl"),
@@ -22,7 +23,7 @@ class GameControllerTest : ControllerTest() {
             )
             every { gameService.getGameList(groupId) } returns games
 
-            get("/v1/group/{groupId}/game", groupId.toString()) {}
+            get("/v1/group/{groupId}/game", arrayOf(groupId.value)) {}
                 .isStatus(200)
                 .makeDocument(
                     DocumentInfo(identifier = "game/{method-name}", tag = OpenApiTag.GAME),
