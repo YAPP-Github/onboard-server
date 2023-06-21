@@ -30,7 +30,7 @@ class UserControllerTest : ControllerTest() {
                     DocumentInfo(identifier = "user/{method-name}", tag = OpenApiTag.USER),
                     responseFields(
                         "id" type NUMBER means "유저 아이디",
-                        "nickname" type STRING means "유저 기본 닉네임",
+                        "nickname" type STRING means "유저 기본 닉네임" isOptional true,
                     )
                 )
         }

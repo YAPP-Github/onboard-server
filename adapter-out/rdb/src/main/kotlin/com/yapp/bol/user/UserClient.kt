@@ -18,5 +18,5 @@ internal class UserClient(
 
 private fun UserEntity.toDomain(): User = User(
     id = UserId(this.id),
-    nickname = this.name ?: throw NotFoundUserException
+    nickname = this.name
 )

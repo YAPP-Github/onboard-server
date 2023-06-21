@@ -5,7 +5,7 @@ import com.yapp.bol.user.User
 
 data class MyInfoResponse(
     val id: UserId,
-    val nickname: String,
+    val nickname: String?,
 )
 
 fun User.toResponse(): MyInfoResponse = MyInfoResponse(

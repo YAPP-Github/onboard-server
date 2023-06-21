@@ -4,5 +4,5 @@ import com.yapp.bol.auth.UserId
 
 data class User(
     val id: UserId,
-    val nickname: String,
+    val nickname: String?,
 )
