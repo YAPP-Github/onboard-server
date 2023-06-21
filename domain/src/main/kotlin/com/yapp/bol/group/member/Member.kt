@@ -15,7 +15,7 @@ abstract class Member internal constructor(
     val role: MemberRole = when {
         isOwner() -> MemberRole.OWNER
         isGuest() -> MemberRole.GUEST
-        userId != null -> MemberRole.HOST
+        isHost() -> MemberRole.HOST
         else -> throw InvalidMemberRoleException
     }
 
@@ -27,7 +27,8 @@ abstract class Member internal constructor(
     }
 
     fun isOwner(): Boolean = this is OwnerMember
-    fun isGuest(): Boolean = this is GuestMember
+    fun isGuest(): Boolean = userId == null || this is GuestMember
+    fun isHost(): Boolean = this is HostMember
 
     companion object {
         const val MAX_NICKNAME_LENGTH = 6

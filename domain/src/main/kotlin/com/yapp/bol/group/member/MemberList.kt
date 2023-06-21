@@ -1,22 +1,17 @@
 package com.yapp.bol.group.member
 
 import com.yapp.bol.DuplicatedMembersNicknameException
-import com.yapp.bol.MultiOwnerException
 
 class MemberList(
     val owner: OwnerMember,
-    val members: List<Member> = emptyList(),
+    val participant: List<ParticipantMember> = emptyList(),
 ) {
     private val totalList: List<Member>
-        get() = members + owner
+        get() = participant + owner
 
     init {
         if (validateDistinctNicknames(totalList).not()) {
             throw DuplicatedMembersNicknameException
-        }
-
-        if (members.any(Member::isOwner)) {
-            throw MultiOwnerException
         }
     }
 
@@ -24,9 +19,8 @@ class MemberList(
         return totalList
     }
 
-    fun findMemberByNickname(nickname: String): Member? {
-        return members.find { it.nickname == nickname }
-    }
+    fun findMemberByNickname(nickname: String): Member? =
+        participant.find { it.nickname == nickname }
 
     private fun validateDistinctNicknames(members: List<Member>): Boolean =
         members.size == members
@@ -35,6 +29,6 @@ class MemberList(
             .size
 
     private fun validateDistinctNickname(hostMember: Member): Boolean =
-        this.members
+        this.participant
             .all { it.nickname != hostMember.nickname }
 }
