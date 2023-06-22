@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 @Service
 internal class MemberServiceImpl(
     private val memberQueryRepository: MemberQueryRepository,
-    private val memberCommandRepository: MemberCommandRepository
+    private val memberCommandRepository: MemberCommandRepository,
 ) : MemberService {
     override fun validateMemberNickname(groupId: GroupId, nickname: String): Boolean {
         return memberQueryRepository.findByNicknameAndGroupId(nickname, groupId) == null

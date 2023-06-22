@@ -3,15 +3,13 @@ package com.yapp.bol.group.member
 import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.GroupId
 import com.yapp.bol.pagination.CursorRequest
-import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
 internal class MemberQueryRepositoryImpl(
-    private val memberRepository: MemberRepository
+    private val memberRepository: MemberRepository,
 ) : MemberQueryRepository {
 
     @Transactional(readOnly = true)
