@@ -1,8 +1,10 @@
 package com.yapp.bol.group.member
 
 import com.yapp.bol.auth.UserId
+import com.yapp.bol.base.ARRAY
 import com.yapp.bol.base.BOOLEAN
 import com.yapp.bol.base.ControllerTest
+import com.yapp.bol.base.ENUM
 import com.yapp.bol.base.NUMBER
 import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
@@ -10,6 +12,7 @@ import com.yapp.bol.group.GroupId
 import com.yapp.bol.group.GroupService
 import com.yapp.bol.group.member.dto.AddGuestRequest
 import com.yapp.bol.group.member.dto.JoinGroupRequest
+import com.yapp.bol.pagination.SimpleCursorResponse
 import io.mockk.every
 import io.mockk.mockk
 
@@ -34,6 +37,56 @@ class MemberControllerTest : ControllerTest() {
                     ),
                     responseFields(
                         "isAvailable" type BOOLEAN means "그룹 내에서 닉네임 중복 여부"
+                    )
+                )
+        }
+
+        test("맴버 목록 가져오기") {
+            val groupId = GroupId(1)
+            val userId = UserId(1)
+            val size = 10
+            val cursor = "김김김"
+
+            every { memberService.getMembers(any()) } returns SimpleCursorResponse(
+                contents = List(20) {
+                    HostMember(
+                        id = MemberId(it.toLong()),
+                        userId = UserId(it.toLong()),
+                        nickname = "닉네임$it",
+                        level = 0,
+                    )
+                },
+                cursor = cursor,
+                hasNext = true,
+            )
+
+            get("/v1/group/{groupId}/member", arrayOf(groupId.value)) {
+                authorizationHeader(userId)
+                queryParam("size", size.toString())
+                queryParam("cursor", size.toString())
+            }
+                .isStatus(200)
+                .makeDocument(
+                    DocumentInfo(
+                        identifier = "member/{method-name}",
+                        tag = OpenApiTag.MEMBER,
+                        description = "맴버 목록 가져오기"
+                    ),
+                    pathParameters(
+                        "groupId" type NUMBER means "그룹 ID",
+                    ),
+                    queryParameters(
+                        "size" type NUMBER means "받아오고자 하는 맴버 개수",
+                        "cursor" type STRING means "Cursor 방식 Pagination, 전 요청 에서 받아온 cursor를 그대로 전달" isOptional true,
+                    ),
+                    responseFields(
+                        "contents" type ARRAY means "맴버 목록",
+                        "contents[].id" type NUMBER means "맴버 ID",
+                        "contents[].role" type ENUM(MemberRole::class) means "맴버 종류 구분",
+                        "contents[].nickname" type STRING means "맴버가 그룹에서 사용하는 닉네임",
+                        "contents[].level" type NUMBER means "주사위 모양 데이터",
+                        "cursor" type STRING means "다음 페이지를 가져오기 위한 기준 값",
+                        "hasNext" type BOOLEAN means "다음 페이지 존재 여부",
                     )
                 )
         }
