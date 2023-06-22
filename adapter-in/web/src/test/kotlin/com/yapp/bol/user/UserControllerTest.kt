@@ -1,6 +1,5 @@
 package com.yapp.bol.user
 
-import com.yapp.bol.NotFoundUserException
 import com.yapp.bol.auth.UserId
 import com.yapp.bol.base.ControllerTest
 import com.yapp.bol.base.NUMBER
