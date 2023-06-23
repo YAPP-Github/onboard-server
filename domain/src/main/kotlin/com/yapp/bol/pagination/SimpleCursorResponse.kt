@@ -6,7 +6,7 @@ data class SimpleCursorResponse<T, CURSOR>(
     override val hasNext: Boolean,
 ) : CursorResponse<T, CURSOR> {
 
-    fun <U> map(func: (T) -> U): SimpleCursorResponse<U, CURSOR> {
+    fun <U> mapContents(func: (T) -> U): SimpleCursorResponse<U, CURSOR> {
         return SimpleCursorResponse(
             contents = contents.map(func),
             cursor = cursor,

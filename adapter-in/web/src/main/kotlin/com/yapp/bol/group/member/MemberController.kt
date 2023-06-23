@@ -45,7 +45,7 @@ class MemberController(
         val request = GetMembersByCursorDto(groupId, size, cursor)
         val result = memberService.getMembers(request)
 
-        return result.map { it.toResponse() }
+        return result.mapContents { it.toResponse() }
     }
 
     @PreAuthorize("isAuthenticated()")
