@@ -40,9 +40,10 @@ class MemberController(
     fun getGroup(
         @PathVariable groupId: GroupId,
         @RequestParam size: Int,
+        @RequestParam nickname: String?,
         @RequestParam cursor: String?,
     ): SimpleCursorResponse<MemberResponse, String> {
-        val request = GetMembersByCursorDto(groupId, size, cursor)
+        val request = GetMembersByCursorDto(groupId, nickname, size, cursor)
         val result = memberService.getMembers(request)
 
         return result.mapContents { it.toResponse() }

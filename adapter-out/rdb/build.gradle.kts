@@ -20,7 +20,6 @@ noArg {
     annotation("javax.persistence.Embeddable")
 }
 
-
 dependencies {
     val springVersion by properties
 
@@ -35,7 +34,6 @@ dependencies {
     val kapt by configurations
     implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
     kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
-
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
     testRuntimeOnly("com.h2database:h2")

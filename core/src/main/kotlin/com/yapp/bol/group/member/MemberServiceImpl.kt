@@ -40,7 +40,7 @@ internal class MemberServiceImpl(
 
     override fun getMembers(request: GetMembersByCursorDto): SimpleCursorResponse<Member, String> {
         val size = request.size
-        val memberList = memberQueryRepository.findByGroupIdWithCursor(request.groupId, request.copy(size = size + 1))
+        val memberList = memberQueryRepository.getMemberListByCursor(request.groupId, request.nickname, request.copy(size = size + 1))
         val contents = memberList.take(size)
 
         return SimpleCursorResponse(

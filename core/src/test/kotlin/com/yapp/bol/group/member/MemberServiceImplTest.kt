@@ -28,7 +28,7 @@ class MemberServiceImplTest : FunSpec() {
 
             test("hasNext = false 테스트") {
                 every {
-                    memberQueryRepository.findByGroupIdWithCursor(
+                    memberQueryRepository.getMemberListByCursor(
                         groupId,
                         capture(cursor),
                     )
@@ -44,7 +44,7 @@ class MemberServiceImplTest : FunSpec() {
 
             test("hasNext = true 테스트") {
                 every {
-                    memberQueryRepository.findByGroupIdWithCursor(
+                    memberQueryRepository.getMemberListByCursor(
                         groupId,
                         capture(cursor),
                     )

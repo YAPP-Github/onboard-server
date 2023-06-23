@@ -32,7 +32,7 @@ class MemberQueryRepositoryImplTest : FunSpec() {
                     )
                 } returns listOf(member)
 
-                val result = sut.findByGroupIdWithCursor(groupId, cursorRequest)
+                val result = sut.getMemberListByCursor(groupId, cursorRequest)
 
                 pageable.captured.pageSize shouldBeEqual size
                 pageable.captured.pageNumber shouldBeEqual 0
@@ -53,7 +53,7 @@ class MemberQueryRepositoryImplTest : FunSpec() {
                     )
                 } returns listOf(member)
 
-                val result = sut.findByGroupIdWithCursor(groupId, cursorRequest)
+                val result = sut.getMemberListByCursor(groupId, cursorRequest)
 
                 pageable.captured.pageSize shouldBeEqual size
                 pageable.captured.pageNumber shouldBeEqual 0

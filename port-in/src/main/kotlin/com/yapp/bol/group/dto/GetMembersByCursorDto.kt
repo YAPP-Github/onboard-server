@@ -5,6 +5,7 @@ import com.yapp.bol.pagination.CursorRequest
 
 data class GetMembersByCursorDto(
     val groupId: GroupId,
+    val nickname: String?,
     override val size: Int,
     override val cursor: String?
 ) : CursorRequest<String>
