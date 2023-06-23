@@ -19,7 +19,7 @@ class MemberServiceImplTest : FunSpec() {
         context("getMembers") {
             val groupId = GroupId(68)
             val size = 20
-            val request = GetMembersByCursorDto(groupId, size, null)
+            val request = GetMembersByCursorDto(groupId, null, size, null)
             val cursor = CapturingSlot<CursorRequest<String>>()
 
             val memberList = List(size + 1) {
@@ -30,6 +30,7 @@ class MemberServiceImplTest : FunSpec() {
                 every {
                     memberQueryRepository.getMemberListByCursor(
                         groupId,
+                        null,
                         capture(cursor),
                     )
                 } returns memberList.take(size)
@@ -46,6 +47,7 @@ class MemberServiceImplTest : FunSpec() {
                 every {
                     memberQueryRepository.getMemberListByCursor(
                         groupId,
+                        null,
                         capture(cursor),
                     )
                 } returns memberList.take(size + 1)

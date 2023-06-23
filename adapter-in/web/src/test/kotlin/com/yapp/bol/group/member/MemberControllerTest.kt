@@ -80,7 +80,7 @@ class MemberControllerTest : ControllerTest() {
                     queryParameters(
                         "size" type NUMBER means "받아오고자 하는 맴버 개수",
                         "cursor" type STRING means "Cursor 방식 Pagination, 전 요청 에서 받아온 cursor를 그대로 전달" isOptional true,
-                        "cursor" type STRING means "검색하고자 하는 닉네임, null일 경우 전체 목록을 반환" isOptional true,
+                        "nickname" type STRING means "검색하고자 하는 닉네임, null일 경우 전체 목록을 반환" isOptional true,
                     ),
                     responseFields(
                         "contents" type ARRAY means "맴버 목록",
