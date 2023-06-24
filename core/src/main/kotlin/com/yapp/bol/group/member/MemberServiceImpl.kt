@@ -29,4 +29,8 @@ internal class MemberServiceImpl(
 
         return memberCommandRepository.createMember(groupId, member) as HostMember
     }
+
+    override fun findMembersByGroupId(groupId: GroupId): List<Member> {
+        return memberQueryRepository.findByGroupId(groupId)
+    }
 }

@@ -5,7 +5,7 @@ import com.yapp.bol.auth.UserId
 data class CreateGroupRequest(
     val name: String,
     val description: String,
-    val organization: String,
+    val organization: String?,
     val profileImageUrl: String?,
     val nickname: String?,
 )

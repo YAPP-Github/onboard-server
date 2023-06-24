@@ -14,7 +14,7 @@ internal class GroupEntity(
     id: GroupId = GroupId(0),
     name: String,
     description: String,
-    organization: String,
+    organization: String?,
     profileImageUrl: String,
     accessCode: String,
 ) : AuditingEntity() {
@@ -30,7 +30,7 @@ internal class GroupEntity(
     val description: String = description
 
     @Column(name = "organization")
-    val organization: String = organization
+    val organization: String? = organization
 
     @Column(name = "profileImageUrl")
     val profileImageUrl: String = profileImageUrl

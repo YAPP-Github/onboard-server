@@ -19,8 +19,8 @@ class MemberList(
         return totalList
     }
 
-    fun findMemberByNickname(nickname: String): Member? {
-        return participant.find { it.nickname == nickname }
+    fun getSize(): Int {
+        return totalList.size
     }
 
     private fun validateDistinctNicknames(members: List<Member>): Boolean =
