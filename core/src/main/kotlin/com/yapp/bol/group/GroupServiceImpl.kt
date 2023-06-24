@@ -2,10 +2,13 @@ package com.yapp.bol.group
 
 import com.yapp.bol.AccessCodeNotMatchException
 import com.yapp.bol.NotFoundGroupException
+import com.yapp.bol.UnAuthorizationException
+import com.yapp.bol.group.dto.AddGuestDto
 import com.yapp.bol.group.dto.CreateGroupDto
 import com.yapp.bol.group.dto.GroupMemberList
 import com.yapp.bol.group.dto.GroupWithMemberCount
 import com.yapp.bol.group.dto.JoinGroupDto
+import com.yapp.bol.group.member.MemberQueryRepository
 import com.yapp.bol.group.member.MemberService
 import com.yapp.bol.group.member.OwnerMember
 import com.yapp.bol.pageable.PaginationCursor
@@ -16,6 +19,7 @@ internal class GroupServiceImpl(
     private val groupQueryRepository: GroupQueryRepository,
     private val groupCommandRepository: GroupCommandRepository,
     private val memberService: MemberService,
+    private val memberQueryRepository: MemberQueryRepository,
 ) : GroupService {
 
     override fun createGroup(
@@ -62,5 +66,12 @@ internal class GroupServiceImpl(
         }
 
         return PaginationCursor(groupWithMemberCount, groups.hasNext)
+    }
+
+    override fun addGuest(request: AddGuestDto) {
+        memberQueryRepository.findByGroupIdAndUserId(request.groupId, request.requestUserId)
+            ?: throw UnAuthorizationException()
+
+        memberService.createGuestMember(request.groupId, request.nickname)
     }
 }

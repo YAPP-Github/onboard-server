@@ -9,4 +9,5 @@ enum class OpenApiTag(
     GAME("Game"),
     GROUP("Group"),
     MEMBER("Member"),
+    USER("User"),
 }

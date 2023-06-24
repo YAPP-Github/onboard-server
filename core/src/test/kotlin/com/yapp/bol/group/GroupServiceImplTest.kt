@@ -2,9 +2,13 @@ package com.yapp.bol.group
 
 import com.yapp.bol.AccessCodeNotMatchException
 import com.yapp.bol.NotFoundGroupException
+import com.yapp.bol.UnAuthorizationException
 import com.yapp.bol.auth.UserId
+import com.yapp.bol.group.dto.AddGuestDto
 import com.yapp.bol.group.dto.JoinGroupDto
+import com.yapp.bol.group.member.GuestMember
 import com.yapp.bol.group.member.HostMember
+import com.yapp.bol.group.member.MemberQueryRepository
 import com.yapp.bol.group.member.MemberService
 import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
@@ -16,7 +20,8 @@ class GroupServiceImplTest : FunSpec() {
     private val groupQueryRepository: GroupQueryRepository = mockk()
     private val groupCommandRepository: GroupCommandRepository = mockk()
     private val memberService: MemberService = mockk()
-    private val sut = GroupServiceImpl(groupQueryRepository, groupCommandRepository, memberService)
+    private val memberQueryRepository: MemberQueryRepository = mockk()
+    private val sut = GroupServiceImpl(groupQueryRepository, groupCommandRepository, memberService, memberQueryRepository)
 
     init {
         context("Join Group Test") {
@@ -60,6 +65,41 @@ class GroupServiceImplTest : FunSpec() {
 
                 shouldThrow<AccessCodeNotMatchException> {
                     sut.joinGroup(request.copy(accessCode = "qwerty"))
+                }
+            }
+        }
+
+        context("Add Guest") {
+            val request = AddGuestDto(
+                groupId = GroupId(0),
+                nickname = "name",
+                requestUserId = UserId(0)
+            )
+
+            val mockMember = HostMember(
+                userId = request.requestUserId,
+                nickname = "other"
+            )
+
+            test("Success") {
+                every { memberQueryRepository.findByGroupIdAndUserId(request.groupId, request.requestUserId) } returns mockMember
+                every { memberService.createGuestMember(any(), any()) } returns GuestMember(
+                    nickname = request.nickname,
+                )
+
+                shouldNotThrow<Exception> {
+                    sut.addGuest(request)
+                }
+            }
+
+            test("요청자가 가입한 그룹이 아님") {
+                every { memberQueryRepository.findByGroupIdAndUserId(request.groupId, request.requestUserId) } returns null
+                every { memberService.createGuestMember(any(), any()) } returns GuestMember(
+                    nickname = request.nickname,
+                )
+
+                shouldThrow<UnAuthorizationException> {
+                    sut.addGuest(request)
                 }
             }
         }

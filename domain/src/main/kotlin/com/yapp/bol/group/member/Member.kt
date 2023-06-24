@@ -11,6 +11,7 @@ abstract class Member internal constructor(
     val id: MemberId,
     val userId: UserId?,
     val nickname: String,
+    val level: Int,
 ) {
     val role: MemberRole = when {
         isOwner() -> MemberRole.OWNER
@@ -23,7 +24,7 @@ abstract class Member internal constructor(
         if (nickname.length > MAX_NICKNAME_LENGTH) {
             throw InvalidMemberNicknameException
         }
-        if (userId == null && isGuest()) throw InvalidMemberRoleException
+        if (userId == null && isGuest().not()) throw InvalidMemberRoleException
     }
 
     fun isOwner(): Boolean = this is OwnerMember
