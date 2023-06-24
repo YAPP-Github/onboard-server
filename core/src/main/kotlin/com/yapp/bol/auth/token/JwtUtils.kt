@@ -1,6 +1,7 @@
 package com.yapp.bol.auth.token
 
 import com.yapp.bol.auth.Token
+import com.yapp.bol.auth.UserId
 import com.yapp.bol.toDate
 import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
@@ -11,7 +12,7 @@ import java.time.LocalDateTime
 internal class JwtUtils(
     private val secretKey: ByteArray,
 ) : TokenUtils {
-    override fun generate(userId: Long, expiredAt: LocalDateTime): Token {
+    override fun generate(userId: UserId, expiredAt: LocalDateTime): Token {
         val token = Jwts.builder()
             .setId(userId.toString())
             .setExpiration(expiredAt.toDate())

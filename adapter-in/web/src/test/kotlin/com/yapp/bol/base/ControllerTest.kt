@@ -4,10 +4,9 @@ import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.yapp.bol.ExceptionHandler
-import com.yapp.bol.auth.getSecurityUserId
+import com.yapp.bol.auth.UserId
+import com.yapp.bol.auth.security.TokenAuthentication
 import io.kotest.core.spec.style.FunSpec
-import io.mockk.every
-import io.mockk.mockkStatic
 import org.springframework.http.MediaType
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.mock.web.MockPart
@@ -32,13 +31,13 @@ import org.springframework.restdocs.request.QueryParametersSnippet
 import org.springframework.restdocs.request.RequestDocumentation.pathParameters
 import org.springframework.restdocs.request.RequestDocumentation.queryParameters
 import org.springframework.restdocs.snippet.Snippet
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder
-import kotlin.reflect.jvm.javaMethod
 
 abstract class ControllerTest : FunSpec() {
     protected abstract val controller: Any
@@ -55,6 +54,7 @@ abstract class ControllerTest : FunSpec() {
         }
         afterEach {
             restDocumentation.afterTest()
+            SecurityContextHolder.clearContext()
         }
     }
 
@@ -78,21 +78,26 @@ abstract class ControllerTest : FunSpec() {
 
     protected fun get(
         url: String,
-        vararg pathParams: String,
+        pathParams: Array<Any> = emptyArray(),
         buildRequest: MockHttpServletRequestBuilder.() -> Unit
     ): ResultActions =
-        mockMvc.perform(get(url, pathParams).apply(buildRequest))
+        mockMvc.perform(get(url, *pathParams).apply(buildRequest))
 
-    protected fun post(url: String, buildRequest: MockHttpServletRequestBuilder.() -> Unit): ResultActions =
-        mockMvc.perform(post(url).apply(buildRequest))
+    protected fun post(
+        url: String,
+        pathParams: Array<Any> = emptyArray(),
+        buildRequest: MockHttpServletRequestBuilder.() -> Unit
+    ): ResultActions =
+        mockMvc.perform(post(url, *pathParams).apply(buildRequest))
 
     protected fun post(
         url: String,
         request: Any,
+        pathParams: Array<Any> = emptyArray(),
         buildRequest: MockHttpServletRequestBuilder.() -> Unit
     ): ResultActions =
         mockMvc.perform(
-            post(url).apply {
+            post(url, *pathParams).apply {
                 contentType(MediaType.APPLICATION_JSON)
                 content(objectMapper.writeValueAsString(request))
             }.apply(buildRequest)
@@ -114,18 +119,29 @@ abstract class ControllerTest : FunSpec() {
         )
     }
 
-    protected fun delete(url: String, buildRequest: MockHttpServletRequestBuilder.() -> Unit): ResultActions =
-        mockMvc.perform(delete(url).apply(buildRequest))
+    protected fun delete(
+        url: String,
+        pathParams: Array<Any> = emptyArray(),
+        buildRequest: MockHttpServletRequestBuilder.() -> Unit
+    ): ResultActions =
+        mockMvc.perform(delete(url, *pathParams).apply(buildRequest))
 
-    protected fun patch(url: String, buildRequest: MockHttpServletRequestBuilder.() -> Unit): ResultActions =
-        mockMvc.perform(patch(url).apply(buildRequest))
+    protected fun patch(
+        url: String,
+        pathParams: Array<Any> = emptyArray(),
+        buildRequest: MockHttpServletRequestBuilder.() -> Unit
+    ): ResultActions =
+        mockMvc.perform(patch(url, *pathParams).apply(buildRequest))
 
-    protected fun put(url: String, buildRequest: MockHttpServletRequestBuilder.() -> Unit): ResultActions =
-        mockMvc.perform(put(url).apply(buildRequest))
+    protected fun put(
+        url: String,
+        pathParams: Array<Any> = emptyArray(),
+        buildRequest: MockHttpServletRequestBuilder.() -> Unit
+    ): ResultActions =
+        mockMvc.perform(put(url, *pathParams).apply(buildRequest))
 
-    protected fun MockHttpServletRequestBuilder.authorizationHeader(userId: Long) {
-        mockkStatic(::getSecurityUserId.javaMethod!!.declaringClass.kotlin)
-        every { getSecurityUserId() } returns userId
+    protected fun MockHttpServletRequestBuilder.authorizationHeader(userId: UserId) {
+        SecurityContextHolder.getContext().authentication = TokenAuthentication("Token", userId)
 
         this.header("Authorization", "Bearer Token")
     }

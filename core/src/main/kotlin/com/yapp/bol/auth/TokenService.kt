@@ -10,13 +10,13 @@ internal class TokenService(
     private val tokenQueryRepository: TokenQueryRepository,
     private val tokenCommandRepository: TokenCommandRepository,
 ) {
-    fun generateAccessToken(userId: Long): Token {
+    fun generateAccessToken(userId: UserId): Token {
         val token = accessTokenPolicy.generate(userId)
         tokenCommandRepository.saveAccessToken(token)
         return token
     }
 
-    fun generateRefreshToken(userId: Long): Token {
+    fun generateRefreshToken(userId: UserId): Token {
         val token = refreshTokenPolicy.generate(userId)
         tokenCommandRepository.saveRefreshToken(token)
         return token

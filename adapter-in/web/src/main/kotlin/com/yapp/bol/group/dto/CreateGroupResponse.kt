@@ -1,7 +1,9 @@
 package com.yapp.bol.group.dto
 
+import com.yapp.bol.group.GroupId
+
 data class CreateGroupResponse(
-    val id: Long,
+    val id: GroupId,
     val name: String,
     val description: String,
     val owner: String,
@@ -14,7 +16,7 @@ fun GroupMemberList.toCreateGroupResponse() = CreateGroupResponse(
     id = group.id,
     name = group.name,
     description = group.description,
-    owner = members.getOwner().nickname,
+    owner = members.owner.nickname,
     organization = group.organization ?: "",
     profileImageUrl = group.profileImageUrl,
     accessCode = group.accessCode,

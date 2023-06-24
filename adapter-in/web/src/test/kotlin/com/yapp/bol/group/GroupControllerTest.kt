@@ -1,5 +1,6 @@
 package com.yapp.bol.group
 
+import com.yapp.bol.auth.UserId
 import com.yapp.bol.base.ARRAY
 import com.yapp.bol.base.BOOLEAN
 import com.yapp.bol.base.ControllerTest
@@ -9,9 +10,8 @@ import com.yapp.bol.base.STRING
 import com.yapp.bol.group.dto.CreateGroupRequest
 import com.yapp.bol.group.dto.GroupMemberList
 import com.yapp.bol.group.dto.GroupWithMemberCount
-import com.yapp.bol.group.member.Member
 import com.yapp.bol.group.member.MemberList
-import com.yapp.bol.group.member.MemberRole
+import com.yapp.bol.group.member.OwnerMember
 import com.yapp.bol.pageable.PaginationCursor
 import io.mockk.every
 import io.mockk.mockk
@@ -94,7 +94,7 @@ class GroupControllerTest : ControllerTest() {
 
     companion object {
         val GROUP = Group(
-            id = 1,
+            id = GroupId(1),
             name = "뽀글뽀글",
             description = "보겜동입니다",
             organization = "카카오",
@@ -102,12 +102,10 @@ class GroupControllerTest : ControllerTest() {
             accessCode = "1A2B3C",
         )
 
-        val MEMBER_LIST = MemberList.of(
-            Member(
-                id = 123,
+        val MEMBER_LIST = MemberList(
+            OwnerMember(
+                userId = UserId(1),
                 nickname = "홀든",
-                groupId = GROUP.id,
-                role = MemberRole.OWNER
             )
         )
 
@@ -117,7 +115,7 @@ class GroupControllerTest : ControllerTest() {
             description = GROUP.description,
             organization = GROUP.organization ?: "",
             profileImageUrl = GROUP.profileImageUrl,
-            memberCount = MEMBER_LIST.members.size
+            memberCount = MEMBER_LIST.getSize()
         )
     }
 }

@@ -1,7 +1,7 @@
 package com.yapp.bol.group.member
 
-interface MemberCommandRepository {
-    fun createMember(member: Member): Member
+import com.yapp.bol.group.GroupId
 
-    fun createMembers(members: MemberList): MemberList
+interface MemberCommandRepository {
+    fun createMember(groupId: GroupId, member: Member): Member
 }

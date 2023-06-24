@@ -1,5 +1,6 @@
 package com.yapp.bol.auth.token
 
+import com.yapp.bol.auth.UserId
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.security.SignatureException
 import io.kotest.assertions.throwables.shouldNotThrow
@@ -13,7 +14,7 @@ class JwtUtilsTest : FunSpec() {
     private val sut = JwtUtils(ByteArray(64) { 0 })
 
     init {
-        val userId = 1L
+        val userId = UserId(1L)
         val expiredTime = LocalDateTime.of(2000, 1, 1, 0, 0)
 
         test("generate") {

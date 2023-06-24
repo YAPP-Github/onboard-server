@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository
 internal class GroupQueryRepositoryImpl(
     private val groupRepository: GroupRepository,
 ) : GroupQueryRepository {
-    override fun findById(id: Long): Group? {
-        return groupRepository.findByIdOrNull(id)?.toDomain()
+    override fun findById(id: GroupId): Group? {
+        return groupRepository.findByIdOrNull(id.value)?.toDomain()
     }
 
     override fun findByNameLike(name: String?, pageNumber: Int, pageSize: Int): PaginationCursor<Group> {

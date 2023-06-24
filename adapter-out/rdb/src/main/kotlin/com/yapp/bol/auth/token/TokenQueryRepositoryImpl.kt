@@ -2,6 +2,7 @@ package com.yapp.bol.auth.token
 
 import com.yapp.bol.auth.Token
 import com.yapp.bol.auth.TokenQueryRepository
+import com.yapp.bol.auth.UserId
 import com.yapp.bol.auth.toBinary
 import org.springframework.stereotype.Repository
 
@@ -23,7 +24,7 @@ internal class TokenQueryRepositoryImpl(
     private fun AccessTokenEntity.toToken(): Token {
         return Token(
             value = this.accessToken,
-            userId = this.userId,
+            userId = UserId(this.userId),
             expiredAt = this.expiredAt,
         )
     }
@@ -31,7 +32,7 @@ internal class TokenQueryRepositoryImpl(
     private fun RefreshTokenEntity.toToken(): Token {
         return Token(
             value = this.refreshToken,
-            userId = this.userId,
+            userId = UserId(this.userId),
             expiredAt = this.expiredAt,
         )
     }
