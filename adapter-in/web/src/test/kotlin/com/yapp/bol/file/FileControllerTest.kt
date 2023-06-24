@@ -4,7 +4,6 @@ import com.yapp.bol.auth.UserId
 import com.yapp.bol.base.ControllerTest
 import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
-import com.yapp.bol.config.BolProperties
 import io.mockk.every
 import io.mockk.mockk
 import java.io.InputStream
@@ -16,8 +15,7 @@ import org.springframework.restdocs.request.RequestDocumentation.requestParts
 
 class FileControllerTest : ControllerTest() {
     private val fileService: FileService = mockk()
-    private val properties = BolProperties("http://localhost:8080")
-    override val controller = FileController(fileService, properties)
+    override val controller = FileController(fileService)
 
     init {
         test("File Upload") {
