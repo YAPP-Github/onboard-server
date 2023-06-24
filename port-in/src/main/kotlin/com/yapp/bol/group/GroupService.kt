@@ -11,7 +11,7 @@ interface GroupService {
     ): GroupMemberList
 
     fun searchGroup(
-        name: String,
+        name: String?,
         pageNumber: Int,
         pageSize: Int
     ): PaginationCursor<GroupWithMemberCount>

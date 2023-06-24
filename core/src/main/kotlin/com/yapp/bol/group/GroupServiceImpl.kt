@@ -44,7 +44,7 @@ internal class GroupServiceImpl(
     }
 
     override fun searchGroup(
-        name: String,
+        name: String?,
         pageNumber: Int,
         pageSize: Int
     ): PaginationCursor<GroupWithMemberCount> {
