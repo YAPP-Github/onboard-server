@@ -8,7 +8,7 @@ class Group(
     val id: Long = 0,
     val name: String,
     val description: String,
-    val organization: String,
+    val organization: String?,
     val profileImageUrl: String,
     val accessCode: String,
 ) {
@@ -20,7 +20,7 @@ class Group(
             throw InvalidGroupDescriptionException
         }
 
-        if (organization.length > MAX_ORGANIZATION_LENGTH) {
+        if (organization?.length ?: 0 > MAX_ORGANIZATION_LENGTH) {
             throw InvalidGroupOrganizationException
         }
     }
@@ -48,7 +48,7 @@ class Group(
         fun of(
             name: String,
             description: String,
-            organization: String,
+            organization: String?,
             profileImageUrl: String = DEFAULT_PROFILE_IMAGE_URL,
         ): Group = Group(
             name = name,

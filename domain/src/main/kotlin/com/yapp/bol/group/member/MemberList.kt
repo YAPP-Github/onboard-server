@@ -32,6 +32,10 @@ class MemberList(val members: MutableList<Member>) {
         members.add(member)
     }
 
+    fun getSize(): Int {
+        return members.size
+    }
+
     fun findMemberByNickname(nickname: String): Member? {
         return members.find { it.nickname == nickname }
     }
