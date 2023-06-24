@@ -49,4 +49,8 @@ internal class MemberServiceImpl(
             memberList.size > size,
         )
     }
+
+    override fun findMembersByGroupId(groupId: GroupId): List<Member> {
+        return memberQueryRepository.findByGroupId(groupId)
+    }
 }

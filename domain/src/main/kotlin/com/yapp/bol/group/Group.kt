@@ -11,7 +11,7 @@ data class Group(
     val id: GroupId = GroupId(0),
     val name: String,
     val description: String,
-    val organization: String,
+    val organization: String?,
     val profileImageUrl: String = DEFAULT_PROFILE_IMAGE_URL,
     val accessCode: String = generateAccessCode(),
 ) {
@@ -23,7 +23,7 @@ data class Group(
             throw InvalidGroupDescriptionException
         }
 
-        if (organization.length > MAX_ORGANIZATION_LENGTH) {
+        if (organization?.length ?: 0 > MAX_ORGANIZATION_LENGTH) {
             throw InvalidGroupOrganizationException
         }
     }

@@ -5,10 +5,13 @@ import com.yapp.bol.NotFoundGroupException
 import com.yapp.bol.UnAuthorizationException
 import com.yapp.bol.group.dto.AddGuestDto
 import com.yapp.bol.group.dto.CreateGroupDto
+import com.yapp.bol.group.dto.GroupMemberList
+import com.yapp.bol.group.dto.GroupWithMemberCount
 import com.yapp.bol.group.dto.JoinGroupDto
 import com.yapp.bol.group.member.MemberQueryRepository
 import com.yapp.bol.group.member.MemberService
 import com.yapp.bol.group.member.OwnerMember
+import com.yapp.bol.pageable.PaginationCursor
 import org.springframework.stereotype.Service
 
 @Service
@@ -43,6 +46,26 @@ internal class GroupServiceImpl(
         if (group.accessCode != request.accessCode) throw AccessCodeNotMatchException
 
         memberService.createHostMember(request.userId, request.groupId, request.nickname)
+    }
+
+    override fun searchGroup(
+        name: String?,
+        pageNumber: Int,
+        pageSize: Int
+    ): PaginationCursor<GroupWithMemberCount> {
+        val groups = groupQueryRepository.findByNameLike(
+            name = name,
+            pageNumber = pageNumber,
+            pageSize = pageSize
+        )
+
+        val groupWithMemberCount = groups.content.map { group ->
+            val members = memberService.findMembersByGroupId(group.id)
+
+            GroupWithMemberCount.of(group, members)
+        }
+
+        return PaginationCursor(groupWithMemberCount, groups.hasNext)
     }
 
     override fun addGuest(request: AddGuestDto) {

@@ -27,6 +27,11 @@ internal class MemberQueryRepositoryImpl(
     }
 
     @Transactional(readOnly = true)
+    override fun findByGroupId(groupId: GroupId): List<Member> {
+        return memberRepository.findByGroupId(groupId.value).map { it.toDomain() }
+    }
+
+    @Transactional(readOnly = true)
     override fun findByGroupIdAndUserId(groupId: GroupId, userId: UserId): Member? {
         return memberRepository.findByGroupIdAndUserId(groupId.value, userId.value)?.toDomain()
     }

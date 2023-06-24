@@ -13,4 +13,6 @@ interface MemberService {
     fun createGuestMember(groupId: GroupId, nickname: String): GuestMember
 
     fun getMembers(request: GetMembersByCursorDto): SimpleCursorResponse<Member, String>
+
+    fun findMembersByGroupId(groupId: GroupId): List<Member>
 }
