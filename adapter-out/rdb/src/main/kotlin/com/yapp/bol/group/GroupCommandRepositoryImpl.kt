@@ -1,5 +1,6 @@
 package com.yapp.bol.group
 
+import com.yapp.bol.group.dto.GroupMemberList
 import com.yapp.bol.group.member.MemberList
 import com.yapp.bol.group.member.MemberRepository
 import com.yapp.bol.group.member.OwnerMember
