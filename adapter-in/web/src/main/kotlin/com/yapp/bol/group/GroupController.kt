@@ -22,7 +22,7 @@ class GroupController(
     fun createGroup(@RequestBody request: CreateGroupRequest): CreateGroupResponse =
         groupService.createGroup(request.toDto(1)).toCreateGroupResponse() // FIXME: 시큐리티 적용 필요
 
-    @GetMapping("/search")
+    @GetMapping
     fun searchGroup(
         @RequestParam name: String?,
         @RequestParam(defaultValue = "0") pageNumber: Int,
