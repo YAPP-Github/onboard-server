@@ -34,7 +34,9 @@ class GroupControllerTest : ControllerTest() {
                 groupService.createGroup(any())
             } returns GroupMemberList(group = GROUP, members = MEMBER_LIST)
 
-            post("/v1/group", request) {}
+            post("/v1/group", request) {
+                authorizationHeader(UserId(1))
+            }
                 .isStatus(200)
                 .makeDocument(
                     DocumentInfo(identifier = "group", tag = OpenApiTag.GROUP),
