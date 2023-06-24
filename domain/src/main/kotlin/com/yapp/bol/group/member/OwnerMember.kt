@@ -6,8 +6,10 @@ class OwnerMember(
     id: MemberId = MemberId(0),
     userId: UserId,
     nickname: String,
+    level: Int = 0,
 ) : Member(
     id = id,
     userId = userId,
     nickname = nickname,
+    level = level
 )

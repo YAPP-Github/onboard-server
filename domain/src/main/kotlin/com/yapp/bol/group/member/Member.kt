@@ -11,6 +11,7 @@ abstract class Member internal constructor(
     val id: MemberId,
     val userId: UserId?,
     val nickname: String,
+    val level: Int,
 ) {
     val role: MemberRole = when {
         isOwner() -> MemberRole.OWNER

@@ -35,6 +35,9 @@ class MemberEntity(
     @Column(name = "nickname")
     val nickname: String = nickname
 
+    @Column(name = "level")
+    val level: Int = 0
+
     @Column(name = "deleted")
     val deleted: Boolean = false
 
@@ -51,11 +54,13 @@ fun MemberEntity.toDomain(): Member {
             id = MemberId(this.id),
             userId = UserId(this.userId),
             nickname = this.nickname,
+            level = this.level,
         )
         MemberRole.OWNER -> OwnerMember(
             id = MemberId(this.id),
             userId = UserId(this.userId),
             nickname = this.nickname,
+            level = this.level,
         )
     }
 }
@@ -64,6 +69,7 @@ private fun MemberEntity.toGuestMember(): GuestMember =
     GuestMember(
         id = MemberId(this.id),
         nickname = this.nickname,
+        level = this.level,
     )
 
 fun Member.toEntity(groupId: Long): MemberEntity = MemberEntity(
