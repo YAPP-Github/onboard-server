@@ -18,6 +18,8 @@ object ExpiredTokenException : AuthException("Auth003", 400, "만료된 토큰 �
 class UnAuthenticationException(cause: Throwable? = null) : AuthException("Auth004", 401, "로그인이 필요합니다.", cause)
 class UnAuthorizationException(cause: Throwable? = null) : AuthException("Auth005", 403, "권한이 없습니다.", cause)
 
+object NotFoundUserException : BolRatingException("User001", 400, "유저를 찾을 수 없습니다.")
+
 object IllegalFileStateException : BolRatingException("File001", 500, "요청한 파일의 Status가 올바르지 않습니다.")
 object NotFoundFileException : BolRatingException("File002", 400, "파일을 찾을 수 없습니다.")
 
@@ -45,4 +47,5 @@ object MultiOwnerException : MemberException("Member004", 500, "그룹장이 2�
 object InvalidMemberRoleException : MemberException("Member005", 500, "맴버의 상태가 잘 못 되어 었습니다.")
 object AlreadyExistMemberException : MemberException("Member006", 400, "이미 가입된 그룹입니다.")
 
+object UnknownException : BolRatingException("BOL000", 500, "알 수 없는 에러가 발생했습니다. 다시 시도해주세요.")
 object InvalidRequestException : BolRatingException("BOL001", 400, "유효하지 않은 요청입니다.")
