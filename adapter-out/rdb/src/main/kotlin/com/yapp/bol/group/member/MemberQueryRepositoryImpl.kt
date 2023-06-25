@@ -22,14 +22,7 @@ internal class MemberQueryRepositoryImpl(
     ): SimpleCursorResponse<Member, String> {
         val originalSize = request.size
 
-        val extraMembers = request.copy(size = originalSize + 1)
-            .let { extraRequest ->
-                memberRepository.getByGroupIdWithCursor(
-                    groupId = extraRequest.groupId.value,
-                    nickname = extraRequest.nickname,
-                    cursor = extraRequest
-                ).map { it.toDomain() }
-            }
+        val extraMembers = getExtraMembers(request).map { it.toDomain() }
 
         val hasNext = extraMembers.size > originalSize
         val contents = extraMembers.take(originalSize)
@@ -38,6 +31,16 @@ internal class MemberQueryRepositoryImpl(
             contents = contents,
             cursor = contents.last().nickname,
             hasNext = hasNext,
+        )
+    }
+
+    private fun getExtraMembers(request: MemberCursorRequest): List<MemberEntity> {
+        val extraRequest = request.copy(size = request.size + 1)
+
+        return memberRepository.getByGroupIdWithCursor(
+            groupId = extraRequest.groupId.value,
+            nickname = extraRequest.nickname,
+            cursor = extraRequest
         )
     }
 
