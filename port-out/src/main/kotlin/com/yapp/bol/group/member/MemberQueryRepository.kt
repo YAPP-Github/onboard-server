@@ -2,7 +2,8 @@ package com.yapp.bol.group.member
 
 import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.GroupId
-import com.yapp.bol.pagination.CursorRequest
+import com.yapp.bol.pagination.SimpleCursorResponse
+import com.yapp.bol.pagination.group.member.MemberCursorRequest
 
 interface MemberQueryRepository {
     fun findByNicknameAndGroupId(nickname: String, groupId: GroupId): Member?
@@ -11,5 +12,5 @@ interface MemberQueryRepository {
 
     fun findByGroupIdAndUserId(groupId: GroupId, userId: UserId): Member?
 
-    fun getMemberListByCursor(groupId: GroupId, nickname: String?, cursorRequest: CursorRequest<String>): List<Member>
+    fun getMemberListByCursor(request: MemberCursorRequest): SimpleCursorResponse<Member, String>
 }
