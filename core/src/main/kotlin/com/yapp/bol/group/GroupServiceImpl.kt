@@ -11,7 +11,7 @@ import com.yapp.bol.group.dto.JoinGroupDto
 import com.yapp.bol.group.member.MemberQueryRepository
 import com.yapp.bol.group.member.MemberService
 import com.yapp.bol.group.member.OwnerMember
-import com.yapp.bol.pageable.PaginationCursor
+import com.yapp.bol.pagination.offset.PaginationOffsetResponse
 import org.springframework.stereotype.Service
 
 @Service
@@ -52,7 +52,7 @@ internal class GroupServiceImpl(
         name: String?,
         pageNumber: Int,
         pageSize: Int
-    ): PaginationCursor<GroupWithMemberCount> {
+    ): PaginationOffsetResponse<GroupWithMemberCount> {
         val groups = groupQueryRepository.findByNameLike(
             name = name,
             pageNumber = pageNumber,
@@ -65,7 +65,7 @@ internal class GroupServiceImpl(
             GroupWithMemberCount.of(group, members)
         }
 
-        return PaginationCursor(groupWithMemberCount, groups.hasNext)
+        return PaginationOffsetResponse(groupWithMemberCount, groups.hasNext)
     }
 
     override fun addGuest(request: AddGuestDto) {

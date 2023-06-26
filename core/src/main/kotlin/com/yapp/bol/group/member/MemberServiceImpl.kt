@@ -4,8 +4,8 @@ import com.yapp.bol.AlreadyExistMemberException
 import com.yapp.bol.DuplicatedMemberNicknameException
 import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.GroupId
-import com.yapp.bol.pagination.SimpleCursorResponse
-import com.yapp.bol.pagination.group.member.MemberCursorRequest
+import com.yapp.bol.group.member.dto.PaginationCursorMemberRequest
+import com.yapp.bol.pagination.cursor.SimplePaginationCursorResponse
 import org.springframework.stereotype.Service
 
 @Service
@@ -38,7 +38,7 @@ internal class MemberServiceImpl(
         return memberCommandRepository.createMember(groupId, member) as GuestMember
     }
 
-    override fun getMembers(request: MemberCursorRequest): SimpleCursorResponse<Member, String> =
+    override fun getMembers(request: PaginationCursorMemberRequest): SimplePaginationCursorResponse<Member, String> =
         memberQueryRepository.getMemberListByCursor(request)
 
     override fun findMembersByGroupId(groupId: GroupId): List<Member> =

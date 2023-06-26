@@ -2,8 +2,8 @@ package com.yapp.bol.group.member
 
 import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.GroupId
-import com.yapp.bol.pagination.SimpleCursorResponse
-import com.yapp.bol.pagination.group.member.MemberCursorRequest
+import com.yapp.bol.group.member.dto.PaginationCursorMemberRequest
+import com.yapp.bol.pagination.cursor.SimplePaginationCursorResponse
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,8 +18,8 @@ internal class MemberQueryRepositoryImpl(
     }
 
     override fun getMemberListByCursor(
-        request: MemberCursorRequest
-    ): SimpleCursorResponse<Member, String> {
+        request: PaginationCursorMemberRequest
+    ): SimplePaginationCursorResponse<Member, String> {
         val originalSize = request.size
 
         val extraMembers = getExtraMembers(request).map { it.toDomain() }
@@ -27,14 +27,14 @@ internal class MemberQueryRepositoryImpl(
         val hasNext = extraMembers.size > originalSize
         val contents = extraMembers.take(originalSize)
 
-        return SimpleCursorResponse(
+        return SimplePaginationCursorResponse(
             contents = contents,
             cursor = contents.last().nickname,
             hasNext = hasNext,
         )
     }
 
-    private fun getExtraMembers(request: MemberCursorRequest): List<MemberEntity> {
+    private fun getExtraMembers(request: PaginationCursorMemberRequest): List<MemberEntity> {
         val extraRequest = request.copy(size = request.size + 1)
 
         return memberRepository.getByGroupIdWithCursor(

@@ -1,8 +1,8 @@
 package com.yapp.bol.group.member
 
 import com.yapp.bol.group.GroupId
-import com.yapp.bol.pagination.CursorRequest
-import com.yapp.bol.pagination.group.member.MemberCursorRequest
+import com.yapp.bol.group.member.dto.PaginationCursorMemberRequest
+import com.yapp.bol.pagination.cursor.PaginationCursorRequest
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.shouldBe
@@ -25,20 +25,20 @@ class MemberQueryRepositoryImplTest : FunSpec() {
 
             test("커서 존재하지 않음") {
                 clearAllMocks()
-                val request = MemberCursorRequest(groupId, null, size, null)
-                val cursorRequest = CapturingSlot<CursorRequest<String>>()
+                val request = PaginationCursorMemberRequest(groupId, null, size, null)
+                val paginationCursorRequest = CapturingSlot<PaginationCursorRequest<String>>()
                 every {
                     memberRepository.getByGroupIdWithCursor(
                         groupId.value,
                         null,
-                        capture(cursorRequest),
+                        capture(paginationCursorRequest),
                     )
                 } returns listOf(member)
 
                 val response = sut.getMemberListByCursor(request)
 
-                cursorRequest.captured.size shouldBeEqual size + 1
-                cursorRequest.captured.cursor shouldBe null
+                paginationCursorRequest.captured.size shouldBeEqual size + 1
+                paginationCursorRequest.captured.cursor shouldBe null
 
                 response.contents.size shouldBeEqual 1
                 response.contents.first() shouldBeEqual member
@@ -48,20 +48,20 @@ class MemberQueryRepositoryImplTest : FunSpec() {
             test("커서 존재함") {
                 clearAllMocks()
                 val cursor = "cursor"
-                val request = MemberCursorRequest(groupId, null, size, cursor)
-                val cursorRequest = CapturingSlot<CursorRequest<String>>()
+                val request = PaginationCursorMemberRequest(groupId, null, size, cursor)
+                val paginationCursorRequest = CapturingSlot<PaginationCursorRequest<String>>()
                 every {
                     memberRepository.getByGroupIdWithCursor(
                         groupId.value,
                         null,
-                        capture(cursorRequest),
+                        capture(paginationCursorRequest),
                     )
                 } returns listOf(member)
 
                 val response = sut.getMemberListByCursor(request)
 
-                cursorRequest.captured.size shouldBeEqual size + 1
-                cursorRequest.captured.cursor shouldBe cursor
+                paginationCursorRequest.captured.size shouldBeEqual size + 1
+                paginationCursorRequest.captured.cursor shouldBe cursor
 
                 response.contents.size shouldBeEqual 1
                 response.contents.first() shouldBeEqual member
@@ -70,21 +70,21 @@ class MemberQueryRepositoryImplTest : FunSpec() {
 
             test("hasNext = false 테스트") {
                 clearAllMocks()
-                val request = MemberCursorRequest(groupId, null, size, null)
-                val cursorRequest = CapturingSlot<CursorRequest<String>>()
+                val request = PaginationCursorMemberRequest(groupId, null, size, null)
+                val paginationCursorRequest = CapturingSlot<PaginationCursorRequest<String>>()
 
                 every {
                     memberRepository.getByGroupIdWithCursor(
                         groupId.value,
                         null,
-                        capture(cursorRequest),
+                        capture(paginationCursorRequest),
                     )
                 } returns List(size) { member }
 
                 val response = sut.getMemberListByCursor(request)
 
-                cursorRequest.captured.size shouldBeEqual size + 1
-                cursorRequest.captured.cursor shouldBe null
+                paginationCursorRequest.captured.size shouldBeEqual size + 1
+                paginationCursorRequest.captured.cursor shouldBe null
 
                 response.contents.size shouldBeEqual size
                 response.hasNext shouldBeEqual false
@@ -93,21 +93,21 @@ class MemberQueryRepositoryImplTest : FunSpec() {
 
             test("hasNext = true 테스트") {
                 clearAllMocks()
-                val request = MemberCursorRequest(groupId, null, size, null)
-                val cursorRequest = CapturingSlot<CursorRequest<String>>()
+                val request = PaginationCursorMemberRequest(groupId, null, size, null)
+                val paginationCursorRequest = CapturingSlot<PaginationCursorRequest<String>>()
 
                 every {
                     memberRepository.getByGroupIdWithCursor(
                         groupId.value,
                         null,
-                        capture(cursorRequest),
+                        capture(paginationCursorRequest),
                     )
                 } returns List(size + 1) { member }
 
                 val response = sut.getMemberListByCursor(request)
 
-                cursorRequest.captured.size shouldBeEqual size + 1
-                cursorRequest.captured.cursor shouldBe null
+                paginationCursorRequest.captured.size shouldBeEqual size + 1
+                paginationCursorRequest.captured.cursor shouldBe null
 
                 response.contents.size shouldBeEqual size
                 response.hasNext shouldBeEqual true

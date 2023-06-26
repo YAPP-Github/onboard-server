@@ -9,13 +9,16 @@
 ```text
 ./gradlew copySwaggerUI
 ```
+
 위 Task를 실행하면 크게 3가지 작업을 진행한다.
+
 1. Test 실행
 2. Controller 테스트 실행된 결과 snippet 을 저장
-3. snippet을 이용하여 Swagger 생성  
+3. snippet을 이용하여 Swagger 생성
 
 Swagger 파일은 src/main/resources/static/swagger 아래에 저장된다.  
-static import가 불편하고 RestDoc의 Kotlin DSL을 사용하면 정상적으로 작동하지 않아 자체적으로([토스 블로그](https://toss.tech/article/kotlin-dsl-restdocs)를 보면서) DSL을 만들었다.
+static import가 불편하고 RestDoc의 Kotlin DSL을 사용하면 정상적으로 작동하지 않아
+자체적으로([토스 블로그](https://toss.tech/article/kotlin-dsl-restdocs)를 보면서) DSL을 만들었다.
 
 ### References
 
@@ -24,6 +27,82 @@ static import가 불편하고 RestDoc의 Kotlin DSL을 사용하면 정상적으
 [토스 블로그 - Kotlin DSL을 이용하기](https://toss.tech/article/kotlin-dsl-restdocs)
 
 # Module
+
+## Class Naming Convention
+
+<table>
+    <tr>
+        <th> 모듈</th>
+        <th> 접미어</th>
+        <th> 설명</th>
+    </tr>
+    <tr>
+        <td rowspan="3"> Adapter In</td>
+        <td> Controller</td>
+        <td> Restful 통신을 담당하는 객체</td>
+    </tr>
+    <tr>
+        <td> Request</td>
+        <td> Http 요청 요청 처리 DTO</td>
+    </tr>
+    <tr>
+        <td> Response </td>
+        <td> Http 응답 처리할 DTO</td>
+    </tr>
+    <tr>
+        <td rowspan="5"> Adapter Out</td>
+        <td> Entity</td>
+        <td> JPA Entity 클래스</td>
+    </tr>
+    <tr>
+        <td> Repository</td>
+        <td> JpaRepository를 상속한 인터페이스</td>
+    </tr>
+    <tr>
+        <td> QueryRepositoryImpl</td>
+        <td> QueryRepository 구현체</td>
+    </tr>
+    <tr>
+        <td> CommandRepositoryImpl</td>
+        <td> CommandRepository 구현체</td>
+    </tr>
+    <tr>
+        <td> Client</td>
+        <td> QueryRepository, CommandRepository를 모두 구하는 클래스</td>
+    </tr>
+    <tr>
+        <td rowspan="2"> Pot In</td>
+        <td> Service</td>
+        <td> 비지니스 로직을 제공하는 인터페이스</td>
+    </tr>
+    <tr>
+        <td> Dto </td>
+        <td> AdapterIn -> Core 전달하는 DTO</td>
+    </tr>
+    <tr>
+        <td rowspan="2"> Pot Out</td>
+        <td> QueryRepository</td>
+        <td> 읽기 전용 (CQRS) 인터페이스</td>
+    </tr>
+    <tr>
+        <td> CommandRepository</td>
+        <td> 쓰기 전용 (CQRS) 인터페이스</td>
+    </tr>
+    <tr>
+        <td rowspan="1"> Core</td>
+        <td> ServiceImpl</td>
+        <td> Service 인터페이스 구현체</td>
+    </tr>
+    <tr>
+        <td rowspan="2"> Domain</td>
+        <td> InDto </td>
+        <td> AdapterIn -> Core -> AdapterOut 방향으로 흘러가는 DTO</td>
+    </tr>
+    <tr>
+        <td> OutDto </td>
+        <td> AdapterOut -> Core -> AdapterIn 방향으로 흘러가는 DTO</td>
+    </tr>
+</table>
 
 ## 헥사고날 아키텍쳐
 

@@ -2,8 +2,8 @@ package com.yapp.bol.group.member
 
 import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.GroupId
-import com.yapp.bol.pagination.SimpleCursorResponse
-import com.yapp.bol.pagination.group.member.MemberCursorRequest
+import com.yapp.bol.group.member.dto.PaginationCursorMemberRequest
+import com.yapp.bol.pagination.cursor.SimplePaginationCursorResponse
 
 interface MemberService {
     fun validateMemberNickname(groupId: GroupId, nickname: String): Boolean
@@ -12,7 +12,7 @@ interface MemberService {
 
     fun createGuestMember(groupId: GroupId, nickname: String): GuestMember
 
-    fun getMembers(request: MemberCursorRequest): SimpleCursorResponse<Member, String>
+    fun getMembers(request: PaginationCursorMemberRequest): SimplePaginationCursorResponse<Member, String>
 
     fun findMembersByGroupId(groupId: GroupId): List<Member>
 }
