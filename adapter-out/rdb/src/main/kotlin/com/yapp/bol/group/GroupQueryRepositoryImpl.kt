@@ -14,7 +14,7 @@ internal class GroupQueryRepositoryImpl(
         return groupRepository.findByIdOrNull(id.value)?.toDomain()
     }
 
-    override fun findByNameLike(name: String?, pageNumber: Int, pageSize: Int): PaginationOffsetResponse<Group> {
+    override fun search(name: String?, pageNumber: Int, pageSize: Int): PaginationOffsetResponse<Group> {
         val pageable = PageRequest.of(pageNumber, pageSize)
 
         if (name.isNullOrEmpty()) {
@@ -23,7 +23,7 @@ internal class GroupQueryRepositoryImpl(
             return toCursor(groups)
         }
 
-        val groups: Slice<GroupEntity> = groupRepository.findByNameLike("%$name%", pageable)
+        val groups: Slice<GroupEntity> = groupRepository.findByNameLikeOrOrganizationLike("%$name%", "%$name%", pageable)
 
         return toCursor(groups)
     }
