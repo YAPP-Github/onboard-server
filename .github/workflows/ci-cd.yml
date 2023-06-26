@@ -19,7 +19,7 @@ jobs:
                     docker build \
                     --build-arg PHASE=${{ vars.PHASE }} \
                     --build-arg AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} \
-                    --build-arg SERVER_HOST=${{ secrets.BOL_API_SERVER_HOST }} \
+                    --build-arg SERVER_HOST=${{ secrets.BOL_API_FULL_HOST }} \
                     -t app .
                     docker tag app ${{ secrets.DOCKER_USERNAME }}/board:${{ github.run_number }}
                     docker push ${{ secrets.DOCKER_USERNAME }}/board:${{ github.run_number }}

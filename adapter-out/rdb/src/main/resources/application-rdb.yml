@@ -44,7 +44,7 @@ spring.config.activate.on-profile: local
 
 bol:
     server:
-        host: localhost:8080
+        host: http://localhost:8080
 ---
 spring.config.activate.on-profile: test
 spring:

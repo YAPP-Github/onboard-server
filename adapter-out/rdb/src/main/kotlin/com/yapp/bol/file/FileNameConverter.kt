@@ -13,6 +13,6 @@ class FileNameConverter {
     companion object {
         private lateinit var host: String
 
-        fun convertFileUrl(name: String): String = "http://$host/v1/file/$name" // TODO: change https
+        fun convertFileUrl(name: String): String = "$host/v1/file/$name"
     }
 }
