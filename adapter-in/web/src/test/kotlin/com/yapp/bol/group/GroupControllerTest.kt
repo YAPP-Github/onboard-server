@@ -21,7 +21,7 @@ class GroupControllerTest : ControllerTest() {
     override val controller = GroupController(groupService)
 
     init {
-        test("POST /v1/group") {
+        test("그룹 생성하기") {
             val request = CreateGroupRequest(
                 name = "뽀글뽀글",
                 description = "보겜동입니다",
@@ -39,7 +39,7 @@ class GroupControllerTest : ControllerTest() {
             }
                 .isStatus(200)
                 .makeDocument(
-                    DocumentInfo(identifier = "group", tag = OpenApiTag.GROUP),
+                    DocumentInfo(identifier = "group/{method-name}", tag = OpenApiTag.GROUP),
                     requestFields(
                         "name" type STRING means "그룹 이름",
                         "description" type STRING means "그룹 설명",
@@ -59,7 +59,7 @@ class GroupControllerTest : ControllerTest() {
                 )
         }
 
-        test("GET /v1/group") {
+        test("그룹 리스트 가져오기") {
             val name = "뽀글뽀글"
             val pageNumber = 0
             val pageSize = 10
@@ -74,7 +74,7 @@ class GroupControllerTest : ControllerTest() {
             get("/v1/group?name=$name&pageNumber=$pageNumber&pageSize=$pageSize") {}
                 .isStatus(200)
                 .makeDocument(
-                    DocumentInfo(identifier = "group", tag = OpenApiTag.GROUP),
+                    DocumentInfo(identifier = "group/{method-name}", tag = OpenApiTag.GROUP),
                     queryParameters(
                         "name" type STRING means "그룹 이름 (디폴트 전체)" isOptional true,
                         "pageNumber" type NUMBER means "페이지 번호 (디폴트 0)" isOptional true,
