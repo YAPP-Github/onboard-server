@@ -1,6 +1,6 @@
 package com.yapp.bol.group
 
-import com.yapp.bol.pageable.PaginationCursor
+import com.yapp.bol.pagination.offset.PaginationOffsetResponse
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Slice
 import org.springframework.data.repository.findByIdOrNull
@@ -14,7 +14,7 @@ internal class GroupQueryRepositoryImpl(
         return groupRepository.findByIdOrNull(id.value)?.toDomain()
     }
 
-    override fun findByNameLike(name: String?, pageNumber: Int, pageSize: Int): PaginationCursor<Group> {
+    override fun findByNameLike(name: String?, pageNumber: Int, pageSize: Int): PaginationOffsetResponse<Group> {
         val pageable = PageRequest.of(pageNumber, pageSize)
 
         if (name.isNullOrEmpty()) {
@@ -28,9 +28,9 @@ internal class GroupQueryRepositoryImpl(
         return toCursor(groups)
     }
 
-    private fun toCursor(slice: Slice<GroupEntity>): PaginationCursor<Group> {
+    private fun toCursor(slice: Slice<GroupEntity>): PaginationOffsetResponse<Group> {
         val content: List<Group> = slice.content.map(GroupEntity::toDomain)
 
-        return PaginationCursor(content, slice.hasNext())
+        return PaginationOffsetResponse(content, slice.hasNext())
     }
 }

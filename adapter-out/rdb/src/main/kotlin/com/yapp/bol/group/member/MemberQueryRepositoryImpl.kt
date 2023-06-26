@@ -2,7 +2,8 @@ package com.yapp.bol.group.member
 
 import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.GroupId
-import com.yapp.bol.pagination.CursorRequest
+import com.yapp.bol.group.member.dto.PaginationCursorMemberRequest
+import com.yapp.bol.pagination.cursor.SimplePaginationCursorResponse
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
@@ -17,13 +18,30 @@ internal class MemberQueryRepositoryImpl(
     }
 
     override fun getMemberListByCursor(
-        groupId: GroupId,
-        nickname: String?,
-        cursorRequest: CursorRequest<String>
-    ): List<Member> {
-        val entities = memberRepository.getByGroupIdWithCursor(groupId.value, nickname, cursorRequest)
+        request: PaginationCursorMemberRequest
+    ): SimplePaginationCursorResponse<Member, String> {
+        val originalSize = request.size
 
-        return entities.map { it.toDomain() }.toList()
+        val extraMembers = getExtraMembers(request).map { it.toDomain() }
+
+        val hasNext = extraMembers.size > originalSize
+        val contents = extraMembers.take(originalSize)
+
+        return SimplePaginationCursorResponse(
+            contents = contents,
+            cursor = contents.last().nickname,
+            hasNext = hasNext,
+        )
+    }
+
+    private fun getExtraMembers(request: PaginationCursorMemberRequest): List<MemberEntity> {
+        val extraRequest = request.copy(size = request.size + 1)
+
+        return memberRepository.getByGroupIdWithCursor(
+            groupId = extraRequest.groupId.value,
+            nickname = extraRequest.nickname,
+            cursor = extraRequest
+        )
     }
 
     @Transactional(readOnly = true)
