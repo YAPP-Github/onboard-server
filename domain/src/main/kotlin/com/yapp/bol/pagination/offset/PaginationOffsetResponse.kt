@@ -1,6 +1,6 @@
 package com.yapp.bol.pagination.offset
 
-data class PaginationCursor<T>(
+data class PaginationOffsetResponse<T>(
     val content: List<T>,
     val hasNext: Boolean
 )

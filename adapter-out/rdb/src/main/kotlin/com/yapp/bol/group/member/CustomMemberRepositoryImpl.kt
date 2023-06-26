@@ -1,7 +1,7 @@
 package com.yapp.bol.group.member
 
 import com.querydsl.jpa.impl.JPAQueryFactory
-import com.yapp.bol.pagination.cursor.CursorRequest
+import com.yapp.bol.pagination.cursor.PaginationCursorRequest
 
 class CustomMemberRepositoryImpl(
     val queryFactory: JPAQueryFactory
@@ -9,7 +9,7 @@ class CustomMemberRepositoryImpl(
     override fun getByGroupIdWithCursor(
         groupId: Long,
         nickname: String?,
-        cursor: CursorRequest<String>
+        cursor: PaginationCursorRequest<String>
     ): List<MemberEntity> {
         val member = QMemberEntity.memberEntity
 

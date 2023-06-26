@@ -1,6 +1,6 @@
 package com.yapp.bol.pagination.cursor
 
-interface CursorRequest<CURSOR> {
+interface PaginationCursorRequest<CURSOR> {
     val size: Int
     val cursor: CURSOR?
 }

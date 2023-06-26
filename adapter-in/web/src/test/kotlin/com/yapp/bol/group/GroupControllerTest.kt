@@ -12,7 +12,7 @@ import com.yapp.bol.group.dto.GroupMemberList
 import com.yapp.bol.group.dto.GroupWithMemberCount
 import com.yapp.bol.group.member.MemberList
 import com.yapp.bol.group.member.OwnerMember
-import com.yapp.bol.pagination.offset.PaginationCursor
+import com.yapp.bol.pagination.offset.PaginationOffsetResponse
 import io.mockk.every
 import io.mockk.mockk
 
@@ -66,7 +66,7 @@ class GroupControllerTest : ControllerTest() {
 
             every {
                 groupService.searchGroup(any(), any(), any())
-            } returns PaginationCursor<GroupWithMemberCount>(
+            } returns PaginationOffsetResponse<GroupWithMemberCount>(
                 content = listOf(GROUP_WITH_MEMBER_COUNT),
                 hasNext = false,
             )

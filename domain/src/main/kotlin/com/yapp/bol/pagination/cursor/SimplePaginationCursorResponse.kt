@@ -1,13 +1,13 @@
 package com.yapp.bol.pagination.cursor
 
-data class SimpleCursorResponse<T, CURSOR>(
+data class SimplePaginationCursorResponse<T, CURSOR>(
     override val contents: List<T>,
     override val cursor: CURSOR,
     override val hasNext: Boolean,
-) : CursorResponse<T, CURSOR> {
+) : PaginationCursorResponse<T, CURSOR> {
 
-    fun <U> mapContents(func: (T) -> U): SimpleCursorResponse<U, CURSOR> {
-        return SimpleCursorResponse(
+    fun <U> mapContents(func: (T) -> U): SimplePaginationCursorResponse<U, CURSOR> {
+        return SimplePaginationCursorResponse(
             contents = contents.map(func),
             cursor = cursor,
             hasNext = hasNext,

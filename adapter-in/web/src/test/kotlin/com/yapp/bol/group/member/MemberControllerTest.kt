@@ -12,7 +12,7 @@ import com.yapp.bol.group.GroupId
 import com.yapp.bol.group.GroupService
 import com.yapp.bol.group.member.dto.AddGuestRequest
 import com.yapp.bol.group.member.dto.JoinGroupRequest
-import com.yapp.bol.pagination.cursor.SimpleCursorResponse
+import com.yapp.bol.pagination.cursor.SimplePaginationCursorResponse
 import io.mockk.every
 import io.mockk.mockk
 
@@ -48,7 +48,7 @@ class MemberControllerTest : ControllerTest() {
             val nickname = "검색"
             val cursor = "김김김"
 
-            every { memberService.getMembers(any()) } returns SimpleCursorResponse(
+            every { memberService.getMembers(any()) } returns SimplePaginationCursorResponse(
                 contents = List(size) {
                     HostMember(
                         id = MemberId(it.toLong()),
