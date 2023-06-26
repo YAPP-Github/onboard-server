@@ -1,6 +1,6 @@
 package com.yapp.bol.group
 
-import com.yapp.bol.pageable.PaginationCursor
+import com.yapp.bol.pagination.offset.PaginationCursor
 
 interface GroupQueryRepository {
     fun findById(id: GroupId): Group?

@@ -2,8 +2,8 @@ package com.yapp.bol.group.member
 
 import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.GroupId
-import com.yapp.bol.pagination.SimpleCursorResponse
-import com.yapp.bol.pagination.group.member.MemberCursorRequest
+import com.yapp.bol.pagination.cursor.SimpleCursorResponse
+import com.yapp.bol.pagination.cursor.member.MemberCursorRequest
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 

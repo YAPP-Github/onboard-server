@@ -11,7 +11,7 @@ import com.yapp.bol.group.dto.JoinGroupDto
 import com.yapp.bol.group.member.MemberQueryRepository
 import com.yapp.bol.group.member.MemberService
 import com.yapp.bol.group.member.OwnerMember
-import com.yapp.bol.pageable.PaginationCursor
+import com.yapp.bol.pagination.offset.PaginationCursor
 import org.springframework.stereotype.Service
 
 @Service

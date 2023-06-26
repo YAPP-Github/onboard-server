@@ -6,7 +6,7 @@ import com.yapp.bol.group.dto.CreateGroupResponse
 import com.yapp.bol.group.dto.GroupWithMemberCount
 import com.yapp.bol.group.dto.toCreateGroupResponse
 import com.yapp.bol.group.dto.toDto
-import com.yapp.bol.pageable.PaginationCursor
+import com.yapp.bol.pagination.offset.PaginationCursor
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping

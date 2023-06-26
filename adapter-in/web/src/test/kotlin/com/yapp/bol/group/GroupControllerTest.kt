@@ -12,7 +12,7 @@ import com.yapp.bol.group.dto.GroupMemberList
 import com.yapp.bol.group.dto.GroupWithMemberCount
 import com.yapp.bol.group.member.MemberList
 import com.yapp.bol.group.member.OwnerMember
-import com.yapp.bol.pageable.PaginationCursor
+import com.yapp.bol.pagination.offset.PaginationCursor
 import io.mockk.every
 import io.mockk.mockk
 

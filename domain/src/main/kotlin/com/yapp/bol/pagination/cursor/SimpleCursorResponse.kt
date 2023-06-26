@@ -1,4 +1,4 @@
-package com.yapp.bol.pagination
+package com.yapp.bol.pagination.cursor
 
 data class SimpleCursorResponse<T, CURSOR>(
     override val contents: List<T>,

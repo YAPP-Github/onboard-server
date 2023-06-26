@@ -1,8 +1,8 @@
 package com.yapp.bol.group.member
 
 import com.yapp.bol.group.GroupId
-import com.yapp.bol.pagination.CursorRequest
-import com.yapp.bol.pagination.group.member.MemberCursorRequest
+import com.yapp.bol.pagination.cursor.CursorRequest
+import com.yapp.bol.pagination.cursor.member.MemberCursorRequest
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.shouldBe

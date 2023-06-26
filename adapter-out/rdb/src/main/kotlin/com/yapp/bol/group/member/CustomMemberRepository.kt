@@ -1,6 +1,6 @@
 package com.yapp.bol.group.member
 
-import com.yapp.bol.pagination.CursorRequest
+import com.yapp.bol.pagination.cursor.CursorRequest
 
 interface CustomMemberRepository {
 

@@ -4,8 +4,8 @@ import com.yapp.bol.AlreadyExistMemberException
 import com.yapp.bol.DuplicatedMemberNicknameException
 import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.GroupId
-import com.yapp.bol.pagination.SimpleCursorResponse
-import com.yapp.bol.pagination.group.member.MemberCursorRequest
+import com.yapp.bol.pagination.cursor.SimpleCursorResponse
+import com.yapp.bol.pagination.cursor.member.MemberCursorRequest
 import org.springframework.stereotype.Service
 
 @Service

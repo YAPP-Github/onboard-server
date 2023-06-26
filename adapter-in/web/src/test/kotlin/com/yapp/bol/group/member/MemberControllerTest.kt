@@ -12,7 +12,7 @@ import com.yapp.bol.group.GroupId
 import com.yapp.bol.group.GroupService
 import com.yapp.bol.group.member.dto.AddGuestRequest
 import com.yapp.bol.group.member.dto.JoinGroupRequest
-import com.yapp.bol.pagination.SimpleCursorResponse
+import com.yapp.bol.pagination.cursor.SimpleCursorResponse
 import io.mockk.every
 import io.mockk.mockk
 

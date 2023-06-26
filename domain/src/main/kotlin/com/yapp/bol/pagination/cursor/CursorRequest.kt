@@ -1,4 +1,4 @@
-package com.yapp.bol.pagination
+package com.yapp.bol.pagination.cursor
 
 interface CursorRequest<CURSOR> {
     val size: Int
