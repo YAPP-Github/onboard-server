@@ -36,8 +36,4 @@ class MatchMemberEntity : AuditingEntity() {
     @Column(name = "previous_score")
     var previousScore: Int = 0
         protected set
-
-    @Column(name = "order")
-    var order: Int = 0
-        protected set
 }
