@@ -26,12 +26,8 @@ class MatchEntity : AuditingEntity() {
     lateinit var log: String
         protected set
 
-    @Column(name = "match_img_url")
+    @Column(name = "match_image_url")
     lateinit var matchImageUrl: String
-        protected set
-
-    @Column(name = "image_url")
-    lateinit var imageUrl: String
         protected set
 
     @Column(name = "matched_date")
