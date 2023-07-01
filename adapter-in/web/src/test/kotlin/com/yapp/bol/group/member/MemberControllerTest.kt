@@ -22,21 +22,32 @@ class MemberControllerTest : ControllerTest() {
     override val controller = MemberController(groupService, memberService)
 
     init {
-        test("GET /v1/group/{groupId}/member/validateNickname") {
+        test("멤버 닉네임 검사") {
+            val groupId = GroupId(1)
+            val nickname = "holden"
+
             every {
                 memberService.validateMemberNickname(any(), any())
             } returns true
 
-            get("/v1/group/1/member/validateNickname?groupId=1&nickname=holden") {}
+            get("/v1/group/{groupId}/member/validateNickname", arrayOf(groupId.value)) {
+                queryParam("nickname", nickname)
+            }
                 .isStatus(200)
                 .makeDocument(
-                    DocumentInfo(identifier = "member", tag = OpenApiTag.MEMBER),
-                    queryParameters(
+                    DocumentInfo(
+                        identifier = "member/{method-name}",
+                        tag = OpenApiTag.MEMBER,
+                        description = "맴버 닉네임 검사"
+                    ),
+                    pathParameters(
                         "groupId" type NUMBER means "그룹 ID",
+                    ),
+                    queryParameters(
                         "nickname" type STRING means "닉네임"
                     ),
                     responseFields(
-                        "isAvailable" type BOOLEAN means "그룹 내에서 닉네임 중복 여부"
+                        "isAvailable" type BOOLEAN means "그룹 내에서 닉네임 사용 가능 여부"
                     )
                 )
         }
