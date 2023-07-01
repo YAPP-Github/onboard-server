@@ -13,16 +13,19 @@ internal class MemberServiceImpl(
     private val memberQueryRepository: MemberQueryRepository,
     private val memberCommandRepository: MemberCommandRepository,
 ) : MemberService {
-    override fun validateMemberNickname(groupId: GroupId, nickname: String): Boolean {
-        return memberQueryRepository.findByNicknameAndGroupId(nickname, groupId) == null
-    }
+    override fun validateMemberNickname(groupId: GroupId, nickname: String): Boolean =
+        when {
+            validateUniqueNickname(groupId, nickname).not() -> false
+            validateNicknameLength(nickname).not() -> false
+            else -> true
+        }
 
     override fun createHostMember(userId: UserId, groupId: GroupId, nickname: String): HostMember {
         if (memberQueryRepository.findByGroupIdAndUserId(groupId, userId) != null) {
             throw AlreadyExistMemberException
         }
 
-        if (validateMemberNickname(groupId, nickname).not()) throw DuplicatedMemberNicknameException
+        if (validateUniqueNickname(groupId, nickname).not()) throw DuplicatedMemberNicknameException
 
         val member = HostMember(
             userId = userId,
@@ -43,4 +46,10 @@ internal class MemberServiceImpl(
 
     override fun findMembersByGroupId(groupId: GroupId): List<Member> =
         memberQueryRepository.findByGroupId(groupId)
+
+    private fun validateUniqueNickname(groupId: GroupId, nickname: String): Boolean =
+        memberQueryRepository.findByNicknameAndGroupId(nickname, groupId) == null
+
+    private fun validateNicknameLength(nickname: String): Boolean =
+        nickname.length in Member.MIN_NICKNAME_LENGTH..Member.MAX_NICKNAME_LENGTH
 }
