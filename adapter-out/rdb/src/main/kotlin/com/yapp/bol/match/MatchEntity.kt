@@ -14,7 +14,7 @@ import jakarta.persistence.Table
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "match")
+@Table(name = "match_table")
 class MatchEntity : AuditingEntity() {
     @Id
     @Column(name = "match_id")

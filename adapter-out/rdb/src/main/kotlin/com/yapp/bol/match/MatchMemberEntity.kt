@@ -29,8 +29,8 @@ class MatchMemberEntity : AuditingEntity() {
     var score: Int = 0
         protected set
 
-    @Column(name = "rank")
-    var rank: Int = 0
+    @Column(name = "ranking")
+    var ranking: Int = 0
         protected set
 
     @Column(name = "previous_score")
