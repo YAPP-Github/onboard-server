@@ -55,7 +55,7 @@ internal class GroupServiceImpl(
         pageSize: Int
     ): PaginationOffsetResponse<GroupWithMemberCount> {
         val groups = groupQueryRepository.search(
-            name = keyword,
+            keyword = keyword,
             pageNumber = pageNumber,
             pageSize = pageSize
         )
