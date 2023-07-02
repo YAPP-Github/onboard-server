@@ -3,6 +3,7 @@ package com.yapp.bol.user
 import com.yapp.bol.UnknownException
 import com.yapp.bol.auth.getSecurityUserIdOrThrow
 import com.yapp.bol.group.GroupService
+import com.yapp.bol.group.dto.toResponse
 import com.yapp.bol.user.dto.JoinedGroupResponse
 import com.yapp.bol.user.dto.MyInfoResponse
 import com.yapp.bol.user.dto.toResponse
