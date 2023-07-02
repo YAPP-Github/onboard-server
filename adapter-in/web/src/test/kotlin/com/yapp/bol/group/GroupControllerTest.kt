@@ -71,12 +71,16 @@ class GroupControllerTest : ControllerTest() {
                 hasNext = false,
             )
 
-            get("/v1/group?name=$name&pageNumber=$pageNumber&pageSize=$pageSize") {}
+            get("/v1/group") {
+                queryParam("keyword", name)
+                queryParam("pageNumber", pageNumber.toString())
+                queryParam("pageSize", pageSize.toString())
+            }
                 .isStatus(200)
                 .makeDocument(
                     DocumentInfo(identifier = "group", tag = OpenApiTag.GROUP),
                     queryParameters(
-                        "name" type STRING means "그룹 이름 (디폴트 전체)" isOptional true,
+                        "keyword" type STRING means "검색하고자 하는 텍스트, (이름/소속)을 검색합니다. (디폴트 All)" isOptional true,
                         "pageNumber" type NUMBER means "페이지 번호 (디폴트 0)" isOptional true,
                         "pageSize" type NUMBER means "페이지 크기 (디폴트 10)" isOptional true
                     ),

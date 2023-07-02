@@ -49,12 +49,12 @@ internal class GroupServiceImpl(
     }
 
     override fun searchGroup(
-        name: String?,
+        keyword: String?,
         pageNumber: Int,
         pageSize: Int
     ): PaginationOffsetResponse<GroupWithMemberCount> {
         val groups = groupQueryRepository.search(
-            name = name,
+            name = keyword,
             pageNumber = pageNumber,
             pageSize = pageSize
         )
