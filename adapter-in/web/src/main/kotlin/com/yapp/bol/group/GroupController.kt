@@ -36,12 +36,12 @@ class GroupController(
 
     @GetMapping
     fun searchGroup(
-        @RequestParam name: String?,
+        @RequestParam keyword: String?,
         @RequestParam(defaultValue = "0") pageNumber: Int,
         @RequestParam(defaultValue = "10") pageSize: Int
     ): PaginationOffsetResponse<GroupWithMemberCount> =
         groupService.searchGroup(
-            name = name,
+            keyword = keyword,
             pageNumber = pageNumber,
             pageSize = pageSize,
         )
