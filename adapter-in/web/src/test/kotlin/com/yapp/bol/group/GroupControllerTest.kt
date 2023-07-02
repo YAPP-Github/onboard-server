@@ -7,6 +7,7 @@ import com.yapp.bol.base.ControllerTest
 import com.yapp.bol.base.NUMBER
 import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
+import com.yapp.bol.file.FileService
 import com.yapp.bol.group.dto.CreateGroupRequest
 import com.yapp.bol.group.dto.GroupMemberList
 import com.yapp.bol.group.dto.GroupWithMemberCount
@@ -18,9 +19,27 @@ import io.mockk.mockk
 
 class GroupControllerTest : ControllerTest() {
     private val groupService: GroupService = mockk()
-    override val controller = GroupController(groupService)
+    private val fileService: FileService = mockk()
+    override val controller = GroupController(groupService, fileService)
 
     init {
+        test("그룹 기본 이미지 가져오기") {
+            every { fileService.getDefaultGroupImageUrl() } returns "http://localhost:8080/default-image"
+
+            get("/v1/group/default-image") {}
+                .isStatus(200)
+                .makeDocument(
+                    DocumentInfo(
+                        identifier = "group/{method-name}",
+                        description = "그룹 기본 이미지 랜덤으로 가져오기",
+                        tag = OpenApiTag.GROUP
+                    ),
+                    responseFields(
+                        "url" type STRING means "기본이미지 URL",
+                    )
+                )
+        }
+
         test("그룹 생성하기") {
             val request = CreateGroupRequest(
                 name = "뽀글뽀글",
