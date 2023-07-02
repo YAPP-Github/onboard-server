@@ -1,5 +1,6 @@
 package com.yapp.bol.group
 
+import com.yapp.bol.auth.UserId
 import com.yapp.bol.game.GameId
 import com.yapp.bol.group.dto.AddGuestDto
 import com.yapp.bol.group.dto.CreateGroupDto
@@ -16,7 +17,7 @@ interface GroupService {
     fun joinGroup(request: JoinGroupDto)
 
     fun searchGroup(
-        name: String?,
+        keyword: String?,
         pageNumber: Int,
         pageSize: Int
     ): PaginationOffsetResponse<GroupWithMemberCount>
@@ -24,4 +25,6 @@ interface GroupService {
     fun addGuest(request: AddGuestDto)
 
     fun getLeaderBoard(groupId: GroupId, gameId: GameId): List<LeaderBoardMember>
+
+    fun getGroupsByUserId(userId: UserId): List<Group>
 }

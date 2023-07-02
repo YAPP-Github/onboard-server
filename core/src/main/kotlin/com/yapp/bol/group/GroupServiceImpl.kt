@@ -3,6 +3,7 @@ package com.yapp.bol.group
 import com.yapp.bol.AccessCodeNotMatchException
 import com.yapp.bol.NotFoundGroupException
 import com.yapp.bol.UnAuthorizationException
+import com.yapp.bol.auth.UserId
 import com.yapp.bol.game.GameId
 import com.yapp.bol.group.dto.AddGuestDto
 import com.yapp.bol.group.dto.CreateGroupDto
@@ -50,12 +51,12 @@ internal class GroupServiceImpl(
     }
 
     override fun searchGroup(
-        name: String?,
+        keyword: String?,
         pageNumber: Int,
         pageSize: Int
     ): PaginationOffsetResponse<GroupWithMemberCount> {
-        val groups = groupQueryRepository.findByNameLike(
-            name = name,
+        val groups = groupQueryRepository.search(
+            keyword = keyword,
             pageNumber = pageNumber,
             pageSize = pageSize
         )
@@ -78,5 +79,9 @@ internal class GroupServiceImpl(
 
     override fun getLeaderBoard(groupId: GroupId, gameId: GameId): List<LeaderBoardMember> {
         return groupQueryRepository.getLeaderBoardList(groupId, gameId)
+    }
+
+    override fun getGroupsByUserId(userId: UserId): List<Group> {
+        return groupQueryRepository.getGroupsByUserId(userId)
     }
 }

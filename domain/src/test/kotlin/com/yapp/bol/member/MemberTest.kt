@@ -18,8 +18,22 @@ class MemberTest : FunSpec() {
             MEMBER_OWNER.shouldBeInstanceOf<Member>()
         }
 
-        test("멤버 닉네임 길이 제한") {
+        test("멤버 닉네임 최대 길이 제한") {
             val nickname = "x".repeat(Member.MAX_NICKNAME_LENGTH + 1)
+
+            shouldThrow<InvalidMemberNicknameException> {
+                OwnerMember(userId = UserId(0), nickname = nickname)
+            }
+            shouldThrow<InvalidMemberNicknameException> {
+                HostMember(userId = UserId(0), nickname = nickname)
+            }
+            shouldThrow<InvalidMemberNicknameException> {
+                GuestMember(nickname = nickname)
+            }
+        }
+
+        test("멤버 닉네임 최소 길이 제한") {
+            val nickname = "x".repeat(Member.MIN_NICKNAME_LENGTH - 1)
 
             shouldThrow<InvalidMemberNicknameException> {
                 OwnerMember(userId = UserId(0), nickname = nickname)

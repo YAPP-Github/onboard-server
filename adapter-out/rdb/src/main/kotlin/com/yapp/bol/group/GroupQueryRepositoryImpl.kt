@@ -1,5 +1,6 @@
 package com.yapp.bol.group
 
+import com.yapp.bol.auth.UserId
 import com.yapp.bol.game.GameId
 import com.yapp.bol.group.member.MemberEntity
 import com.yapp.bol.group.member.MemberRepository
@@ -19,7 +20,7 @@ internal class GroupQueryRepositoryImpl(
         return groupRepository.findByIdOrNull(id.value)?.toDomain()
     }
 
-    override fun findByNameLike(name: String?, pageNumber: Int, pageSize: Int): PaginationOffsetResponse<Group> {
+    override fun search(name: String?, pageNumber: Int, pageSize: Int): PaginationOffsetResponse<Group> {
         val pageable = PageRequest.of(pageNumber, pageSize)
 
         if (name.isNullOrEmpty()) {
@@ -28,7 +29,7 @@ internal class GroupQueryRepositoryImpl(
             return toCursor(groups)
         }
 
-        val groups: Slice<GroupEntity> = groupRepository.findByNameLike("%$name%", pageable)
+        val groups: Slice<GroupEntity> = groupRepository.findByNameLikeOrOrganizationLike("%$name%", "%$name%", pageable)
 
         return toCursor(groups)
     }
@@ -47,8 +48,10 @@ internal class GroupQueryRepositoryImpl(
 
     private fun MemberEntity.toLeaderBoardDomain(): LeaderBoardMember = LeaderBoardMember(
         member = this.toDomain(),
-        score = this.gameMember?.finalScore,
-        winningPercentage = this.gameMember?.winningPercentage,
-        matchCount = this.gameMember?.matchCount,
+        score = this.gameMembers?.sfinalScore,
+        winningPercentage = this.gameMembers?.winningPercentage,
+        matchCount = this.gameMembers?.matchCount,
     )
+    override fun getGroupsByUserId(userId: UserId): List<Group> =
+        groupRepository.findByUserId(userId.value).map { it.toDomain() }
 }
