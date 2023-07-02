@@ -33,6 +33,6 @@ class FileEntity(
 
     @Column(name = "purpose")
     @Enumerated(value = EnumType.STRING)
-    var accessLevel: FilePurpose = purpose
+    var purpose: FilePurpose = purpose
         protected set
 }
