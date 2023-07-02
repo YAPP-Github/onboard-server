@@ -16,7 +16,7 @@ interface GroupService {
     fun joinGroup(request: JoinGroupDto)
 
     fun searchGroup(
-        name: String?,
+        keyword: String?,
         pageNumber: Int,
         pageSize: Int
     ): PaginationOffsetResponse<GroupWithMemberCount>
