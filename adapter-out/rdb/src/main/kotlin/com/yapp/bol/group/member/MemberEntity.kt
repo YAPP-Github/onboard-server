@@ -11,7 +11,7 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
-import jakarta.persistence.ManyToOne
+import jakarta.persistence.ManyToMany
 import jakarta.persistence.Table
 
 @Entity
@@ -47,8 +47,8 @@ class MemberEntity(
     @Column(name = "group_id", nullable = false)
     val groupId: Long = groupId
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    var gameMember: GameMemberEntity? = null
+    @ManyToMany(mappedBy = "memberId", fetch = FetchType.LAZY)
+    lateinit var gameMembers: List<GameMemberEntity>
         protected set
 }
 

@@ -29,7 +29,8 @@ internal class GroupQueryRepositoryImpl(
             return toCursor(groups)
         }
 
-        val groups: Slice<GroupEntity> = groupRepository.findByNameLikeOrOrganizationLike("%$name%", "%$name%", pageable)
+        val groups: Slice<GroupEntity> =
+            groupRepository.findByNameLikeOrOrganizationLike("%$name%", "%$name%", pageable)
 
         return toCursor(groups)
     }
@@ -41,17 +42,22 @@ internal class GroupQueryRepositoryImpl(
     }
 
     override fun getLeaderBoardList(groupId: GroupId, gameId: GameId): List<LeaderBoardMember> {
-        return memberRepository.findWithGameMember(groupId.value, gameId.value).map {
-            it.toLeaderBoardDomain()
+        return memberRepository.findWithGameMember(groupId.value).map {
+            it.toLeaderBoardDomain(gameId)
         }
     }
 
-    private fun MemberEntity.toLeaderBoardDomain(): LeaderBoardMember = LeaderBoardMember(
-        member = this.toDomain(),
-        score = this.gameMembers?.sfinalScore,
-        winningPercentage = this.gameMembers?.winningPercentage,
-        matchCount = this.gameMembers?.matchCount,
-    )
+    private fun MemberEntity.toLeaderBoardDomain(gameId: GameId): LeaderBoardMember {
+        val gameMember = this.gameMembers.firstOrNull { it.gameId == gameId.value }
+
+        return LeaderBoardMember(
+            member = this.toDomain(),
+            score = gameMember?.finalScore,
+            winningPercentage = gameMember?.winningPercentage,
+            matchCount = gameMember?.matchCount,
+        )
+    }
+
     override fun getGroupsByUserId(userId: UserId): List<Group> =
         groupRepository.findByUserId(userId.value).map { it.toDomain() }
 }
