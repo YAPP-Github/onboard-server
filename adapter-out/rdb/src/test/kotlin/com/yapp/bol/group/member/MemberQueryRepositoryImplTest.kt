@@ -113,6 +113,30 @@ class MemberQueryRepositoryImplTest : FunSpec() {
                 response.hasNext shouldBeEqual true
                 verify(exactly = 1) { memberRepository.getByGroupIdWithCursor(groupId.value, null, any()) }
             }
+
+            test("맴버 목록 없음"){
+                clearAllMocks()
+                val request = PaginationCursorMemberRequest(groupId, null, size, null)
+                val paginationCursorRequest = CapturingSlot<PaginationCursorRequest<String>>()
+
+                every {
+                    memberRepository.getByGroupIdWithCursor(
+                        groupId.value,
+                        null,
+                        capture(paginationCursorRequest),
+                    )
+                } returns emptyList()
+
+                val response = sut.getMemberListByCursor(request)
+
+                paginationCursorRequest.captured.size shouldBeEqual size + 1
+                paginationCursorRequest.captured.cursor shouldBe null
+
+                response.contents.size shouldBeEqual 0
+                response.hasNext shouldBeEqual false
+                response.cursor shouldBeEqual ""
+                verify(exactly = 1) { memberRepository.getByGroupIdWithCursor(groupId.value, null, any()) }
+            }
         }
     }
 
