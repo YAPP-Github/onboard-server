@@ -1,5 +1,5 @@
 package com.yapp.bol.file.dto
 
-data class UploadFileResponse(
+data class FileResponse(
     val url: String,
 )
