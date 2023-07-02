@@ -9,6 +9,7 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import java.time.LocalDateTime
@@ -39,12 +40,12 @@ class MatchEntity : AuditingEntity() {
         protected set
 
     @OneToOne(fetch = FetchType.LAZY)
-    @Column(name = "season_id")
+    @JoinColumn(name = "season_id")
     lateinit var season: SeasonEntity
         protected set
 
     @OneToOne(fetch = FetchType.LAZY)
-    @Column(name = "game_id")
+    @JoinColumn(name = "game_id")
     lateinit var game: GameEntity
         protected set
 
