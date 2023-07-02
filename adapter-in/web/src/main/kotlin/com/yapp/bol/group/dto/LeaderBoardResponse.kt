@@ -1,5 +1,6 @@
 package com.yapp.bol.group.dto
 
+import com.yapp.bol.group.LeaderBoardMember
 import com.yapp.bol.group.member.MemberId
 
 data class LeaderBoardResponse(
@@ -8,8 +9,16 @@ data class LeaderBoardResponse(
 
 data class RankMemberResponse(
     val id: MemberId,
-    val rank: Int,
-    val name: String,
-    val winningPercentage: Double,
-    val playCount: Int,
+    val nickname: String,
+    val rank: Int?,
+    val winningPercentage: Double?,
+    val matchCount: Int?,
+)
+
+fun LeaderBoardMember.toResponse(rank: Int?): RankMemberResponse = RankMemberResponse(
+    id = this.member.id,
+    nickname = this.member.nickname,
+    rank = if (this.matchCount == null || this.matchCount == 0) null else rank,
+    winningPercentage = this.winningPercentage,
+    matchCount = this.matchCount,
 )

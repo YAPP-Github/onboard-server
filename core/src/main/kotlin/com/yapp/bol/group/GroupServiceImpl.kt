@@ -3,6 +3,7 @@ package com.yapp.bol.group
 import com.yapp.bol.AccessCodeNotMatchException
 import com.yapp.bol.NotFoundGroupException
 import com.yapp.bol.UnAuthorizationException
+import com.yapp.bol.game.GameId
 import com.yapp.bol.group.dto.AddGuestDto
 import com.yapp.bol.group.dto.CreateGroupDto
 import com.yapp.bol.group.dto.GroupMemberList
@@ -73,5 +74,9 @@ internal class GroupServiceImpl(
             ?: throw UnAuthorizationException()
 
         memberService.createGuestMember(request.groupId, request.nickname)
+    }
+
+    override fun getLeaderBoard(groupId: GroupId, gameId: GameId): List<LeaderBoardMember> {
+        return groupQueryRepository.getLeaderBoardList(groupId, gameId)
     }
 }

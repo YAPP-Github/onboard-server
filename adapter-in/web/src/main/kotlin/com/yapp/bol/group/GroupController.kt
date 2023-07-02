@@ -6,10 +6,9 @@ import com.yapp.bol.group.dto.CreateGroupRequest
 import com.yapp.bol.group.dto.CreateGroupResponse
 import com.yapp.bol.group.dto.GroupWithMemberCount
 import com.yapp.bol.group.dto.LeaderBoardResponse
-import com.yapp.bol.group.dto.RankMemberResponse
 import com.yapp.bol.group.dto.toCreateGroupResponse
 import com.yapp.bol.group.dto.toDto
-import com.yapp.bol.group.member.MemberId
+import com.yapp.bol.group.dto.toResponse
 import com.yapp.bol.pagination.offset.PaginationOffsetResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
@@ -50,16 +49,7 @@ class GroupController(
         @PathVariable groupId: GroupId,
         @PathVariable gameId: GameId,
     ): LeaderBoardResponse {
-        return LeaderBoardResponse(
-            List(10) {
-                RankMemberResponse(
-                    id = MemberId(it.toLong()),
-                    rank = it + 1,
-                    name = "Name-$it",
-                    winningPercentage = Math.random(),
-                    playCount = (Math.random() * 100 + 1).toInt(),
-                )
-            }
-        )
+        val list = groupService.getLeaderBoard(groupId, gameId).mapIndexed { index, it -> it.toResponse(index + 1) }
+        return LeaderBoardResponse(list)
     }
 }

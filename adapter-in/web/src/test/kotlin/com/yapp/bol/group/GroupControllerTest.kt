@@ -11,6 +11,8 @@ import com.yapp.bol.game.GameId
 import com.yapp.bol.group.dto.CreateGroupRequest
 import com.yapp.bol.group.dto.GroupMemberList
 import com.yapp.bol.group.dto.GroupWithMemberCount
+import com.yapp.bol.group.member.HostMember
+import com.yapp.bol.group.member.MemberId
 import com.yapp.bol.group.member.MemberList
 import com.yapp.bol.group.member.OwnerMember
 import com.yapp.bol.pagination.offset.PaginationOffsetResponse
@@ -98,6 +100,29 @@ class GroupControllerTest : ControllerTest() {
             val groupId = GroupId(1)
             val gameId = GameId(123)
 
+            every { groupService.getLeaderBoard(groupId, gameId) } returns listOf(
+                LeaderBoardMember(
+                    member = HostMember(
+                        MemberId(1),
+                        userId = UserId(1),
+                        nickname = "난_1등",
+                    ),
+                    score = 100,
+                    winningPercentage = 0.95,
+                    matchCount = 12,
+                ),
+                LeaderBoardMember(
+                    member = HostMember(
+                        MemberId(2),
+                        userId = UserId(2),
+                        nickname = "게임안해",
+                    ),
+                    score = null,
+                    winningPercentage = null,
+                    matchCount = null,
+                )
+            )
+
             get("/v1/group/{groupId}/game/{gameId}", arrayOf(groupId.value, gameId.value)) {}
                 .isStatus(200)
                 .makeDocument(
@@ -113,10 +138,10 @@ class GroupControllerTest : ControllerTest() {
                     responseFields(
                         "contents" type ARRAY means "그룹 목록",
                         "contents[].id" type NUMBER means "맴버 ID",
-                        "contents[].rank" type NUMBER means "등수, 1부터 시작",
-                        "contents[].name" type STRING means "맴버 이름",
-                        "contents[].winningPercentage" type NUMBER means "승률 소수로 나옴 (반올림 없음), 0~1",
-                        "contents[].playCount" type NUMBER means "총 플레이 횟수",
+                        "contents[].nickname" type STRING means "맴버 닉네임",
+                        "contents[].rank" type NUMBER means "등수, 1부터 시작" isOptional true,
+                        "contents[].winningPercentage" type NUMBER means "승률 소수로 나옴 (반올림 없음), 0~1" isOptional true,
+                        "contents[].matchCount" type NUMBER means "총 플레이 횟수" isOptional true,
                     )
                 )
         }
