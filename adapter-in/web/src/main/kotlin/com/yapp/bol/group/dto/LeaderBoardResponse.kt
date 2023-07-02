@@ -15,10 +15,10 @@ data class RankMemberResponse(
     val matchCount: Int?,
 )
 
-fun LeaderBoardMember.toResponse(rank: Int?): RankMemberResponse = RankMemberResponse(
+fun LeaderBoardMember.toResponse(rank: Int): RankMemberResponse = RankMemberResponse(
     id = this.member.id,
     nickname = this.member.nickname,
-    rank = if (this.matchCount == null || this.matchCount == 0) null else rank,
+    rank = rank,
     winningPercentage = this.winningPercentage,
     matchCount = this.matchCount,
 )
