@@ -21,6 +21,9 @@ abstract class Member internal constructor(
     }
 
     init {
+        if (nickname.length < MIN_NICKNAME_LENGTH) {
+            throw InvalidMemberNicknameException
+        }
         if (nickname.length > MAX_NICKNAME_LENGTH) {
             throw InvalidMemberNicknameException
         }
@@ -32,6 +35,7 @@ abstract class Member internal constructor(
     fun isHost(): Boolean = this is HostMember
 
     companion object {
-        const val MAX_NICKNAME_LENGTH = 6
+        const val MAX_NICKNAME_LENGTH = 10
+        const val MIN_NICKNAME_LENGTH = 1
     }
 }

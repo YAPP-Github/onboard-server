@@ -1,5 +1,6 @@
 package com.yapp.bol.group
 
+import com.yapp.bol.auth.UserId
 import com.yapp.bol.pagination.offset.PaginationOffsetResponse
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Slice
@@ -33,4 +34,7 @@ internal class GroupQueryRepositoryImpl(
 
         return PaginationOffsetResponse(content, slice.hasNext())
     }
+
+    override fun getGroupsByUserId(userId: UserId): List<Group> =
+        groupRepository.findByUserId(userId.value).map { it.toDomain() }
 }
