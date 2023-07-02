@@ -114,7 +114,7 @@ class MemberQueryRepositoryImplTest : FunSpec() {
                 verify(exactly = 1) { memberRepository.getByGroupIdWithCursor(groupId.value, null, any()) }
             }
 
-            test("맴버 목록 없음"){
+            test("맴버 목록 없음") {
                 clearAllMocks()
                 val request = PaginationCursorMemberRequest(groupId, null, size, null)
                 val paginationCursorRequest = CapturingSlot<PaginationCursorRequest<String>>()
