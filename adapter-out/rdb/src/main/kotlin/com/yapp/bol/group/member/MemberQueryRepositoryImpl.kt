@@ -29,7 +29,7 @@ internal class MemberQueryRepositoryImpl(
 
         return SimplePaginationCursorResponse(
             contents = contents,
-            cursor = contents.last().nickname,
+            cursor = contents.lastOrNull()?.nickname ?: "",
             hasNext = hasNext,
         )
     }
