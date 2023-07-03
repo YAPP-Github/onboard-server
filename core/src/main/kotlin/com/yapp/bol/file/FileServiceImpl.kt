@@ -22,6 +22,10 @@ class FileServiceImpl(
         return fileData
     }
 
+    override fun getDefaultGroupImageUrl(): String {
+        return fileQueryRepository.getFiles(FilePurpose.GROUP_DEFAULT_IMAGE).random()
+    }
+
     private fun RawFileData.canAccess(userId: UserId?): Boolean =
         when (this.purpose.accessLevel) {
             FileAccessLevel.PUBLIC -> true

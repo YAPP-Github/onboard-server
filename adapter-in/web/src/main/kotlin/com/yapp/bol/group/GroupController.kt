@@ -2,6 +2,8 @@ package com.yapp.bol.group
 
 import com.yapp.bol.auth.getSecurityUserIdOrThrow
 import com.yapp.bol.game.GameId
+import com.yapp.bol.file.FileService
+import com.yapp.bol.file.dto.FileResponse
 import com.yapp.bol.group.dto.CreateGroupRequest
 import com.yapp.bol.group.dto.CreateGroupResponse
 import com.yapp.bol.group.dto.GroupWithMemberCount
@@ -23,7 +25,11 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/v1/group")
 class GroupController(
     private val groupService: GroupService,
+    private val fileService: FileService,
 ) {
+    @GetMapping("/default-image")
+    fun getDefaultImage(): FileResponse = FileResponse(url = fileService.getDefaultGroupImageUrl())
+
     @PreAuthorize("isAuthenticated()")
     @PostMapping
     fun createGroup(@RequestBody request: CreateGroupRequest): CreateGroupResponse {
