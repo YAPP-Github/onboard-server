@@ -8,6 +8,7 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 
@@ -29,7 +30,7 @@ class GameMemberEntity : AuditingEntity() {
         protected set
 
     @OneToOne(fetch = FetchType.LAZY)
-    @Column(name = "season_id")
+    @JoinColumn(name = "season_id")
     lateinit var season: SeasonEntity
         protected set
 

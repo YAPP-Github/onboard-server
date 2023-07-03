@@ -3,8 +3,8 @@ package com.yapp.bol.file
 import com.yapp.bol.InvalidRequestException
 import com.yapp.bol.auth.getSecurityUserId
 import com.yapp.bol.auth.getSecurityUserIdOrThrow
+import com.yapp.bol.file.dto.FileResponse
 import com.yapp.bol.file.dto.RawFileData
-import com.yapp.bol.file.dto.UploadFileResponse
 import org.springframework.core.io.InputStreamResource
 import org.springframework.core.io.Resource
 import org.springframework.http.MediaType
@@ -30,7 +30,7 @@ class FileController(
     fun uploadFile(
         @RequestPart file: MultipartFile,
         @RequestParam purpose: FilePurpose,
-    ): UploadFileResponse {
+    ): FileResponse {
         val request = RawFileData(
             userId = getSecurityUserIdOrThrow(),
             contentType = file.contentType ?: throw InvalidRequestException,
@@ -39,7 +39,7 @@ class FileController(
         )
         val result = fileService.uploadFile(request)
 
-        return UploadFileResponse(result.name)
+        return FileResponse(result.name)
     }
 
     @GetMapping("/{name}")

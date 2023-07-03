@@ -52,6 +52,10 @@ class FileClient(
         )
     }
 
+    override fun getFiles(filePurpose: FilePurpose): List<String> {
+        return fileRepository.findAllByPurpose(filePurpose).map { FileNameConverter.convertFileUrl(it.name) }
+    }
+
     companion object {
         private const val METADATA_PURPOSE = "purpose"
         private const val METADATA_USER_ID = "user_id"
