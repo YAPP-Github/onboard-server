@@ -7,6 +7,9 @@ object NicknameValidator {
     private const val MAX_NICKNAME_LENGTH = 10
 
     fun validate(nickname: String) {
-        if (nickname.length < MIN_NICKNAME_LENGTH || nickname.length > MAX_NICKNAME_LENGTH) throw InvalidNicknameException
+        if (nickname.length < MIN_NICKNAME_LENGTH ||
+            nickname.length > MAX_NICKNAME_LENGTH ||
+            nickname.isBlank()
+        ) throw InvalidNicknameException
     }
 }
