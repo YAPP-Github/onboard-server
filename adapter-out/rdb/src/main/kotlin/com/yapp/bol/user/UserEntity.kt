@@ -25,6 +25,10 @@ internal class UserEntity : AuditingEntity() {
     var deleted: Boolean = false
         protected set
 
+    fun update(user: User) {
+        name = user.nickname
+    }
+
     companion object {
         fun of(id: Long): UserEntity =
             UserEntity().apply {

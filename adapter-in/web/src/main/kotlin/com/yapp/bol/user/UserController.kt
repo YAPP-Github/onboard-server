@@ -1,14 +1,18 @@
 package com.yapp.bol.user
 
+import com.yapp.bol.EmptyResponse
 import com.yapp.bol.UnknownException
 import com.yapp.bol.auth.getSecurityUserIdOrThrow
 import com.yapp.bol.group.GroupService
 import com.yapp.bol.group.dto.toResponse
 import com.yapp.bol.user.dto.JoinedGroupResponse
 import com.yapp.bol.user.dto.MyInfoResponse
+import com.yapp.bol.user.dto.PutUserInfo
 import com.yapp.bol.user.dto.toResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -36,5 +40,20 @@ class UserController(
         val groups = groupService.getGroupsByUserId(userId)
 
         return JoinedGroupResponse(groups.map { it.toResponse() })
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PutMapping("/me")
+    fun updateUser(
+        @RequestBody request: PutUserInfo,
+    ): EmptyResponse {
+        val userId = getSecurityUserIdOrThrow()
+        val user = User(
+            id = userId,
+            nickname = request.nickname,
+        )
+
+        userService.putUser(user)
+        return EmptyResponse
     }
 }
