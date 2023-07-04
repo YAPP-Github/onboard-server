@@ -100,7 +100,8 @@ abstract class ControllerTest : FunSpec() {
             post(url, *pathParams).apply {
                 contentType(MediaType.APPLICATION_JSON)
                 content(objectMapper.writeValueAsString(request))
-            }.apply(buildRequest)
+                buildRequest()
+            }
         )
 
     protected fun multipart(
@@ -114,8 +115,8 @@ abstract class ControllerTest : FunSpec() {
                 .apply {
                     mockFiles.forEach { this.file(it) }
                     mockParts.forEach { this.part(it) }
+                    buildRequest()
                 }
-                .apply(buildRequest)
         )
     }
 
@@ -135,10 +136,18 @@ abstract class ControllerTest : FunSpec() {
 
     protected fun put(
         url: String,
+        request: Any,
         pathParams: Array<Any> = emptyArray(),
         buildRequest: MockHttpServletRequestBuilder.() -> Unit
     ): ResultActions =
-        mockMvc.perform(put(url, *pathParams).apply(buildRequest))
+        mockMvc.perform(
+            put(url, *pathParams)
+                .apply {
+                    contentType(MediaType.APPLICATION_JSON)
+                    content(objectMapper.writeValueAsString(request))
+                    buildRequest()
+                }
+        )
 
     protected fun MockHttpServletRequestBuilder.authorizationHeader(userId: UserId) {
         SecurityContextHolder.getContext().authentication = TokenAuthentication("Token", userId)

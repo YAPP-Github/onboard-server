@@ -1,6 +1,8 @@
 package com.yapp.bol.user
 
+import com.yapp.bol.InvalidNicknameException
 import com.yapp.bol.auth.UserId
+import com.yapp.bol.validate.NicknameValidator
 import org.springframework.stereotype.Service
 
 @Service
@@ -14,6 +16,8 @@ class UserServiceImpl(
     }
 
     override fun putUser(user: User) {
+        NicknameValidator.validate(user.nickname ?: throw InvalidNicknameException)
+
         userCommandRepository.updateUser(user)
     }
 }

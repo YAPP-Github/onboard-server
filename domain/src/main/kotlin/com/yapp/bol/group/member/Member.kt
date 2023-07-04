@@ -1,8 +1,8 @@
 package com.yapp.bol.group.member
 
-import com.yapp.bol.InvalidMemberNicknameException
 import com.yapp.bol.InvalidMemberRoleException
 import com.yapp.bol.auth.UserId
+import com.yapp.bol.validate.NicknameValidator
 
 @JvmInline
 value class MemberId(val value: Long)
@@ -21,12 +21,8 @@ abstract class Member internal constructor(
     }
 
     init {
-        if (nickname.length < MIN_NICKNAME_LENGTH) {
-            throw InvalidMemberNicknameException
-        }
-        if (nickname.length > MAX_NICKNAME_LENGTH) {
-            throw InvalidMemberNicknameException
-        }
+        NicknameValidator.validate(nickname)
+
         if (userId == null && isGuest().not()) throw InvalidMemberRoleException
     }
 

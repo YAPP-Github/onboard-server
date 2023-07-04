@@ -1,6 +1,6 @@
 package com.yapp.bol.member
 
-import com.yapp.bol.InvalidMemberNicknameException
+import com.yapp.bol.InvalidNicknameException
 import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.member.GuestMember
 import com.yapp.bol.group.member.HostMember
@@ -19,29 +19,29 @@ class MemberTest : FunSpec() {
         }
 
         test("멤버 닉네임 최대 길이 제한") {
-            val nickname = "x".repeat(Member.MAX_NICKNAME_LENGTH + 1)
+            val nickname = "x".repeat(11)
 
-            shouldThrow<InvalidMemberNicknameException> {
+            shouldThrow<InvalidNicknameException> {
                 OwnerMember(userId = UserId(0), nickname = nickname)
             }
-            shouldThrow<InvalidMemberNicknameException> {
+            shouldThrow<InvalidNicknameException> {
                 HostMember(userId = UserId(0), nickname = nickname)
             }
-            shouldThrow<InvalidMemberNicknameException> {
+            shouldThrow<InvalidNicknameException> {
                 GuestMember(nickname = nickname)
             }
         }
 
         test("멤버 닉네임 최소 길이 제한") {
-            val nickname = "x".repeat(Member.MIN_NICKNAME_LENGTH - 1)
+            val nickname = "x".repeat(0)
 
-            shouldThrow<InvalidMemberNicknameException> {
+            shouldThrow<InvalidNicknameException> {
                 OwnerMember(userId = UserId(0), nickname = nickname)
             }
-            shouldThrow<InvalidMemberNicknameException> {
+            shouldThrow<InvalidNicknameException> {
                 HostMember(userId = UserId(0), nickname = nickname)
             }
-            shouldThrow<InvalidMemberNicknameException> {
+            shouldThrow<InvalidNicknameException> {
                 GuestMember(nickname = nickname)
             }
         }

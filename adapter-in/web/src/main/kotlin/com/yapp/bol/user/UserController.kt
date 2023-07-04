@@ -7,7 +7,7 @@ import com.yapp.bol.group.GroupService
 import com.yapp.bol.group.dto.toResponse
 import com.yapp.bol.user.dto.JoinedGroupResponse
 import com.yapp.bol.user.dto.MyInfoResponse
-import com.yapp.bol.user.dto.PutUserInfo
+import com.yapp.bol.user.dto.PutUserInfoRequest
 import com.yapp.bol.user.dto.toResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
@@ -45,7 +45,7 @@ class UserController(
     @PreAuthorize("isAuthenticated()")
     @PutMapping("/me")
     fun updateUser(
-        @RequestBody request: PutUserInfo,
+        @RequestBody request: PutUserInfoRequest,
     ): EmptyResponse {
         val userId = getSecurityUserIdOrThrow()
         val user = User(

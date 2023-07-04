@@ -1,5 +1,5 @@
 package com.yapp.bol.user.dto
 
-data class PutUserInfo(
+data class PutUserInfoRequest(
     val nickname: String,
 )
