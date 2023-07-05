@@ -6,9 +6,10 @@ import com.yapp.bol.file.dto.FileResponse
 import com.yapp.bol.group.dto.CreateGroupRequest
 import com.yapp.bol.group.dto.CreateGroupResponse
 import com.yapp.bol.group.dto.GroupDetailResponse
-import com.yapp.bol.group.dto.GroupWithMemberCount
+import com.yapp.bol.group.dto.GroupListResponse
 import com.yapp.bol.group.dto.toCreateGroupResponse
 import com.yapp.bol.group.dto.toDto
+import com.yapp.bol.group.dto.toListResponse
 import com.yapp.bol.pagination.offset.PaginationOffsetResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
@@ -41,12 +42,12 @@ class GroupController(
         @RequestParam keyword: String?,
         @RequestParam(defaultValue = "0") pageNumber: Int,
         @RequestParam(defaultValue = "10") pageSize: Int
-    ): PaginationOffsetResponse<GroupWithMemberCount> =
+    ): PaginationOffsetResponse<GroupListResponse> =
         groupService.searchGroup(
             keyword = keyword,
             pageNumber = pageNumber,
             pageSize = pageSize,
-        )
+        ).mapContents { it.toListResponse() }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{groupId}")

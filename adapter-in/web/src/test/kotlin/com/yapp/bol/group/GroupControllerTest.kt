@@ -132,7 +132,7 @@ class GroupControllerTest : ControllerTest() {
                 nickname = "닉네임",
             )
 
-            get("/v1/group/{groupId}", arrayOf(groupId)) {
+            get("/v1/group/{groupId}", arrayOf(groupId.value)) {
                 authorizationHeader(UserId(1L))
             }
                 .isStatus(200)
@@ -151,13 +151,13 @@ class GroupControllerTest : ControllerTest() {
                         "description" type STRING means "그룹 설명",
                         "organization" type STRING means "그룹 소속" isOptional true,
                         "profileImageUrl" type STRING means "그룹 프로필 이미지 URL",
-                        "accessCode" type ARRAY means "그룹 참여 코드",
+                        "accessCode" type STRING means "그룹 참여 코드",
                         "memberCount" type NUMBER means "그룹 멤버 수",
                         "owner" type OBJECT means "그룹 Owner 정보",
                         "owner.id" type NUMBER means "Owner ID",
                         "owner.role" type ENUM(MemberRole::class) means "OWNER 로 고정",
                         "owner.nickname" type STRING means "Owner 닉네임",
-                        "owner.level" type STRING means "주사위 등급",
+                        "owner.level" type NUMBER means "주사위 등급",
                     )
                 )
         }
