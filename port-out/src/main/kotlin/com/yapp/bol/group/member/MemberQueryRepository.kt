@@ -9,7 +9,7 @@ interface MemberQueryRepository {
     fun findByNicknameAndGroupId(nickname: String, groupId: GroupId): Member?
     fun findByGroupId(groupId: GroupId): List<Member>
     fun findByGroupIdAndUserId(groupId: GroupId, userId: UserId): Member?
-
     fun getMemberListByCursor(request: PaginationCursorMemberRequest): SimplePaginationCursorResponse<Member, String>
     fun findOwner(groupId: GroupId): OwnerMember
+    fun getCount(groupId: GroupId): Int
 }

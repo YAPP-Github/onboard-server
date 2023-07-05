@@ -62,4 +62,8 @@ internal class MemberQueryRepositoryImpl(
 
         return list.first().toDomain() as OwnerMember
     }
+
+    override fun getCount(groupId: GroupId): Int {
+        return memberRepository.count().toInt()
+    }
 }
