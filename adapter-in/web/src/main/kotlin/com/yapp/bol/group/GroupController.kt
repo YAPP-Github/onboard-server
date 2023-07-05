@@ -5,12 +5,14 @@ import com.yapp.bol.file.FileService
 import com.yapp.bol.file.dto.FileResponse
 import com.yapp.bol.group.dto.CreateGroupRequest
 import com.yapp.bol.group.dto.CreateGroupResponse
+import com.yapp.bol.group.dto.GroupDetailResponse
 import com.yapp.bol.group.dto.GroupWithMemberCount
 import com.yapp.bol.group.dto.toCreateGroupResponse
 import com.yapp.bol.group.dto.toDto
 import com.yapp.bol.pagination.offset.PaginationOffsetResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -45,4 +47,15 @@ class GroupController(
             pageNumber = pageNumber,
             pageSize = pageSize,
         )
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{groupId}")
+    fun getGroup(
+        @PathVariable groupId: GroupId,
+    ): GroupDetailResponse {
+        val group = groupService.getGroupWithMemberCount(groupId)
+        val owner = groupService.getOwner(groupId)
+
+        return GroupDetailResponse.of(group, owner)
+    }
 }

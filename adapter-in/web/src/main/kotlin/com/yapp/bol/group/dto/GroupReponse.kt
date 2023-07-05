@@ -1,6 +1,6 @@
 package com.yapp.bol.group.dto
 
-import com.yapp.bol.group.Group
+import com.yapp.bol.group.GroupBasicInfo
 import com.yapp.bol.group.GroupId
 
 data class GroupResponse(
@@ -11,7 +11,7 @@ data class GroupResponse(
     val profileImageUrl: String,
 )
 
-fun Group.toResponse(): GroupResponse =
+fun GroupBasicInfo.toResponse(): GroupResponse =
     GroupResponse(
         id = this.id,
         name = this.name,
