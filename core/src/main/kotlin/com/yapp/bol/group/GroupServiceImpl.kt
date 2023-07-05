@@ -79,4 +79,8 @@ internal class GroupServiceImpl(
     override fun getGroupsByUserId(userId: UserId): List<Group> {
         return groupQueryRepository.getGroupsByUserId(userId)
     }
+
+    override fun getOwner(groupId: GroupId): OwnerMember {
+        return memberQueryRepository.findOwner(groupId)
+    }
 }
