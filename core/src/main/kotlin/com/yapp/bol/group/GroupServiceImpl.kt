@@ -80,6 +80,12 @@ internal class GroupServiceImpl(
         return groupQueryRepository.getGroupsByUserId(userId)
     }
 
+    override fun checkAccessToken(groupId: GroupId, accessToken: String): Boolean {
+        val group = groupQueryRepository.findById(groupId) ?: throw NotFoundGroupException
+
+        return group.accessCode == accessToken
+    }
+
     override fun getGroupWithMemberCount(groupId: GroupId): GroupWithMemberCount {
         val group = groupQueryRepository.findById(groupId) ?: throw NotFoundGroupException
         val memberCount = memberQueryRepository.getCount(groupId)

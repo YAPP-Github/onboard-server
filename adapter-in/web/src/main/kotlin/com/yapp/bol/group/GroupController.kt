@@ -3,6 +3,8 @@ package com.yapp.bol.group
 import com.yapp.bol.auth.getSecurityUserIdOrThrow
 import com.yapp.bol.file.FileService
 import com.yapp.bol.file.dto.FileResponse
+import com.yapp.bol.group.dto.CheckAccessCodeRequest
+import com.yapp.bol.group.dto.CheckAccessCodeResponse
 import com.yapp.bol.group.dto.CreateGroupRequest
 import com.yapp.bol.group.dto.CreateGroupResponse
 import com.yapp.bol.group.dto.GroupDetailResponse
@@ -35,6 +37,16 @@ class GroupController(
         val userId = getSecurityUserIdOrThrow()
 
         return groupService.createGroup(request.toDto(userId)).toCreateGroupResponse()
+    }
+
+    @PostMapping("/{groupId}/accessCode")
+    fun checkAccessCode(
+        @PathVariable groupId: GroupId,
+        @RequestBody request: CheckAccessCodeRequest,
+    ): CheckAccessCodeResponse {
+        val result = groupService.checkAccessToken(groupId, request.accessCode)
+
+        return CheckAccessCodeResponse(result)
     }
 
     @GetMapping

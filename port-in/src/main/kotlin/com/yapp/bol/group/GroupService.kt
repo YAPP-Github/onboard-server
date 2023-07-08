@@ -26,6 +26,8 @@ interface GroupService {
 
     fun getGroupsByUserId(userId: UserId): List<Group>
 
+    fun checkAccessToken(groupId: GroupId, accessToken: String): Boolean
+
     fun getGroupWithMemberCount(groupId: GroupId): GroupWithMemberCount
 
     fun getOwner(groupId: GroupId): OwnerMember
