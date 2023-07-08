@@ -61,9 +61,9 @@ internal class GroupServiceImpl(
         )
 
         val groupWithMemberCount = groups.content.map { group ->
-            val members = memberService.findMembersByGroupId(group.id)
+            val memberCount = memberQueryRepository.getCount(group.id).toInt()
 
-            GroupWithMemberCount.of(group, members)
+            GroupWithMemberCount(group, memberCount)
         }
 
         return PaginationOffsetResponse(groupWithMemberCount, groups.hasNext)
@@ -78,5 +78,15 @@ internal class GroupServiceImpl(
 
     override fun getGroupsByUserId(userId: UserId): List<Group> {
         return groupQueryRepository.getGroupsByUserId(userId)
+    }
+
+    override fun getGroupWithMemberCount(groupId: GroupId): GroupWithMemberCount {
+        val group = groupQueryRepository.findById(groupId) ?: throw NotFoundGroupException
+        val memberCount = memberQueryRepository.getCount(groupId)
+        return GroupWithMemberCount(group, memberCount)
+    }
+
+    override fun getOwner(groupId: GroupId): OwnerMember {
+        return memberQueryRepository.findOwner(groupId)
     }
 }

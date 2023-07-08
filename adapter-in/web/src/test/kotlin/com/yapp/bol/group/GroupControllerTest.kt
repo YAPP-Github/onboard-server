@@ -4,7 +4,9 @@ import com.yapp.bol.auth.UserId
 import com.yapp.bol.base.ARRAY
 import com.yapp.bol.base.BOOLEAN
 import com.yapp.bol.base.ControllerTest
+import com.yapp.bol.base.ENUM
 import com.yapp.bol.base.NUMBER
+import com.yapp.bol.base.OBJECT
 import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
 import com.yapp.bol.file.FileService
@@ -12,6 +14,7 @@ import com.yapp.bol.group.dto.CreateGroupRequest
 import com.yapp.bol.group.dto.GroupMemberList
 import com.yapp.bol.group.dto.GroupWithMemberCount
 import com.yapp.bol.group.member.MemberList
+import com.yapp.bol.group.member.MemberRole
 import com.yapp.bol.group.member.OwnerMember
 import com.yapp.bol.pagination.offset.PaginationOffsetResponse
 import io.mockk.every
@@ -115,6 +118,49 @@ class GroupControllerTest : ControllerTest() {
                     )
                 )
         }
+
+        test("그룹 상세 정보 보기") {
+            val groupId = GroupId(123L)
+
+            every {
+                groupService.getGroupWithMemberCount(any())
+            } returns GROUP_WITH_MEMBER_COUNT
+            every {
+                groupService.getOwner(groupId)
+            } returns OwnerMember(
+                userId = UserId(32L),
+                nickname = "닉네임",
+            )
+
+            get("/v1/group/{groupId}", arrayOf(groupId.value)) {
+                authorizationHeader(UserId(1L))
+            }
+                .isStatus(200)
+                .makeDocument(
+                    DocumentInfo(
+                        identifier = "group/{method-name}",
+                        description = "단일 그룹 상세 정보 보기",
+                        tag = OpenApiTag.GROUP,
+                    ),
+                    pathParameters(
+                        "groupId" type NUMBER means "그룹 ID"
+                    ),
+                    responseFields(
+                        "id" type NUMBER means "그룹 ID",
+                        "name" type STRING means "그룹 이름",
+                        "description" type STRING means "그룹 설명",
+                        "organization" type STRING means "그룹 소속" isOptional true,
+                        "profileImageUrl" type STRING means "그룹 프로필 이미지 URL",
+                        "accessCode" type STRING means "그룹 참여 코드",
+                        "memberCount" type NUMBER means "그룹 멤버 수",
+                        "owner" type OBJECT means "그룹 Owner 정보",
+                        "owner.id" type NUMBER means "Owner ID",
+                        "owner.role" type ENUM(MemberRole::class) means "OWNER 로 고정",
+                        "owner.nickname" type STRING means "Owner 닉네임",
+                        "owner.level" type NUMBER means "주사위 등급",
+                    )
+                )
+        }
     }
 
     companion object {
@@ -135,11 +181,7 @@ class GroupControllerTest : ControllerTest() {
         )
 
         val GROUP_WITH_MEMBER_COUNT = GroupWithMemberCount(
-            id = GROUP.id,
-            name = GROUP.name,
-            description = GROUP.description,
-            organization = GROUP.organization ?: "",
-            profileImageUrl = GROUP.profileImageUrl,
+            group = GROUP,
             memberCount = MEMBER_LIST.getSize()
         )
     }
