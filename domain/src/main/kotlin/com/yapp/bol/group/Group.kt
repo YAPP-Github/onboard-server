@@ -8,13 +8,13 @@ import com.yapp.bol.InvalidGroupOrganizationException
 value class GroupId(val value: Long)
 
 data class Group(
-    val id: GroupId = GroupId(0),
-    val name: String,
-    val description: String,
-    val organization: String?,
-    val profileImageUrl: String = DEFAULT_PROFILE_IMAGE_URL,
-    val accessCode: String = generateAccessCode(),
-) {
+    override val id: GroupId = GroupId(0),
+    override val name: String,
+    override val description: String,
+    override val organization: String?,
+    override val profileImageUrl: String = DEFAULT_PROFILE_IMAGE_URL,
+    override val accessCode: String = generateAccessCode(),
+) : GroupBasicInfo {
     init {
         if (name.length > MAX_NAME_LENGTH) {
             throw InvalidGroupNameException
@@ -48,4 +48,13 @@ data class Group(
                 .joinToString("")
         }
     }
+}
+
+interface GroupBasicInfo {
+    val id: GroupId
+    val name: String
+    val description: String
+    val organization: String?
+    val profileImageUrl: String
+    val accessCode: String
 }

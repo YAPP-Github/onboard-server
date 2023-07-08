@@ -4,4 +4,6 @@ import com.yapp.bol.auth.UserId
 
 interface UserService {
     fun getUser(userId: UserId): User?
+
+    fun putUser(user: User)
 }

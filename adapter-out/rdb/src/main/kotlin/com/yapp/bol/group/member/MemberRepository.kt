@@ -19,4 +19,5 @@ internal interface MemberRepository : JpaRepository<MemberEntity, Long>, CustomM
             "ORDER BY gm.finalScore desc "
     )
     fun findWithGameMember(groupId: Long): List<MemberEntity>
+    fun findByGroupIdAndRole(groupId: Long, role: MemberRole): List<MemberEntity>
 }

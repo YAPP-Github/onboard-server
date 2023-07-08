@@ -40,7 +40,6 @@ object AccessCodeNotMatchException : GroupException("Group005", "참여 코드�
 sealed class MemberException(code: String, status: Int, message: String, cause: Throwable? = null) :
     BolRatingException(code = code, status = status, message = message, cause = cause)
 
-object InvalidMemberNicknameException : MemberException("Member001", 400, "멤버 닉네임이 잘못되었습니다.")
 object DuplicatedMemberNicknameException : MemberException("Member002", 400, "중복된 멤버 닉네임입니다.")
 object DuplicatedMembersNicknameException : MemberException("Member003", 500, "멤버들 간에 중복된 닉네임이 존재합니다.")
 object MultiOwnerException : MemberException("Member004", 500, "그룹장이 2명 이상 존재합니다.")
@@ -49,3 +48,4 @@ object AlreadyExistMemberException : MemberException("Member006", 400, "이미 �
 
 object UnknownException : BolRatingException("BOL000", 500, "알 수 없는 에러가 발생했습니다. 다시 시도해주세요.")
 object InvalidRequestException : BolRatingException("BOL001", 400, "유효하지 않은 요청입니다.")
+object InvalidNicknameException : BolRatingException("BOL002", 400, "닉네임이 잘못되었습니다.")
