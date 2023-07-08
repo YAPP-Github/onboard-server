@@ -8,6 +8,7 @@ import com.yapp.bol.base.NUMBER
 import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
 import com.yapp.bol.file.FileService
+import com.yapp.bol.group.dto.CheckAccessCodeRequest
 import com.yapp.bol.group.dto.CreateGroupRequest
 import com.yapp.bol.group.dto.GroupMemberList
 import com.yapp.bol.group.dto.GroupWithMemberCount
@@ -112,6 +113,31 @@ class GroupControllerTest : ControllerTest() {
                         "content[].profileImageUrl" type STRING means "그룹 프로필 이미지 URL",
                         "content[].memberCount" type NUMBER means "그룹 멤버 수",
                         "hasNext" type BOOLEAN means "다음 페이지 존재 여부"
+                    )
+                )
+        }
+
+        test("그룹 가입 중 참여 코드 확인") {
+            val groupId = GroupId(67L)
+            val accessCode = "code00"
+
+            every {
+                groupService.checkAccessToken(groupId, accessCode)
+            } returns true
+
+            post("/v1/group/{groupId}/accessCode", CheckAccessCodeRequest(accessCode), arrayOf(groupId.value)) {
+            }
+                .isStatus(200)
+                .makeDocument(
+                    DocumentInfo(identifier = "group/{method-name}", tag = OpenApiTag.GROUP),
+                    pathParameters(
+                        "groupId" type NUMBER means "그룹 ID"
+                    ),
+                    requestFields(
+                        "accessCode" type STRING means "엑세스 코드"
+                    ),
+                    responseFields(
+                        "result" type BOOLEAN means "엑세스 코드 기출 여부",
                     )
                 )
         }

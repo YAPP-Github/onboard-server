@@ -79,4 +79,10 @@ internal class GroupServiceImpl(
     override fun getGroupsByUserId(userId: UserId): List<Group> {
         return groupQueryRepository.getGroupsByUserId(userId)
     }
+
+    override fun checkAccessToken(groupId: GroupId, accessToken: String): Boolean {
+        val group = groupQueryRepository.findById(groupId) ?: throw NotFoundGroupException
+
+        return group.accessCode == accessToken
+    }
 }

@@ -24,4 +24,6 @@ interface GroupService {
     fun addGuest(request: AddGuestDto)
 
     fun getGroupsByUserId(userId: UserId): List<Group>
+
+    fun checkAccessToken(groupId: GroupId, accessToken: String): Boolean
 }
