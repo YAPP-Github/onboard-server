@@ -19,7 +19,6 @@ internal class UserEntity : AuditingEntity() {
 
     @Column(name = "name")
     var name: String? = null
-        protected set
 
     @Column(name = "deleted")
     var deleted: Boolean = false

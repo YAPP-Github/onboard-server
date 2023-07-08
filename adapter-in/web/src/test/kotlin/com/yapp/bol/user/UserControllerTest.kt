@@ -8,6 +8,7 @@ import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
 import com.yapp.bol.group.Group
 import com.yapp.bol.group.GroupService
+import com.yapp.bol.user.dto.PutUserInfoRequest
 import io.mockk.every
 import io.mockk.mockk
 
@@ -65,6 +66,26 @@ class UserControllerTest : ControllerTest() {
                         "contents[].description" type STRING means "그룹 소개",
                         "contents[].organization" type STRING means "그룹 소속" isOptional true,
                         "contents[].profileImageUrl" type STRING means "그룹 이미지 URL",
+                    )
+                )
+        }
+
+        test("유저 전체 정보 업데이트") {
+            val userId = UserId(123L)
+            val user = PutUserInfoRequest(
+                nickname = "닉네임",
+            )
+
+            every { userService.putUser(any()) } returns Unit
+
+            put("/v1/user/me", user) {
+                authorizationHeader(userId)
+            }
+                .isStatus(200)
+                .makeDocument(
+                    DocumentInfo(identifier = "user/{method-name}", tag = OpenApiTag.USER),
+                    requestFields(
+                        "nickname" type STRING means "수정하고자 하는 닉네임",
                     )
                 )
         }
