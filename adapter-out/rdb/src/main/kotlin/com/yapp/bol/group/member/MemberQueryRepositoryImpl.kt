@@ -1,5 +1,6 @@
 package com.yapp.bol.group.member
 
+import com.yapp.bol.MultiOwnerException
 import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.GroupId
 import com.yapp.bol.group.member.dto.PaginationCursorMemberRequest
@@ -52,5 +53,17 @@ internal class MemberQueryRepositoryImpl(
     @Transactional(readOnly = true)
     override fun findByGroupIdAndUserId(groupId: GroupId, userId: UserId): Member? {
         return memberRepository.findByGroupIdAndUserId(groupId.value, userId.value)?.toDomain()
+    }
+
+    override fun findOwner(groupId: GroupId): OwnerMember {
+        val list = memberRepository.findByGroupIdAndRole(groupId.value, MemberRole.OWNER)
+
+        if (list.isEmpty()) throw MultiOwnerException
+
+        return list.first().toDomain() as OwnerMember
+    }
+
+    override fun getCount(groupId: GroupId): Int {
+        return memberRepository.count().toInt()
     }
 }

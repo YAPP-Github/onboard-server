@@ -10,4 +10,6 @@ internal interface MemberRepository : JpaRepository<MemberEntity, Long>, CustomM
     fun findByNicknameAndGroupId(nickname: String, groupId: Long): MemberEntity?
 
     fun findByGroupIdAndUserId(groupId: Long, userId: Long): MemberEntity?
+
+    fun findByGroupIdAndRole(groupId: Long, role: MemberRole): List<MemberEntity>
 }
