@@ -20,7 +20,7 @@ internal class UserClient(
     override fun updateUser(user: User) {
         val entity = userRepository.findByIdOrNull(user.id.value) ?: throw NotFoundUserException
 
-        entity.update(user)
+        entity.name = user.nickname
 
         userRepository.save(entity)
     }

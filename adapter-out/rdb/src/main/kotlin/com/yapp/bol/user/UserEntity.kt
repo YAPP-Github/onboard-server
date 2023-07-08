@@ -19,15 +19,10 @@ internal class UserEntity : AuditingEntity() {
 
     @Column(name = "name")
     var name: String? = null
-        protected set
 
     @Column(name = "deleted")
     var deleted: Boolean = false
         protected set
-
-    fun update(user: User) {
-        name = user.nickname
-    }
 
     companion object {
         fun of(id: Long): UserEntity =
