@@ -12,7 +12,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "agreed_terms")
-class AgreedTermsEntity : AuditingEntity() {
+internal class AgreedTermsEntity : AuditingEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "agreed_terms_id")
@@ -30,4 +30,22 @@ class AgreedTermsEntity : AuditingEntity() {
 
     @Column(name = "version")
     var version: Int = 0
+        protected set
+
+    fun updateVersion(version: Int) {
+        if (this.version >= version) return
+        this.version = version
+    }
+
+    companion object {
+        fun of(
+            userId: Long,
+            category: TermsCategory,
+            version: Int,
+        ): AgreedTermsEntity = AgreedTermsEntity().apply {
+            this.userId = userId
+            this.category = category
+            this.version = version
+        }
+    }
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class TermsServiceImpl(
     @Value("\${bol.server.host}") private val host: String,
+    private val termsCommandRepository: TermsCommandRepository,
 ) : TermsService {
     private val termsCache = HashMap<TermsCode, Terms>()
 
@@ -20,6 +21,10 @@ class TermsServiceImpl(
 
     override fun getTermsList(): List<Terms> {
         return wholeTerms
+    }
+
+    override fun agreeTerms(userId: UserId, termsCode: TermsCode) {
+        termsCommandRepository.agreeTerms(userId, termsCode)
     }
 
     private fun TermsCode.toDomain(): Terms =
