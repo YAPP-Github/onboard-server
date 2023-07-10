@@ -14,8 +14,8 @@ class TermsControllerTest : ControllerTest() {
     init {
         test("이용 약관 가져오기") {
             every { termsService.getTermsList() } returns listOf(
-                Terms(TermsCode.SERVICE, "http://localhost:8080/${TermsCode.SERVICE.path}"),
-                Terms(TermsCode.PRIVACY, "http://localhost:8080/${TermsCode.PRIVACY.path}"),
+                Terms(TermsCode.SERVICE_V1, "http://localhost:8080/${TermsCode.SERVICE_V1.path}"),
+                Terms(TermsCode.PRIVACY_V1, "http://localhost:8080/${TermsCode.PRIVACY_V1.path}"),
             )
 
             get("/v1/terms") {}
