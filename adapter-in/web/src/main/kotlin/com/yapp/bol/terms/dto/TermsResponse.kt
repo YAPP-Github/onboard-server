@@ -18,5 +18,5 @@ fun Terms.toResponse(): TermsItemResponse = TermsItemResponse(
     code = this.code,
     title = this.title,
     url = this.url,
-    isOptional = this.code.isOptional
+    isOptional = this.isOptional
 )

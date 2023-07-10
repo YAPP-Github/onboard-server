@@ -5,4 +5,5 @@ data class Terms(
     val url: String,
 ) {
     val title = code.category.title
+    val isOptional = code.category.isOptional
 }
