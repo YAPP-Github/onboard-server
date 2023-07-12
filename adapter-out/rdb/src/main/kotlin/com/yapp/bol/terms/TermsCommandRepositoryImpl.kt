@@ -10,18 +10,13 @@ internal class TermsCommandRepositoryImpl(
 ) : TermsCommandRepository {
 
     @Transactional
-    override fun agreeTerms(userId: UserId, termsCode: TermsCode) {
-        val entity = agreedTermsRepository.findByUserIdAndCategory(userId.value, termsCode.category)
-            ?: termsCode.toEntity(userId)
+    override fun agreeTerms(userId: UserId, termsCode: List<TermsCode>) {
+        val list = agreedTermsRepository.findByUserId(userId.value)
 
-        entity.updateVersion(termsCode.version)
+        val entities = termsCode
+            .filter { code -> list.any { entity -> code == entity.code } }
+            .map { AgreedTermsEntity.of(userId.value, it) }
 
-        agreedTermsRepository.save(entity)
+        agreedTermsRepository.saveAll(entities)
     }
-
-    private fun TermsCode.toEntity(userId: UserId): AgreedTermsEntity = AgreedTermsEntity.of(
-        userId = userId.value,
-        category = this.category,
-        version = this.version,
-    )
 }

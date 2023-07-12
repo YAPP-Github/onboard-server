@@ -1,6 +1,5 @@
 package com.yapp.bol.terms.dto
 
-import com.yapp.bol.terms.Terms
 import com.yapp.bol.terms.TermsCode
 
 data class TermsResponse(
@@ -11,12 +10,12 @@ data class TermsItemResponse(
     val code: TermsCode,
     val title: String,
     val url: String,
-    val isOptional: Boolean,
+    val isRequired: Boolean,
 )
 
-fun Terms.toResponse(): TermsItemResponse = TermsItemResponse(
-    code = this.code,
+fun TermsCode.toResponse(host: String): TermsItemResponse = TermsItemResponse(
+    code = this,
     title = this.title,
-    url = this.url,
-    isOptional = this.isOptional
+    url = "$host/${this.path}",
+    isRequired = this.isRequired,
 )

@@ -23,29 +23,18 @@ internal class AgreedTermsEntity : AuditingEntity() {
     var userId: Long = 0
         protected set
 
-    @Column(name = "category")
+    @Column(name = "code")
     @Enumerated(EnumType.STRING)
-    lateinit var category: TermsCategory
+    lateinit var code: TermsCode
         protected set
-
-    @Column(name = "version")
-    var version: Int = 0
-        protected set
-
-    fun updateVersion(version: Int) {
-        if (this.version >= version) return
-        this.version = version
-    }
 
     companion object {
         fun of(
             userId: Long,
-            category: TermsCategory,
-            version: Int,
+            code: TermsCode,
         ): AgreedTermsEntity = AgreedTermsEntity().apply {
             this.userId = userId
-            this.category = category
-            this.version = version
+            this.code = code
         }
     }
 }
