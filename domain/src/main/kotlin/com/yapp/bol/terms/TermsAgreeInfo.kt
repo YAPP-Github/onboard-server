@@ -9,6 +9,10 @@ operator fun List<TermsAgreeInfo>.get(termsCode: TermsCode): TermsAgreeInfo? {
     return find { it.termsCode == termsCode }
 }
 
-fun List<TermsAgreeInfo>.isAgreed(termsCode: TermsCode): Boolean {
+fun List<TermsAgreeInfo>.existAgreed(termsCode: TermsCode): Boolean {
     return get(termsCode)?.isAgree ?: false
+}
+
+fun List<TermsAgreeInfo>.existUpdatedTerms(): Boolean {
+    return any { it.isAgree && it.termsCode.nextVersion != null }
 }

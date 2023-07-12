@@ -27,7 +27,7 @@ class TermsServiceImpl(
         if (termsInfoList.any { it.termsCode.nextVersion != null }) throw OldVersionTermsException
         if (getNeedTermsAgreeList(userId)
             .filter { it.isRequired }
-            .any { termsInfoList.isAgreed(it).not() }
+            .any { termsInfoList.existAgreed(it).not() }
         ) throw NotExistRequiredTermsException
 
         termsCommandRepository.saveTermsAgreeInfo(userId, termsInfoList)
