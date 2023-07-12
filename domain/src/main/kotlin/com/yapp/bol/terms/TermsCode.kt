@@ -26,10 +26,9 @@ enum class TermsCode(
 
     companion object {
         fun latestTerms(): List<TermsCode> {
-            println("================== GOODDD")
-            return TermsCode.values().filter {
-                it.path != null || it.nextVersion != null
-            }.sortedBy { it.displayOrder }
+            return TermsCode.values()
+                .filter { it.path != null || it.nextVersion != null }
+                .sortedBy { it.displayOrder }
         }
     }
 }

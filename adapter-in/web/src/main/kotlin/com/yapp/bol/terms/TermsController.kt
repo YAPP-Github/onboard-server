@@ -25,7 +25,7 @@ class TermsController(
     @PreAuthorize("isAuthenticated()")
     fun getTerms(): TermsResponse {
         val userId = getSecurityUserIdOrThrow()
-        val list = termsService.getTermsList(userId)
+        val list = termsService.getNeedTermsAgreeList(userId)
         return TermsResponse(
             list.map { it.toResponse(host) }
         )
@@ -38,7 +38,17 @@ class TermsController(
     ): EmptyResponse {
         val userId = getSecurityUserIdOrThrow()
 
-        termsService.agreeTerms(userId, request.terms)
+        val termsInfo = mutableListOf<TermsAgreeInfo>()
+
+        request.agree?.forEach {
+            termsInfo.add(TermsAgreeInfo(it, true))
+        }
+
+        request.disagree?.forEach {
+            termsInfo.add(TermsAgreeInfo(it, false))
+        }
+
+        termsService.agreeTerms(userId, termsInfo)
 
         return EmptyResponse
     }

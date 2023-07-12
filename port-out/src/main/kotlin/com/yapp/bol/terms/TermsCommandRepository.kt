@@ -3,5 +3,5 @@ package com.yapp.bol.terms
 import com.yapp.bol.auth.UserId
 
 interface TermsCommandRepository {
-    fun agreeTerms(userId: UserId, termsCode: List<TermsCode>)
+    fun saveTermsAgreeInfo(userId: UserId, termsCode: List<TermsAgreeInfo>)
 }

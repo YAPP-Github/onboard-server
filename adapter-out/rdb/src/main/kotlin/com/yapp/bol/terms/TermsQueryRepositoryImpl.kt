@@ -5,10 +5,11 @@ import org.springframework.stereotype.Component
 
 @Component
 internal class TermsQueryRepositoryImpl(
-    private val agreedTermsRepository: AgreedTermsRepository,
+    private val termsAgreeRepository: TermsAgreeRepository,
 ) : TermsQueryRepository {
 
-    override fun getAgreedTermsByUserId(userId: UserId): List<TermsCode> {
-        return agreedTermsRepository.findByUserId(userId.value).map { it.code }
+    override fun getSavedTermsByUserId(userId: UserId): List<TermsAgreeInfo> {
+        return termsAgreeRepository.findByUserId(userId.value)
+            .map { TermsAgreeInfo(it.code, it.isAgree) }
     }
 }

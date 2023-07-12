@@ -17,7 +17,7 @@ class TermsControllerTest : ControllerTest() {
     init {
         test("이용 약관 가져오기") {
             val userId = UserId(234L)
-            every { termsService.getTermsList(userId) } returns listOf(TermsCode.SERVICE_V1, TermsCode.PRIVACY_V1)
+            every { termsService.getNeedTermsAgreeList(userId) } returns listOf(TermsCode.SERVICE_V1, TermsCode.PRIVACY_V1)
 
             get("/v1/terms") {
                 authorizationHeader(userId)
@@ -41,8 +41,8 @@ class TermsControllerTest : ControllerTest() {
 
         test("이용 약관 동의하기") {
             val userId = UserId(234L)
-            val request = AgreeTermsRequest(terms = listOf(TermsCode.SERVICE_V1, TermsCode.PRIVACY_V1))
-            every { termsService.agreeTerms(userId, request.terms) } returns Unit
+            val request = AgreeTermsRequest(agree = listOf(TermsCode.SERVICE_V1, TermsCode.PRIVACY_V1), disagree = null)
+            every { termsService.agreeTerms(userId, any()) } returns Unit
 
             post("/v1/terms", request) {
                 authorizationHeader(userId)
@@ -55,7 +55,8 @@ class TermsControllerTest : ControllerTest() {
                         tag = OpenApiTag.TERMS,
                     ),
                     requestFields(
-                        "terms" type ARRAY means "동의할 약관 Code 목록",
+                        "agree" type ARRAY means "동의 할 약관 Code 목록" isOptional true,
+                        "disagree" type ARRAY means "동의하지 않는 약관 Code 목록" isOptional true,
                     )
                 )
         }

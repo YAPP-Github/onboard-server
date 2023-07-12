@@ -12,7 +12,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "agreed_terms")
-internal class AgreedTermsEntity : AuditingEntity() {
+internal class TermsAgreeEntity : AuditingEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "agreed_terms_id")
@@ -28,13 +28,19 @@ internal class AgreedTermsEntity : AuditingEntity() {
     lateinit var code: TermsCode
         protected set
 
+    @Column(name = "is_agree")
+    var isAgree: Boolean = true
+        protected set
+
     companion object {
         fun of(
             userId: Long,
             code: TermsCode,
-        ): AgreedTermsEntity = AgreedTermsEntity().apply {
+            isAgree: Boolean
+        ): TermsAgreeEntity = TermsAgreeEntity().apply {
             this.userId = userId
             this.code = code
+            this.isAgree = isAgree
         }
     }
 }

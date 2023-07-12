@@ -6,17 +6,17 @@ import org.springframework.stereotype.Component
 
 @Component
 internal class TermsCommandRepositoryImpl(
-    private val agreedTermsRepository: AgreedTermsRepository,
+    private val termsAgreeRepository: TermsAgreeRepository,
 ) : TermsCommandRepository {
 
     @Transactional
-    override fun agreeTerms(userId: UserId, termsCode: List<TermsCode>) {
-        val list = agreedTermsRepository.findByUserId(userId.value)
+    override fun saveTermsAgreeInfo(userId: UserId, termsCode: List<TermsAgreeInfo>) {
+        val list = termsAgreeRepository.findByUserId(userId.value)
 
         val entities = termsCode
-            .filter { code -> list.any { entity -> code == entity.code } }
-            .map { AgreedTermsEntity.of(userId.value, it) }
+            .filter { info -> list.any { entity -> info.termsCode == entity.code } }
+            .map { TermsAgreeEntity.of(userId.value, it.termsCode, it.isAgree) }
 
-        agreedTermsRepository.saveAll(entities)
+        termsAgreeRepository.saveAll(entities)
     }
 }

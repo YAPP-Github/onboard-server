@@ -13,17 +13,23 @@ class TermsServiceImpl(
 
     private val wholeTerms: List<TermsCode> = TermsCode.latestTerms()
 
-    override fun getTermsList(userId: UserId): List<TermsCode> {
-        val list = termsQueryRepository.getAgreedTermsByUserId(userId)
+    override fun getNeedTermsAgreeList(userId: UserId): List<TermsCode> {
+        val list = termsQueryRepository.getSavedTermsByUserId(userId)
 
-        return wholeTerms.filter { list.contains(it).not() }
+        return wholeTerms
+            .filter { baseTerms ->
+                list.any { baseTerms == it.termsCode }.not()
+            }
+            .sortedBy { it.displayOrder }
     }
 
-    override fun agreeTerms(userId: UserId, termsCode: List<TermsCode>) {
-        if (termsCode.any { it.nextVersion != null }) throw OldVersionTermsException
+    override fun agreeTerms(userId: UserId, termsInfoList: List<TermsAgreeInfo>) {
+        if (termsInfoList.any { it.termsCode.nextVersion != null }) throw OldVersionTermsException
+        if (getNeedTermsAgreeList(userId)
+            .filter { it.isRequired }
+            .any { termsInfoList.isAgreed(it).not() }
+        ) throw NotExistRequiredTermsException
 
-        termsCommandRepository.agreeTerms(userId, termsCode)
-
-        if (getTermsList(userId).any { it.isRequired }) throw NotExistRequiredTermsException
+        termsCommandRepository.saveTermsAgreeInfo(userId, termsInfoList)
     }
 }
