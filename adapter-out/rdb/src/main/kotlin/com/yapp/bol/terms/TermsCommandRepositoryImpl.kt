@@ -14,7 +14,7 @@ internal class TermsCommandRepositoryImpl(
         val list = termsAgreeRepository.findByUserId(userId.value)
 
         val entities = termsCode
-            .filter { info -> list.any { entity -> info.termsCode == entity.code } }
+            .filter { info -> list.any { entity -> info.termsCode == entity.code }.not() }
             .map { TermsAgreeEntity.of(userId.value, it.termsCode, it.isAgree) }
 
         termsAgreeRepository.saveAll(entities)
