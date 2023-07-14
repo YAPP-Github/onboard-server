@@ -1,8 +1,11 @@
 package com.yapp.bol.match
 
 import com.yapp.bol.AuditingEntity
-import com.yapp.bol.game.GameEntity
+import com.yapp.bol.game.GameId
+import com.yapp.bol.group.GroupId
 import com.yapp.bol.season.SeasonEntity
+import com.yapp.bol.season.toDomain
+import com.yapp.bol.season.toEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -44,12 +47,47 @@ class MatchEntity : AuditingEntity() {
     lateinit var season: SeasonEntity
         protected set
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "game_id")
-    lateinit var game: GameEntity
+    @Column(name = "game_id")
+    var gameId: Long = 0
         protected set
 
     @Column(name = "group_id")
     var groupId: Long = 0
         protected set
+
+    companion object {
+        fun of(
+            id: Long,
+            gameId: Long,
+            groupId: Long,
+            matchedDate: LocalDateTime,
+            memberCount: Int,
+            season: SeasonEntity
+        ) = MatchEntity().apply {
+            this.id = id
+            this.gameId = gameId
+            this.groupId = groupId
+            this.matchedDate = matchedDate
+            this.memberCount = memberCount
+            this.season = season
+        }
+    }
 }
+
+internal fun Match.toEntity(): MatchEntity = MatchEntity.of(
+    id = this.id.value,
+    gameId = this.gameId.value,
+    groupId = this.groupId.value,
+    matchedDate = this.matchedDate,
+    memberCount = this.memberCount,
+    season = this.season.toEntity()
+)
+
+internal fun MatchEntity.toDomain(): Match = Match(
+    id = MatchId(this.id),
+    gameId = GameId(this.gameId),
+    groupId = GroupId(this.groupId),
+    matchedDate = this.matchedDate,
+    memberCount = this.memberCount,
+    season = this.season.toDomain()
+)
