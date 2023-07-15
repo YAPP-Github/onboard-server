@@ -19,6 +19,7 @@ import com.yapp.bol.season.SeasonId
 import io.mockk.every
 import io.mockk.mockk
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class MatchControllerTest : ControllerTest() {
     private val matchService: MatchService = mockk()
@@ -52,7 +53,7 @@ class MatchControllerTest : ControllerTest() {
             val request = CreateMatchRequest(
                 gameId = 1,
                 groupId = 1,
-                matchedDate = LocalDateTime.now(),
+                matchedDate = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
                 matchMembers = matchMembers
             )
 
