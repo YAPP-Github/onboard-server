@@ -4,6 +4,7 @@ import com.yapp.bol.game.GameId
 import com.yapp.bol.group.GroupId
 import com.yapp.bol.group.member.MemberId
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 data class MatchMemberRequest(
     val memberId: Long,
@@ -14,7 +15,7 @@ data class MatchMemberRequest(
 data class CreateMatchRequest(
     val gameId: Long,
     val groupId: Long,
-    val matchedDate: LocalDateTime,
+    val matchedDate: String,
     val matchMembers: List<MatchMemberRequest>
 )
 
@@ -27,6 +28,6 @@ internal fun MatchMemberRequest.toDto() = CreateMatchMemberDto(
 internal fun CreateMatchRequest.toDto() = CreateMatchDto(
     gameId = GameId(this.gameId),
     groupId = GroupId(this.groupId),
-    matchedDate = this.matchedDate,
+    matchedDate = LocalDateTime.parse(this.matchedDate, DateTimeFormatter.ISO_LOCAL_DATE_TIME),
     matchMembers = this.matchMembers.map { it.toDto() }
 )
