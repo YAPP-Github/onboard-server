@@ -46,6 +46,11 @@ object MultiOwnerException : MemberException("Member004", 500, "그룹장이 2�
 object InvalidMemberRoleException : MemberException("Member005", 500, "맴버의 상태가 잘 못 되어 었습니다.")
 object AlreadyExistMemberException : MemberException("Member006", 400, "이미 가입된 그룹입니다.")
 
+sealed class MatchException(code: String, status: Int, message: String, cause: Throwable? = null) :
+    BolRatingException(code = code, status = status, message = message, cause = cause)
+
+object InvalidMatchMemberException : MatchException("Match001", 400, "매치 멤버가 잘못되었습니다.")
+
 object UnknownException : BolRatingException("BOL000", 500, "알 수 없는 에러가 발생했습니다. 다시 시도해주세요.")
 object InvalidRequestException : BolRatingException("BOL001", 400, "유효하지 않은 요청입니다.")
 object InvalidNicknameException : BolRatingException("BOL002", 400, "닉네임이 잘못되었습니다.")
