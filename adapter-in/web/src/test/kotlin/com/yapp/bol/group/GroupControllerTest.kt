@@ -169,6 +169,7 @@ class GroupControllerTest : ControllerTest() {
                         "contents[].rank" type NUMBER means "등수, 1부터 시작" isOptional true,
                         "contents[].winningPercentage" type NUMBER means "승률 소수로 나옴 (반올림 없음), 0~1" isOptional true,
                         "contents[].matchCount" type NUMBER means "총 플레이 횟수" isOptional true,
+                        "contents[].isChangeRecent" type BOOLEAN means "최근(1시간 이내) 변경점이 존재하는 지 여부",
                     )
                 )
         }

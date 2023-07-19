@@ -2,6 +2,7 @@ package com.yapp.bol.group.dto
 
 import com.yapp.bol.group.LeaderBoardMember
 import com.yapp.bol.group.member.MemberId
+import kotlin.random.Random
 
 data class LeaderBoardResponse(
     val contents: List<RankMemberResponse>
@@ -13,6 +14,7 @@ data class RankMemberResponse(
     val rank: Int?,
     val winningPercentage: Double?,
     val matchCount: Int?,
+    val isChangeRecent: Boolean,
 )
 
 fun LeaderBoardMember.toResponse(rank: Int): RankMemberResponse = RankMemberResponse(
@@ -21,4 +23,5 @@ fun LeaderBoardMember.toResponse(rank: Int): RankMemberResponse = RankMemberResp
     rank = rank,
     winningPercentage = this.winningPercentage,
     matchCount = this.matchCount,
+    isChangeRecent = Random.nextBoolean(),
 )
