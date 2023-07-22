@@ -20,6 +20,7 @@ data class GameMember(
     fun processMatch(
         additionalScore: Int
         // TODO: 네이밍
+        // TODO: 승점 계산 로직 추가 필요
     ): GameMember {
         val finalScore = this.finalScore + additionalScore
         val matchCount = this.matchCount + 1
