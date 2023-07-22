@@ -12,7 +12,17 @@ class GameMemberServiceImpl(
     private val gameMemberCommandRepository: GameMemberCommandRepository,
     private val seasonService: SeasonService
 ) : GameMemberService {
-    override fun getOrCreateGameMember(memberId: MemberId, gameId: GameId, groupId: GroupId): GameMember {
+    override fun getOrCraeteGameMembers(gameId: GameId, groupId: GroupId, memberIds: List<MemberId>): List<GameMember> {
+        return memberIds.map { memberId ->
+            getOrCreateGameMember(
+                memberId = memberId,
+                gameId = gameId,
+                groupId = groupId
+            )
+        }
+    }
+
+    private fun getOrCreateGameMember(memberId: MemberId, gameId: GameId, groupId: GroupId): GameMember {
         val gameMember = gameMemberQueryRepository.findGameMember(memberId = memberId, gameId = gameId, groupId = groupId)
 
         if (gameMember != null) {

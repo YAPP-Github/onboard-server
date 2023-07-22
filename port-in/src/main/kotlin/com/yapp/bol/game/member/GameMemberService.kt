@@ -5,5 +5,5 @@ import com.yapp.bol.group.GroupId
 import com.yapp.bol.group.member.MemberId
 
 interface GameMemberService {
-    fun getOrCreateGameMember(memberId: MemberId, gameId: GameId, groupId: GroupId): GameMember
+    fun getOrCraeteGameMembers(gameId: GameId, groupId: GroupId, memberIds: List<MemberId>): List<GameMember>
 }

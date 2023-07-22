@@ -29,5 +29,5 @@ internal fun CreateMatchRequest.toDto() = CreateMatchDto(
     gameId = GameId(this.gameId),
     groupId = GroupId(this.groupId),
     matchedDate = LocalDateTime.parse(this.matchedDate, DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-    matchMembers = this.matchMembers.map { it.toDto() }
+    createMatchMemberDtos = this.matchMembers.map { it.toDto() }
 )
