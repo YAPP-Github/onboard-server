@@ -1,8 +1,11 @@
 package com.yapp.bol.game.member
 
+import com.yapp.bol.InvalidMatchMemberException
 import com.yapp.bol.game.GameId
 import com.yapp.bol.group.member.MemberId
 import com.yapp.bol.season.Season
+import kotlin.math.floor
+import kotlin.math.sqrt
 
 @JvmInline
 value class GameMemberId(val value: Long)
@@ -16,13 +19,15 @@ data class GameMember(
     val matchCount: Int,
     val winningPercentage: Double
 ) {
-    // TODO 네이밍
+    // TODO: 더 나은 네이밍
     fun processMatch(
-        additionalScore: Int
-        // TODO: 네이밍
-        // TODO: 승점 계산 로직 추가 필요
+        rank: Int,
+        memberCount: Int
     ): GameMember {
-        val finalScore = this.finalScore + additionalScore
+        val finalScore = this.finalScore + this.calculateUpdatedScore(
+            rank = rank,
+            memberCount = memberCount
+        )
         val matchCount = this.matchCount + 1
 
         return this.copy(
@@ -31,10 +36,26 @@ data class GameMember(
         )
     }
 
+    private fun calculateUpdatedScore(rank: Int, memberCount: Int): Int {
+        if (memberCount < MINIMUM_GAME_MEMBER_SIZE) {
+            throw InvalidMatchMemberException
+        }
+
+        val threshold = floor((memberCount / 2).toDouble())
+
+        if (rank > threshold) {
+            return 0
+        }
+
+        return floor((MAX_SCORE / rank).toDouble() * sqrt(memberCount.toDouble())).toInt()
+    }
+
     companion object {
+        const val MINIMUM_GAME_MEMBER_SIZE = 2
         private const val DEFAULT_SCORE = 0
         private const val DEFAULT_MATCH_COUNT = 0
         private const val DEFAULT_WINNING_PERCENTAGE = 0.0
+        private const val MAX_SCORE = 100
 
         fun of(
             gameId: GameId,
