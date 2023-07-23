@@ -23,6 +23,11 @@ object NotFoundUserException : BolRatingException("User001", 400, "유저를 찾
 object IllegalFileStateException : BolRatingException("File001", 500, "요청한 파일의 Status가 올바르지 않습니다.")
 object NotFoundFileException : BolRatingException("File002", 400, "파일을 찾을 수 없습니다.")
 
+sealed class GameException(code: String, status: Int, message: String, cause: Throwable? = null) :
+    BolRatingException(code, status, message, cause)
+
+object NotFoundGameException : GameException("Game001", 400, "게임을 찾을 수 없습니다.")
+
 sealed class GroupException(code: String, message: String, cause: Throwable? = null) :
     BolRatingException(code = code, status = 400, message = message, cause = cause)
 

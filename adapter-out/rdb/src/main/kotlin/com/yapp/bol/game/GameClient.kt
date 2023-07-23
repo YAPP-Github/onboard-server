@@ -2,6 +2,7 @@ package com.yapp.bol.game
 
 import com.yapp.bol.file.FileNameConverter
 import com.yapp.bol.group.GroupId
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 
 @Component
@@ -10,6 +11,10 @@ class GameClient(
 ) : GameQueryRepository {
     override fun getGameListByGroupId(groupId: GroupId): List<Game> {
         return gameRepository.getAll().map { it.toDomain() }
+    }
+
+    override fun findById(id: GameId): Game? {
+        return gameRepository.findByIdOrNull(id.value)?.toDomain()
     }
 
     private fun GameEntity.toDomain(): Game = Game(

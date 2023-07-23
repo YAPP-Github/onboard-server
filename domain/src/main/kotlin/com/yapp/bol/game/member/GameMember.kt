@@ -36,7 +36,7 @@ data class GameMember(
     }
 
     private fun calculateUpdatedScore(rank: Int, memberCount: Int): Int {
-        if (memberCount < MINIMUM_GAME_MEMBER_SIZE) {
+        if (rank > memberCount) {
             throw InvalidMatchMemberException
         }
 
@@ -50,7 +50,6 @@ data class GameMember(
     }
 
     companion object {
-        const val MINIMUM_GAME_MEMBER_SIZE = 2
         private const val DEFAULT_SCORE = 0
         private const val DEFAULT_MATCH_COUNT = 0
         private const val DEFAULT_WINNING_PERCENTAGE = 0.0
