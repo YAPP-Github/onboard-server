@@ -9,11 +9,6 @@ import io.kotest.matchers.shouldBe
 import kotlin.math.floor
 import kotlin.math.sqrt
 
-data class TestCase(
-    val score: Int,
-    val matchCount: Int,
-)
-
 class GameMemberTest : FunSpec() {
     private val gameId = GameId(0)
 
