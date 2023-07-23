@@ -23,6 +23,7 @@ internal class MatchCommandRepositoryImpl(
             matchWithMatchMembers.match.toEntity()
         ).toDomain()
 
+        // TODO: 연관 관계 + CASCADE 설정
         val matchMemberEntities: List<MatchMemberEntity> = matchWithMatchMembers.matchMembers
             .map {
                 it.toEntity(

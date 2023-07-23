@@ -19,6 +19,7 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "game_member")
 class GameMemberEntity : AuditingEntity() {
+    // TODO: 혼합키로 만들기
     @Id
     @Column(name = "game_member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -7,35 +7,27 @@ import com.yapp.bol.season.Season
 @JvmInline
 value class GameMemberId(val value: Long)
 
-class GameMember(
+data class GameMember(
     val id: GameMemberId = GameMemberId(0),
     val gameId: GameId,
     val memberId: MemberId,
     val season: Season,
-    finalScore: Int,
-    matchCount: Int,
-    winningPercentage: Double
+    val finalScore: Int,
+    val matchCount: Int,
+    val winningPercentage: Double
 ) {
-    var finalScore = finalScore
-        private set
+    // TODO 네이밍
+    fun processMatch(
+        additionalScore: Int
+        // TODO: 네이밍
+    ): GameMember {
+        val finalScore = this.finalScore + additionalScore
+        val matchCount = this.matchCount + 1
 
-    var matchCount = matchCount
-        private set
-
-    var winningPercentage = winningPercentage
-        private set
-
-    fun processMatch(matchScore: Int) {
-        updateScore(matchScore)
-        addMatchCount()
-    }
-
-    private fun updateScore(matchScore: Int) {
-        this.finalScore = this.finalScore + matchScore
-    }
-
-    private fun addMatchCount() {
-        this.matchCount = this.matchCount + 1
+        return this.copy(
+            finalScore = finalScore,
+            matchCount = matchCount,
+        )
     }
 
     companion object {
