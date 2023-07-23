@@ -20,7 +20,7 @@ class MatchServiceImpl(
 
         val season = seasonService.getOrCreateSeason(groupId = createMatchDto.groupId)
 
-        val match = createMatchDto.toDomain(season)
+        val match = createMatchDto.toDomain(season = season)
 
         return matchCommandRepository.createMatch(match = match, gameMembers = gameMembers)
     }
