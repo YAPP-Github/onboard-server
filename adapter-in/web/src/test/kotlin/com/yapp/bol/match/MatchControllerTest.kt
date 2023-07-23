@@ -6,20 +6,18 @@ import com.yapp.bol.base.ControllerTest
 import com.yapp.bol.base.NUMBER
 import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
+import com.yapp.bol.date.DateTimeUtils
 import com.yapp.bol.game.GameId
 import com.yapp.bol.group.GroupId
 import com.yapp.bol.group.member.MemberId
 import com.yapp.bol.match.dto.CreateMatchRequest
 import com.yapp.bol.match.dto.MatchMemberRequest
-import com.yapp.bol.match.dto.MatchWithMatchMemberList
 import com.yapp.bol.match.member.MatchMember
 import com.yapp.bol.match.member.MatchMemberId
 import com.yapp.bol.season.Season
 import com.yapp.bol.season.SeasonId
 import io.mockk.every
 import io.mockk.mockk
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class MatchControllerTest : ControllerTest() {
     private val matchService: MatchService = mockk()
@@ -53,13 +51,13 @@ class MatchControllerTest : ControllerTest() {
             val request = CreateMatchRequest(
                 gameId = 1,
                 groupId = 1,
-                matchedDate = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                matchedDate = STRING_DATE,
                 matchMembers = matchMembers
             )
 
             every {
                 matchService.createMatch(any())
-            } returns MATCH_WITH_MATCH_MEMBER_LIST
+            } returns MATCH
 
             post("/v1/match", request) {
                 authorizationHeader(UserId(1))
@@ -81,58 +79,49 @@ class MatchControllerTest : ControllerTest() {
     }
 
     companion object {
+        private const val STRING_DATE = "23/07/22 06:14"
+        private val dateTimeUtils = DateTimeUtils
+
         private val SEASON = Season(
             id = SeasonId(1),
             groupId = GroupId(1),
+        )
+
+        private val MATCH_MEMBERS = listOf(
+            MatchMember(
+                id = MatchMemberId(1),
+                memberId = MemberId(1),
+                score = 1,
+                ranking = 1,
+            ),
+            MatchMember(
+                id = MatchMemberId(2),
+                memberId = MemberId(2),
+                score = 2,
+                ranking = 2,
+            ),
+            MatchMember(
+                id = MatchMemberId(3),
+                memberId = MemberId(3),
+                score = 3,
+                ranking = 3,
+            ),
+            MatchMember(
+                id = MatchMemberId(4),
+                memberId = MemberId(4),
+                score = 4,
+                ranking = 4,
+            ),
         )
 
         private val MATCH = Match(
             id = MatchId(1),
             gameId = GameId(1),
             groupId = GroupId(1),
-            matchedDate = LocalDateTime.now(),
+            matchedDate = dateTimeUtils.parseString(STRING_DATE),
             memberCount = 1,
-            season = SEASON
-        )
-
-        private val MATCH_MEMBERS = listOf(
-            MatchMember(
-                id = MatchMemberId(1),
-                matchId = MATCH.id,
-                memberId = MemberId(1),
-                score = 1,
-                ranking = 1,
-                previousScore = 0
-            ),
-            MatchMember(
-                id = MatchMemberId(2),
-                matchId = MATCH.id,
-                memberId = MemberId(2),
-                score = 2,
-                ranking = 2,
-                previousScore = 0
-            ),
-            MatchMember(
-                id = MatchMemberId(3),
-                matchId = MATCH.id,
-                memberId = MemberId(3),
-                score = 3,
-                ranking = 3,
-                previousScore = 0
-            ),
-            MatchMember(
-                id = MatchMemberId(4),
-                matchId = MATCH.id,
-                memberId = MemberId(4),
-                score = 4,
-                ranking = 4,
-                previousScore = 0
-            ),
-        )
-
-        private val MATCH_WITH_MATCH_MEMBER_LIST = MatchWithMatchMemberList(
-            match = MATCH,
-            matchMembers = MATCH_MEMBERS
+            season = SEASON,
+            matchMembers = MATCH_MEMBERS,
         )
     }
 }
