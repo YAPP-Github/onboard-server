@@ -135,8 +135,8 @@ class GroupControllerTest : ControllerTest() {
                         nickname = "난_1등",
                     ),
                     score = 100,
-                    winningPercentage = 0.95,
                     matchCount = 12,
+                    isChangeRecent = false,
                 ),
                 LeaderBoardMember(
                     member = HostMember(
@@ -145,8 +145,8 @@ class GroupControllerTest : ControllerTest() {
                         nickname = "게임안해",
                     ),
                     score = null,
-                    winningPercentage = null,
                     matchCount = null,
+                    isChangeRecent = true,
                 )
             )
 
@@ -167,7 +167,7 @@ class GroupControllerTest : ControllerTest() {
                         "contents[].id" type NUMBER means "맴버 ID",
                         "contents[].nickname" type STRING means "맴버 닉네임",
                         "contents[].rank" type NUMBER means "등수, 1부터 시작" isOptional true,
-                        "contents[].winningPercentage" type NUMBER means "승률 소수로 나옴 (반올림 없음), 0~1" isOptional true,
+                        "contents[].score" type NUMBER means "승점" isOptional true,
                         "contents[].matchCount" type NUMBER means "총 플레이 횟수" isOptional true,
                         "contents[].isChangeRecent" type BOOLEAN means "최근(1시간 이내) 변경점이 존재하는 지 여부",
                     )

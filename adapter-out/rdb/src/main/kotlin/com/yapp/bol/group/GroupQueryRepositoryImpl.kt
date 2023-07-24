@@ -6,7 +6,6 @@ import com.yapp.bol.group.member.MemberEntity
 import com.yapp.bol.group.member.MemberRepository
 import com.yapp.bol.group.member.toDomain
 import com.yapp.bol.pagination.offset.PaginationOffsetResponse
-import java.time.Duration
 import java.time.LocalDateTime
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Slice
@@ -56,7 +55,6 @@ internal class GroupQueryRepositoryImpl(
         return LeaderBoardMember(
             member = this.toDomain(),
             score = gameMember?.finalScore,
-            winningPercentage = gameMember?.winningPercentage,
             matchCount = gameMember?.matchCount,
             isChangeRecent = gameMember?.updatedDate?.isAfter(recentStandardTime) ?: false
         )
