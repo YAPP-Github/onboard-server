@@ -7,4 +7,5 @@ data class LeaderBoardMember(
     val score: Int?,
     val winningPercentage: Double?,
     val matchCount: Int?,
+    val isChangeRecent: Boolean,
 )

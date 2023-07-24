@@ -23,5 +23,5 @@ fun LeaderBoardMember.toResponse(rank: Int): RankMemberResponse = RankMemberResp
     rank = rank,
     winningPercentage = this.winningPercentage,
     matchCount = this.matchCount,
-    isChangeRecent = Random.nextBoolean(),
+    isChangeRecent = this.isChangeRecent,
 )

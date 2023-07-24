@@ -6,6 +6,8 @@ import com.yapp.bol.group.member.MemberEntity
 import com.yapp.bol.group.member.MemberRepository
 import com.yapp.bol.group.member.toDomain
 import com.yapp.bol.pagination.offset.PaginationOffsetResponse
+import java.time.Duration
+import java.time.LocalDateTime
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Slice
 import org.springframework.data.repository.findByIdOrNull
@@ -49,12 +51,14 @@ internal class GroupQueryRepositoryImpl(
 
     private fun MemberEntity.toLeaderBoardDomain(gameId: GameId): LeaderBoardMember {
         val gameMember = this.gameMembers.firstOrNull { it.gameId == gameId.value }
+        val recentStandardTime = LocalDateTime.now().minusHours(1)
 
         return LeaderBoardMember(
             member = this.toDomain(),
             score = gameMember?.finalScore,
             winningPercentage = gameMember?.winningPercentage,
             matchCount = gameMember?.matchCount,
+            isChangeRecent = gameMember?.updatedDate?.isAfter(recentStandardTime) ?: false
         )
     }
 
