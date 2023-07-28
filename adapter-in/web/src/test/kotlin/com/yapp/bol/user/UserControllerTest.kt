@@ -89,5 +89,23 @@ class UserControllerTest : ControllerTest() {
                     )
                 )
         }
+
+        test("회원 탈퇴") {
+            val userId = UserId(123L)
+
+            every { userService.unregister(userId) } returns Unit
+
+            delete("/v1/user/me") {
+                authorizationHeader(userId)
+            }
+                .isStatus(200)
+                .makeDocument(
+                    DocumentInfo(
+                        identifier = "user/{method-name}",
+                        description = "모든 그룹에서 탈퇴 되며, 인증 정보가 모두 삭제 됩니다.",
+                        tag = OpenApiTag.USER,
+                    )
+                )
+        }
     }
 }
