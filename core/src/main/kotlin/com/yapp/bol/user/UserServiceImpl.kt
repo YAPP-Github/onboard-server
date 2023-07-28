@@ -20,4 +20,8 @@ class UserServiceImpl(
 
         userCommandRepository.updateUser(user)
     }
+
+    override fun delete(userId: UserId) {
+        userCommandRepository.delete(userId)
+    }
 }
