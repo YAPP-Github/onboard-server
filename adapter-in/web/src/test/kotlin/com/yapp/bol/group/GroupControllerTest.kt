@@ -165,6 +165,7 @@ class GroupControllerTest : ControllerTest() {
                     responseFields(
                         "contents" type ARRAY means "그룹 목록",
                         "contents[].id" type NUMBER means "맴버 ID",
+                        "contents[].role" type ENUM(MemberRole::class) means "맴버 종류",
                         "contents[].nickname" type STRING means "맴버 닉네임",
                         "contents[].rank" type NUMBER means "등수, 1부터 시작" isOptional true,
                         "contents[].score" type NUMBER means "승점" isOptional true,
