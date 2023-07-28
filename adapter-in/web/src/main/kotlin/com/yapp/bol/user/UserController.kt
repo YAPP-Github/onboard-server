@@ -63,7 +63,7 @@ class UserController(
     fun unregisterMe(): EmptyResponse {
         val userId = getSecurityUserIdOrThrow()
 
-        userService.delete(userId)
+        userService.unregister(userId)
         return EmptyResponse
     }
 }

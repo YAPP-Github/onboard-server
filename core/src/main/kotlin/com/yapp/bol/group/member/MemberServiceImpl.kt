@@ -47,6 +47,10 @@ internal class MemberServiceImpl(
     override fun findMembersByGroupId(groupId: GroupId): List<Member> =
         memberQueryRepository.findByGroupId(groupId)
 
+    override fun unregister(userId: UserId) {
+        memberCommandRepository.unregisterUser(userId)
+    }
+
     private fun validateUniqueNickname(groupId: GroupId, nickname: String): Boolean =
         memberQueryRepository.findByNicknameAndGroupId(nickname, groupId) == null
 

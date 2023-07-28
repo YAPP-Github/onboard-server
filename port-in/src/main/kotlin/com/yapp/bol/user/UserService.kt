@@ -7,5 +7,5 @@ interface UserService {
 
     fun putUser(user: User)
 
-    fun delete(userId: UserId)
+    fun unregister(userId: UserId)
 }

@@ -35,16 +35,23 @@ class MemberEntity(
     val role: MemberRole = role
 
     @Column(name = "nickname")
-    val nickname: String = nickname
+    var nickname: String? = nickname
+        protected set
 
     @Column(name = "level")
     val level: Int = 0
 
     @Column(name = "deleted")
-    val deleted: Boolean = false
+    var deleted: Boolean = false
+        protected set
 
     @Column(name = "group_id", nullable = false)
     val groupId: Long = groupId
+
+    fun delete() {
+        nickname = null
+        deleted = true
+    }
 }
 
 fun MemberEntity.toDomain(): Member {
@@ -55,13 +62,14 @@ fun MemberEntity.toDomain(): Member {
         MemberRole.HOST -> HostMember(
             id = MemberId(this.id),
             userId = UserId(this.userId),
-            nickname = this.nickname,
+            nickname = this.nickname ?: DELETE_MEMBER_NICKNAME,
             level = this.level,
         )
+
         MemberRole.OWNER -> OwnerMember(
             id = MemberId(this.id),
             userId = UserId(this.userId),
-            nickname = this.nickname,
+            nickname = this.nickname ?: DELETE_MEMBER_NICKNAME,
             level = this.level,
         )
     }
@@ -70,7 +78,7 @@ fun MemberEntity.toDomain(): Member {
 private fun MemberEntity.toGuestMember(): GuestMember =
     GuestMember(
         id = MemberId(this.id),
-        nickname = this.nickname,
+        nickname = this.nickname ?: DELETE_MEMBER_NICKNAME,
         level = this.level,
     )
 
@@ -81,3 +89,5 @@ fun Member.toEntity(groupId: Long): MemberEntity = MemberEntity(
     nickname = this.nickname,
     groupId = groupId,
 )
+
+private const val DELETE_MEMBER_NICKNAME = "탈퇴한 맴버"

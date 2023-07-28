@@ -1,5 +1,6 @@
 package com.yapp.bol.group.member
 
+import com.yapp.bol.auth.UserId
 import org.springframework.data.jpa.repository.JpaRepository
 
 internal interface MemberRepository : JpaRepository<MemberEntity, Long>, CustomMemberRepository {
@@ -12,4 +13,6 @@ internal interface MemberRepository : JpaRepository<MemberEntity, Long>, CustomM
     fun findByGroupIdAndUserId(groupId: Long, userId: Long): MemberEntity?
 
     fun findByGroupIdAndRole(groupId: Long, role: MemberRole): List<MemberEntity>
+
+    fun findByUserId(userId: UserId): List<MemberEntity>
 }
