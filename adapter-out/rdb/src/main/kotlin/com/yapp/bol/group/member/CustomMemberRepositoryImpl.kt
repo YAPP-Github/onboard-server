@@ -13,7 +13,7 @@ class CustomMemberRepositoryImpl(
     ): List<MemberEntity> {
         val member = QMemberEntity.memberEntity
 
-        var express = member.groupId.eq(groupId)
+        var express = member.groupId.eq(groupId).and(member.deleted.eq(false))
 
         if (nickname != null) {
             express = express.and(member.nickname.like("%$nickname%"))

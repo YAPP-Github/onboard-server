@@ -10,9 +10,11 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import org.hibernate.annotations.Where
 
 @Entity
 @Table(name = "member")
+@Where(clause = "deleted = false")
 class MemberEntity(
     id: Long = 0,
     userId: Long? = null,
