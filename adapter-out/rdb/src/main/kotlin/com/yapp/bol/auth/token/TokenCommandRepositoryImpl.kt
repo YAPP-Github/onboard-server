@@ -1,6 +1,7 @@
 package com.yapp.bol.auth.token
 
 import com.yapp.bol.auth.Token
+import com.yapp.bol.auth.UserId
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -18,6 +19,11 @@ internal class TokenCommandRepositoryImpl(
 
     override fun removeRefreshToken(token: Token) {
         refreshTokenRepository.deleteByRefreshToken(token.toBinary())
+    }
+
+    override fun deleteAllToken(userId: UserId) {
+        accessTokenRepository.deleteByUserId(userId.value)
+        refreshTokenRepository.deleteByUserId(userId.value)
     }
 
     private fun Token.toAccessToken(): AccessTokenEntity =

@@ -1,6 +1,7 @@
 package com.yapp.bol.user
 
 import com.yapp.bol.InvalidNicknameException
+import com.yapp.bol.auth.AuthService
 import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.member.MemberService
 import com.yapp.bol.validate.NicknameValidator
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service
 class UserServiceImpl(
     private val userQueryRepository: UserQueryRepository,
     private val userCommandRepository: UserCommandRepository,
+    private val authService: AuthService,
     private val memberService: MemberService,
 ) : UserService {
 
@@ -24,7 +26,7 @@ class UserServiceImpl(
     }
 
     override fun unregister(userId: UserId) {
-
+        authService.unregister(userId)
         memberService.unregister(userId)
         userCommandRepository.delete(userId)
     }

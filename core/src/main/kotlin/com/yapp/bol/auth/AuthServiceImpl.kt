@@ -25,6 +25,11 @@ internal class AuthServiceImpl(
         }
     }
 
+    override fun unregister(userId: UserId) {
+        tokenService.deleteAllToken(userId)
+        authCommandRepository.unregisterUser(userId)
+    }
+
     private fun socialLogin(loginType: LoginType, token: String): AuthToken {
         val socialUser = socialAuthClient.login(loginType, token)
 

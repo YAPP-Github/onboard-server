@@ -37,4 +37,8 @@ internal class TokenService(
         refreshTokenPolicy.assertValidate(value)
         return tokenQueryRepository.findRefreshToken(value).validate()
     }
+
+    fun deleteAllToken(userId: UserId) {
+        tokenCommandRepository.deleteAllToken(userId)
+    }
 }
