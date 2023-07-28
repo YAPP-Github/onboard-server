@@ -14,5 +14,5 @@ internal interface MemberRepository : JpaRepository<MemberEntity, Long>, CustomM
 
     fun findByGroupIdAndRole(groupId: Long, role: MemberRole): List<MemberEntity>
 
-    fun findByUserId(userId: UserId): List<MemberEntity>
+    fun findByUserId(userId: Long): List<MemberEntity>
 }

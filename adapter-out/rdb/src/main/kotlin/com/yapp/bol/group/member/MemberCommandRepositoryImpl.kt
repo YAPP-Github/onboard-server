@@ -13,7 +13,7 @@ internal class MemberCommandRepositoryImpl(
     }
 
     override fun unregisterUser(userId: UserId) {
-        val list = memberRepository.findByUserId(userId)
+        val list = memberRepository.findByUserId(userId.value)
 
         list.forEach {
             it.delete()
