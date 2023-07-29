@@ -1,7 +1,7 @@
 CREATE TABLE match_member
 (
     match_member_id bigint   NOT NULL AUTO_INCREMENT COMMENT 'PK',
-    match_id        bigint   COMMENT '매치 id',
+    match_id        bigint   NOT NULL COMMENT '매치 id',
     member_id       bigint   NOT NULL COMMENT '멤버 id',
     score           int      NOT NULL COMMENT '매치 점수',
     previous_score  int      NOT NULL COMMENT '직전 점수',
