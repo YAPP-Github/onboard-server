@@ -4,7 +4,6 @@ import com.yapp.bol.game.GameId
 import com.yapp.bol.group.GroupId
 import com.yapp.bol.group.member.MemberId
 import com.yapp.bol.match.Match
-import com.yapp.bol.match.MatchId
 import com.yapp.bol.match.member.MatchMember
 import com.yapp.bol.match.member.MatchMemberId
 import com.yapp.bol.season.Season
@@ -20,28 +19,21 @@ data class CreateMatchDto(
     val gameId: GameId,
     val groupId: GroupId,
     val matchedDate: LocalDateTime,
-    val matchMembers: List<CreateMatchMemberDto>
+    val createMatchMemberDtos: List<CreateMatchMemberDto>
 )
 
-fun CreateMatchMemberDto.toDomain(
-    previousScore: Int,
-): MatchMember = MatchMember(
+fun CreateMatchDto.toDomain(season: Season): Match = Match(
+    gameId = this.gameId,
+    groupId = this.groupId,
+    matchedDate = this.matchedDate,
+    memberCount = this.createMatchMemberDtos.size,
+    season = season,
+    matchMembers = this.createMatchMemberDtos.map { it.toDomain() }
+)
+
+fun CreateMatchMemberDto.toDomain(): MatchMember = MatchMember(
     id = MatchMemberId(0),
-    matchId = MatchId(0),
     memberId = this.memberId,
     score = this.score,
-    ranking = this.ranking,
-    previousScore = previousScore,
-)
-
-fun CreateMatchDto.toDomain(matchMembers: List<MatchMember>, season: Season): MatchWithMatchMemberList = MatchWithMatchMemberList(
-    match = Match(
-        id = MatchId(0),
-        gameId = this.gameId,
-        groupId = this.groupId,
-        matchedDate = this.matchedDate,
-        memberCount = this.matchMembers.size,
-        season = season,
-    ),
-    matchMembers = matchMembers
+    ranking = this.ranking
 )

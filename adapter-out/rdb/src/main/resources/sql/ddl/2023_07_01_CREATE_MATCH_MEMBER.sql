@@ -8,5 +8,6 @@ CREATE TABLE match_member
     ranking         int      NOT NULL COMMENT '매치 순위',
     created_at      datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 일시',
     updated_at      datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '최근 수정 일시',
-    PRIMARY KEY PK_match_member (match_member_id)
+    PRIMARY KEY PK_match_member (match_member_id),
+    KEY IDX_matchId (match_id)
 ) COMMENT '매치 멤버 테이블';

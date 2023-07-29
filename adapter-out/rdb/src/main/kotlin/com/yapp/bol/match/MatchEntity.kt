@@ -3,9 +3,14 @@ package com.yapp.bol.match
 import com.yapp.bol.AuditingEntity
 import com.yapp.bol.game.GameId
 import com.yapp.bol.group.GroupId
+import com.yapp.bol.match.member.MatchMember
+import com.yapp.bol.match.member.MatchMemberEntity
+import com.yapp.bol.match.member.toDomain
+import com.yapp.bol.match.member.toEntity
 import com.yapp.bol.season.SeasonEntity
 import com.yapp.bol.season.toDomain
 import com.yapp.bol.season.toEntity
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -13,6 +18,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
+import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import java.time.LocalDateTime
@@ -26,8 +32,8 @@ class MatchEntity : AuditingEntity() {
     var id: Long = 0
         protected set
 
-    @Column(name = "log")
-    lateinit var log: String
+    @Column(name = "memo")
+    lateinit var memo: String
         protected set
 
     @Column(name = "match_image_url")
@@ -40,6 +46,10 @@ class MatchEntity : AuditingEntity() {
 
     @Column(name = "member_count")
     var memberCount: Int = 0
+        protected set
+
+    @OneToMany(mappedBy = "match", cascade = [CascadeType.ALL], orphanRemoval = true, fetch = FetchType.EAGER)
+    lateinit var matchMembers: List<MatchMemberEntity>
         protected set
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -62,7 +72,8 @@ class MatchEntity : AuditingEntity() {
             groupId: Long,
             matchedDate: LocalDateTime,
             memberCount: Int,
-            season: SeasonEntity
+            season: SeasonEntity,
+            matchMembers: List<MatchMember>
         ) = MatchEntity().apply {
             this.id = id
             this.gameId = gameId
@@ -70,6 +81,7 @@ class MatchEntity : AuditingEntity() {
             this.matchedDate = matchedDate
             this.memberCount = memberCount
             this.season = season
+            this.matchMembers = matchMembers.map { it.toEntity(this) }
         }
     }
 }
@@ -80,7 +92,8 @@ internal fun Match.toEntity(): MatchEntity = MatchEntity.of(
     groupId = this.groupId.value,
     matchedDate = this.matchedDate,
     memberCount = this.memberCount,
-    season = this.season.toEntity()
+    season = this.season.toEntity(),
+    matchMembers = this.matchMembers
 )
 
 internal fun MatchEntity.toDomain(): Match = Match(
@@ -89,5 +102,6 @@ internal fun MatchEntity.toDomain(): Match = Match(
     groupId = GroupId(this.groupId),
     matchedDate = this.matchedDate,
     memberCount = this.memberCount,
-    season = this.season.toDomain()
+    season = this.season.toDomain(),
+    matchMembers = this.matchMembers.map { it.toDomain() }
 )

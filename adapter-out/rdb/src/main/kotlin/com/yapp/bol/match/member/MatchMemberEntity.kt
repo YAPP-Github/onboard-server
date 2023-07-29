@@ -2,12 +2,14 @@ package com.yapp.bol.match.member
 
 import com.yapp.bol.AuditingEntity
 import com.yapp.bol.group.member.MemberId
-import com.yapp.bol.match.MatchId
+import com.yapp.bol.match.MatchEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 
 @Entity
@@ -17,10 +19,6 @@ class MatchMemberEntity : AuditingEntity() {
     @Column(name = "match_member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0
-        protected set
-
-    @Column(name = "match_id")
-    var matchId: Long = 0
         protected set
 
     @Column(name = "member_id")
@@ -39,39 +37,39 @@ class MatchMemberEntity : AuditingEntity() {
     var previousScore: Int = 0
         protected set
 
+    @ManyToOne
+    @JoinColumn(name = "match_id")
+    lateinit var match: MatchEntity
+        protected set
+
     companion object {
         fun of(
             id: Long,
-            matchId: Long,
             memberId: Long,
             score: Int,
             ranking: Int,
-            previousScore: Int
+            match: MatchEntity
         ) = MatchMemberEntity().apply {
             this.id = id
-            this.matchId = matchId
             this.memberId = memberId
             this.score = score
             this.ranking = ranking
-            this.previousScore = previousScore
+            this.match = match
         }
     }
 }
 
-internal fun MatchMember.toEntity(matchId: MatchId, memberId: MemberId): MatchMemberEntity = MatchMemberEntity.of(
+internal fun MatchMember.toEntity(match: MatchEntity): MatchMemberEntity = MatchMemberEntity.of(
     id = this.id.value,
-    matchId = matchId.value,
-    memberId = memberId.value,
+    memberId = this.memberId.value,
     score = this.score,
     ranking = this.ranking,
-    previousScore = this.previousScore,
+    match = match,
 )
 
 internal fun MatchMemberEntity.toDomain(): MatchMember = MatchMember(
     id = MatchMemberId(id),
-    matchId = MatchId(matchId),
     memberId = MemberId(memberId),
     score = score,
     ranking = ranking,
-    previousScore = previousScore,
 )
