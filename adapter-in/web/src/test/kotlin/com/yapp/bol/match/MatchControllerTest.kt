@@ -80,7 +80,6 @@ class MatchControllerTest : ControllerTest() {
 
     companion object {
         private const val STRING_DATE = "23/07/22 06:14"
-        private val dateTimeUtils = DateTimeUtils
 
         private val SEASON = Season(
             id = SeasonId(1),
@@ -118,7 +117,7 @@ class MatchControllerTest : ControllerTest() {
             id = MatchId(1),
             gameId = GameId(1),
             groupId = GroupId(1),
-            matchedDate = dateTimeUtils.parseString(STRING_DATE),
+            matchedDate = DateTimeUtils.parseString(STRING_DATE),
             memberCount = 1,
             season = SEASON,
             matchMembers = MATCH_MEMBERS,

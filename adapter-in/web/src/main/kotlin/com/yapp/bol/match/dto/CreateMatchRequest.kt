@@ -24,13 +24,9 @@ internal fun MatchMemberRequest.toDto() = CreateMatchMemberDto(
     ranking = this.ranking,
 )
 
-internal fun CreateMatchRequest.toDto(): CreateMatchDto {
-    val dateTimeUtils = DateTimeUtils
-
-    return CreateMatchDto(
-        gameId = GameId(this.gameId),
-        groupId = GroupId(this.groupId),
-        matchedDate = dateTimeUtils.parseString(this.matchedDate),
-        createMatchMemberDtos = this.matchMembers.map { it.toDto() }
-    )
-}
+internal fun CreateMatchRequest.toDto() = CreateMatchDto(
+    gameId = GameId(this.gameId),
+    groupId = GroupId(this.groupId),
+    matchedDate = DateTimeUtils.parseString(this.matchedDate),
+    createMatchMemberDtos = this.matchMembers.map { it.toDto() }
+)
