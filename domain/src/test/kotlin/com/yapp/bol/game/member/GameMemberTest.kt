@@ -23,9 +23,9 @@ class GameMemberTest : FunSpec() {
             val memberCount = 2
 
             val gameMember1 = GameMember.of(gameId = gameId, memberId = memberId1, season = season)
-                .processMatch(rank = 1, memberCount = 2)
+                .generateWithNewMatch(rank = 1, memberCount = 2)
             val gameMember2 = GameMember.of(gameId = gameId, memberId = memberId2, season = season)
-                .processMatch(rank = 2, memberCount = 2)
+                .generateWithNewMatch(rank = 2, memberCount = 2)
 
             listOf(gameMember1, gameMember2).forEach {
                 it.matchCount shouldBe 1
@@ -53,7 +53,7 @@ class GameMemberTest : FunSpec() {
                 matchCount = matchCount1,
                 winningPercentage = 0.0
             )
-                .processMatch(rank = 1, memberCount = memberCount)
+                .generateWithNewMatch(rank = 1, memberCount = memberCount)
 
             val gameMember2 = GameMember(
                 gameId = gameId,
@@ -63,7 +63,7 @@ class GameMemberTest : FunSpec() {
                 matchCount = matchCount2,
                 winningPercentage = 0.0
             )
-                .processMatch(rank = 2, memberCount = 2)
+                .generateWithNewMatch(rank = 2, memberCount = 2)
 
             gameMember1.matchCount shouldBe matchCount1 + 1
             gameMember2.matchCount shouldBe matchCount2 + 1
@@ -81,15 +81,15 @@ class GameMemberTest : FunSpec() {
             val memberCount = 5
 
             val gameMember1 = GameMember.of(gameId = gameId, memberId = memberId1, season = season)
-                .processMatch(rank = 1, memberCount = memberCount)
+                .generateWithNewMatch(rank = 1, memberCount = memberCount)
             val gameMember2 = GameMember.of(gameId = gameId, memberId = memberId2, season = season)
-                .processMatch(rank = 2, memberCount = memberCount)
+                .generateWithNewMatch(rank = 2, memberCount = memberCount)
             val gameMember3 = GameMember.of(gameId = gameId, memberId = memberId3, season = season)
-                .processMatch(rank = 3, memberCount = memberCount)
+                .generateWithNewMatch(rank = 3, memberCount = memberCount)
             val gameMember4 = GameMember.of(gameId = gameId, memberId = memberId4, season = season)
-                .processMatch(rank = 4, memberCount = memberCount)
+                .generateWithNewMatch(rank = 4, memberCount = memberCount)
             val gameMember5 = GameMember.of(gameId = gameId, memberId = memberId5, season = season)
-                .processMatch(rank = 5, memberCount = memberCount)
+                .generateWithNewMatch(rank = 5, memberCount = memberCount)
 
             listOf(
                 gameMember1,

@@ -19,8 +19,7 @@ data class GameMember(
     val matchCount: Int,
     val winningPercentage: Double
 ) {
-    // TODO: 더 나은 네이밍
-    fun processMatch(
+    fun generateWithNewMatch(
         rank: Int,
         memberCount: Int
     ): GameMember {

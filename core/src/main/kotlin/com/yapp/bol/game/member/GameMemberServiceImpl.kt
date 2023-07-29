@@ -32,7 +32,7 @@ class GameMemberServiceImpl(
                 groupId = group
             )
 
-            gameMember.processMatch(
+            gameMember.generateWithNewMatch(
                 rank = createMatchMemberDto.ranking,
                 memberCount = memberCount
             )
