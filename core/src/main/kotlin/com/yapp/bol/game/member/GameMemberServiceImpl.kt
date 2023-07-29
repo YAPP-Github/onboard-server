@@ -2,7 +2,7 @@ package com.yapp.bol.game.member
 
 import com.yapp.bol.InvalidMatchMemberException
 import com.yapp.bol.game.GameId
-import com.yapp.bol.game.member.GameMember.Companion.MINIMUM_GAME_MEMBER_SIZE
+import com.yapp.bol.game.GameService
 import com.yapp.bol.group.GroupId
 import com.yapp.bol.group.member.MemberId
 import com.yapp.bol.match.dto.CreateMatchDto
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service
 class GameMemberServiceImpl(
     private val gameMemberQueryRepository: GameMemberQueryRepository,
     private val gameMemberCommandRepository: GameMemberCommandRepository,
+    private val gameService: GameService,
     private val seasonService: SeasonService
 ) : GameMemberService {
     override fun processScore(createMatchDto: CreateMatchDto): List<GameMember> {
@@ -21,7 +22,7 @@ class GameMemberServiceImpl(
         val memberDtos = createMatchDto.createMatchMemberDtos
         val memberCount = createMatchDto.createMatchMemberDtos.size
 
-        if (!validateGameMemberSize(memberCount)) {
+        if (gameService.validateMemberSize(gameId = gameId, memberCount = memberCount).not()) {
             throw InvalidMatchMemberException
         }
 
@@ -59,7 +60,4 @@ class GameMemberServiceImpl(
             groupId = groupId
         )
     }
-
-    private fun validateGameMemberSize(gameMemberSize: Int): Boolean =
-        gameMemberSize >= MINIMUM_GAME_MEMBER_SIZE
 }
