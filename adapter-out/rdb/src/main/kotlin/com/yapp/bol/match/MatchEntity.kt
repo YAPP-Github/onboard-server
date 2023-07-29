@@ -48,8 +48,7 @@ class MatchEntity : AuditingEntity() {
     var memberCount: Int = 0
         protected set
 
-    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
-    @JoinColumn(name = "match_id")
+    @OneToMany(mappedBy = "match", cascade = [CascadeType.ALL], orphanRemoval = true, fetch = FetchType.EAGER)
     lateinit var matchMembers: List<MatchMemberEntity>
         protected set
 
@@ -82,7 +81,7 @@ class MatchEntity : AuditingEntity() {
             this.matchedDate = matchedDate
             this.memberCount = memberCount
             this.season = season
-            this.matchMembers = matchMembers.map { it.toEntity() }
+            this.matchMembers = matchMembers.map { it.toEntity(this) }
         }
     }
 }
