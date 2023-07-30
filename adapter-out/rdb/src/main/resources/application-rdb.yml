@@ -1,53 +1,65 @@
 spring:
-    datasource:
-        type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        hikari:
-            poolName: Hikari
-            auto-commit: true
-            minimum-idle: 1
-            maximum-pool-size: 5
-    jpa:
-        database-platform: org.hibernate.dialect.MySQL8Dialect
-        database: MYSQL
-        generate-ddl: false
-        show-sql: false
-        open-in-view: false
-        hibernate:
-            ddl-auto: validate
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      poolName: Hikari
+      auto-commit: true
+      minimum-idle: 1
+      maximum-pool-size: 5
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database: MYSQL
+    generate-ddl: false
+    show-sql: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
 cloud:
-    aws:
-        region: ap-northeast-2
-        credentials:
-            access-key: AKIATGEE7OOGP65GA6OG
+  aws:
+    region: ap-northeast-2
+    credentials:
+      access-key: AKIATGEE7OOGP65GA6OG
 
 ---
 spring.config.activate.on-profile: local, sandbox
 spring:
-    datasource:
-        url: jdbc:mysql://board-sandbox.c5oh2un2pvf0.ap-northeast-2.rds.amazonaws.com/board_sandbox?useUnicode=true&character_set_server=utf8mb4
-        username: yapp
-        password: yappyapp2
-    jpa:
-        show-sql: true
-        properties:
-            hibernate:
-                format_sql: true
+  datasource:
+    url: jdbc:mysql://board-sandbox.c5oh2un2pvf0.ap-northeast-2.rds.amazonaws.com/board_sandbox?useUnicode=true&character_set_server=utf8mb4
+    username: yapp
+    password: yappyapp2
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
 cloud:
-    aws:
-        s3:
-            bucket: bol-sandbox
+  aws:
+    s3:
+      bucket: bol-sandbox
 
+---
+spring.config.activate.on-profile: production
+spring:
+  datasource:
+    url: jdbc:mysql://board-sandbox.c5oh2un2pvf0.ap-northeast-2.rds.amazonaws.com/board_sandbox?useUnicode=true&character_set_server=utf8mb4
+    username: yapp
+    password: yappyapp2
+
+cloud:
+  aws:
+    s3:
+      bucket: bol-prod
 ---
 spring.config.activate.on-profile: local
 
 bol:
-    server:
-        host: http://localhost:8080
+  server:
+    host: http://localhost:8080
 ---
 spring.config.activate.on-profile: test
 spring:
-    datasource:
-        type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:h2:mem:testdb;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:h2:mem:testdb;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;
