@@ -43,9 +43,14 @@ internal class GroupQueryRepositoryImpl(
     }
 
     override fun getLeaderBoardList(groupId: GroupId, gameId: GameId): List<LeaderBoardMember> {
-        return memberRepository.findWithGameMember(groupId.value).map {
-            it.toLeaderBoardDomain(gameId)
-        }
+        // TODO: 이쁜 쿼리로
+        return memberRepository.findWithGameMember(groupId.value)
+            .map {
+                it.toLeaderBoardDomain(gameId)
+            }
+            .sortedByDescending {
+                it.score
+            }
     }
 
     private fun MemberEntity.toLeaderBoardDomain(gameId: GameId): LeaderBoardMember {

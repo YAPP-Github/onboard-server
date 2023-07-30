@@ -15,8 +15,7 @@ internal interface MemberRepository : JpaRepository<MemberEntity, Long>, CustomM
     @Query(
         "FROM MemberEntity m " +
             "LEFT JOIN FETCH m.gameMembers gm " +
-            "WHERE m.groupId = :groupId " +
-            "ORDER BY gm.finalScore desc "
+            "WHERE m.groupId = :groupId "
     )
     fun findWithGameMember(groupId: Long): List<MemberEntity>
     fun findByGroupIdAndRole(groupId: Long, role: MemberRole): List<MemberEntity>
