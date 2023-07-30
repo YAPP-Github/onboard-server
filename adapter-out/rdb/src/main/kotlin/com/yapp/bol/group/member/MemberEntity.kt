@@ -2,7 +2,7 @@ package com.yapp.bol.group.member
 
 import com.yapp.bol.AuditingEntity
 import com.yapp.bol.auth.UserId
-import com.yapp.bol.game.GameMemberEntity
+import com.yapp.bol.game.member.GameMemberEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
