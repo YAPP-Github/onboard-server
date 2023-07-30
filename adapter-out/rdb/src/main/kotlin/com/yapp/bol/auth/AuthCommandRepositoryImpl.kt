@@ -2,6 +2,7 @@ package com.yapp.bol.auth
 
 import com.yapp.bol.user.UserEntity
 import com.yapp.bol.user.UserRepository
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -16,6 +17,7 @@ internal class AuthCommandRepositoryImpl(
         return AuthUser(UserId(user.id))
     }
 
+    @Transactional
     override fun unregisterUser(userId: UserId) {
         authSocialRepository.deleteByUserId(userId.value)
     }
