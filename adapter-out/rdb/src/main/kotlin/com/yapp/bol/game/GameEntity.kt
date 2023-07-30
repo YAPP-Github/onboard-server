@@ -20,7 +20,7 @@ class GameEntity : AuditingEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "game_id")
-    var id: GameId = GameId(0)
+    var id: Long = 0
         protected set
 
     @Column(name = "name")
@@ -44,4 +44,11 @@ class GameEntity : AuditingEntity() {
     @JoinColumn(name = "img_id")
     lateinit var img: FileEntity
         protected set
+
+    companion object {
+        fun of(id: Long) {
+            val game = GameEntity()
+            game.id = id
+        }
+    }
 }

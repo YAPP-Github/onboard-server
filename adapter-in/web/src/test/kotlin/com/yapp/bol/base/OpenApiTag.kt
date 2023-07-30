@@ -10,4 +10,5 @@ enum class OpenApiTag(
     GROUP("Group"),
     MEMBER("Member"),
     USER("User"),
+    MATCH("Match"),
 }
