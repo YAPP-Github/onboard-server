@@ -23,6 +23,8 @@ class TermsServiceImpl(
             .sortedBy { it.displayOrder }
     }
 
+    override fun getWholeTerms(): List<TermsCode> = wholeTerms
+
     override fun agreeTerms(userId: UserId, termsInfoList: List<TermsAgreeInfo>) {
         if (termsInfoList.any { it.termsCode.nextVersion != null }) throw OldVersionTermsException
         if (getNeedTermsAgreeList(userId)

@@ -4,6 +4,6 @@ import com.yapp.bol.auth.UserId
 
 interface TermsService {
     fun getNeedTermsAgreeList(userId: UserId): List<TermsCode>
-
+    fun getWholeTerms(): List<TermsCode>
     fun agreeTerms(userId: UserId, termsInfoList: List<TermsAgreeInfo>)
 }
