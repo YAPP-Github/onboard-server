@@ -1,28 +1,36 @@
 package com.yapp.bol.validate
 
-import com.yapp.bol.InvalidNicknameException
-import io.kotest.assertions.throwables.shouldNotThrow
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.shouldBe
 
 class NicknameValidatorTest : FunSpec() {
     init {
-        test("SUCCESS") {
+        test("길이 SUCCESS") {
             for (i in 1..10) {
                 val nickname = "x".repeat(i)
-                shouldNotThrow<Exception> {
-                    NicknameValidator.validate(nickname)
-                }
+
+                NicknameValidator.validate(nickname) shouldBe true
             }
         }
 
-        test("FAIL") {
+        test("특수문자 SUCCESS") {
+            val nickname = "s12345_"
+
+            NicknameValidator.validate(nickname) shouldBe true
+        }
+
+        test("길이 FAIL") {
             for (i in listOf(0, 11)) {
                 val nickname = "x".repeat(i)
-                shouldThrow<InvalidNicknameException> {
-                    NicknameValidator.validate(nickname)
-                }
+
+                NicknameValidator.validate(nickname) shouldBe false
             }
+        }
+
+        test("특수문자 FAIL") {
+            val nickname = "s12345!@#"
+
+            NicknameValidator.validate(nickname) shouldBe false
         }
     }
 }
