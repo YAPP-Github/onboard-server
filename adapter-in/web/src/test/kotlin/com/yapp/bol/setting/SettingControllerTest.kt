@@ -1,6 +1,5 @@
 package com.yapp.bol.setting
 
-import com.yapp.bol.auth.UserId
 import com.yapp.bol.base.ARRAY
 import com.yapp.bol.base.BOOLEAN
 import com.yapp.bol.base.ControllerTest
