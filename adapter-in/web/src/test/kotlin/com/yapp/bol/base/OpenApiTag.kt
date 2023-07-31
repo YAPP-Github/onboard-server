@@ -5,6 +5,8 @@ enum class OpenApiTag(
 ) {
     TEST("test"),
     AUTH("Auth"),
+    TERMS("Terms"),
+    SETTING("Setting"),
     FILE("File"),
     GAME("Game"),
     GROUP("Group"),

@@ -1,13 +1,11 @@
 package com.yapp.bol.auth
 
 import com.yapp.bol.auth.dto.LoginRequest
-import com.yapp.bol.base.ARRAY
 import com.yapp.bol.base.ControllerTest
 import com.yapp.bol.base.ENUM
 import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
 import com.yapp.bol.onboarding.OnboardingService
-import com.yapp.bol.onboarding.OnboardingType
 import io.mockk.every
 import io.mockk.mockk
 import java.time.LocalDateTime
@@ -26,10 +24,6 @@ class AuthControllerTest : ControllerTest() {
                 Token("REFRESH_TOKEN", userId, LocalDateTime.now())
             )
             every { authService.login(any(), any()) } returns authToken
-            every { onboardingService.getRemainOnboarding(userId) } returns listOf(
-                OnboardingType.TERMS,
-                OnboardingType.NICKNAME,
-            )
 
             post("/v1/auth/login", request) {}
                 .isStatus(200)
@@ -42,7 +36,6 @@ class AuthControllerTest : ControllerTest() {
                     responseFields(
                         "accessToken" type STRING means "Access 토큰",
                         "refreshToken" type STRING means "Refresh 토큰" isOptional true,
-                        "onboarding" type ARRAY means "남은 온보딩 단계 ${OnboardingType.values().toList()}",
                     )
                 )
         }
