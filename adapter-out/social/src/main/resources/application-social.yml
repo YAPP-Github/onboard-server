@@ -1,3 +1,12 @@
+---
+spring.config.activate.on-profile: local, sandbox
 social:
   google:
     client-id: 407255596267-oh8srvr5ddpv0qd53kdceeu8e7thjeld.apps.googleusercontent.com
+
+---
+spring.config.activate.on-profile: production
+social:
+    google:
+        client-id: 499798963911-c1vtj0pvein1vel8e5v4li5ih634bh3r.apps.googleusercontent.com
+
