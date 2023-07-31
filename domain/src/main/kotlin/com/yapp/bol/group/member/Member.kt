@@ -1,6 +1,7 @@
 package com.yapp.bol.group.member
 
 import com.yapp.bol.InvalidMemberRoleException
+import com.yapp.bol.InvalidNicknameException
 import com.yapp.bol.auth.UserId
 import com.yapp.bol.validate.NicknameValidator
 
@@ -21,7 +22,7 @@ abstract class Member internal constructor(
     }
 
     init {
-        NicknameValidator.validate(nickname)
+        if (NicknameValidator.validate(nickname).not()) throw InvalidNicknameException
 
         if (userId == null && isGuest().not()) throw InvalidMemberRoleException
     }

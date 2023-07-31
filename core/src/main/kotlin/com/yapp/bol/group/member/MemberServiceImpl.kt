@@ -6,6 +6,7 @@ import com.yapp.bol.auth.UserId
 import com.yapp.bol.group.GroupId
 import com.yapp.bol.group.member.dto.PaginationCursorMemberRequest
 import com.yapp.bol.pagination.cursor.SimplePaginationCursorResponse
+import com.yapp.bol.validate.NicknameValidator
 import org.springframework.stereotype.Service
 
 @Service
@@ -16,7 +17,7 @@ internal class MemberServiceImpl(
     override fun validateMemberNickname(groupId: GroupId, nickname: String): Boolean =
         when {
             validateUniqueNickname(groupId, nickname).not() -> false
-            validateNicknameLength(nickname).not() -> false
+            NicknameValidator.validate(nickname).not() -> false
             else -> true
         }
 
