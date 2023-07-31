@@ -1,7 +1,12 @@
 package com.yapp.bol.group
 
 import com.yapp.bol.auth.UserId
+import com.yapp.bol.game.GameId
+import com.yapp.bol.group.member.MemberEntity
+import com.yapp.bol.group.member.MemberRepository
+import com.yapp.bol.group.member.toDomain
 import com.yapp.bol.pagination.offset.PaginationOffsetResponse
+import java.time.LocalDateTime
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Slice
 import org.springframework.data.repository.findByIdOrNull
@@ -10,6 +15,7 @@ import org.springframework.stereotype.Repository
 @Repository
 internal class GroupQueryRepositoryImpl(
     private val groupRepository: GroupRepository,
+    private val memberRepository: MemberRepository,
 ) : GroupQueryRepository {
     override fun findById(id: GroupId): Group? {
         return groupRepository.findByIdOrNull(id.value)?.toDomain()
@@ -24,7 +30,8 @@ internal class GroupQueryRepositoryImpl(
             return toCursor(groups)
         }
 
-        val groups: Slice<GroupEntity> = groupRepository.findByNameLikeOrOrganizationLike("%$name%", "%$name%", pageable)
+        val groups: Slice<GroupEntity> =
+            groupRepository.findByNameLikeOrOrganizationLike("%$name%", "%$name%", pageable)
 
         return toCursor(groups)
     }
@@ -33,6 +40,29 @@ internal class GroupQueryRepositoryImpl(
         val content: List<Group> = slice.content.map(GroupEntity::toDomain)
 
         return PaginationOffsetResponse(content, slice.hasNext())
+    }
+
+    override fun getLeaderBoardList(groupId: GroupId, gameId: GameId): List<LeaderBoardMember> {
+        // TODO: 이쁜 쿼리로
+        return memberRepository.findWithGameMember(groupId.value)
+            .map {
+                it.toLeaderBoardDomain(gameId)
+            }
+            .sortedByDescending {
+                it.score
+            }
+    }
+
+    private fun MemberEntity.toLeaderBoardDomain(gameId: GameId): LeaderBoardMember {
+        val gameMember = this.gameMembers.firstOrNull { it.gameId == gameId.value }
+        val recentStandardTime = LocalDateTime.now().minusHours(1)
+
+        return LeaderBoardMember(
+            member = this.toDomain(),
+            score = gameMember?.finalScore,
+            matchCount = gameMember?.matchCount,
+            isChangeRecent = gameMember?.updatedDate?.isAfter(recentStandardTime) ?: false
+        )
     }
 
     override fun getGroupsByUserId(userId: UserId): List<Group> =
