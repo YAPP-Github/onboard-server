@@ -50,4 +50,7 @@ internal class MemberServiceImpl(
 
     private fun validateUniqueNickname(groupId: GroupId, nickname: String): Boolean =
         memberQueryRepository.findByNicknameAndGroupId(nickname, groupId) == null
+
+    private fun validateNicknameLength(nickname: String): Boolean =
+        nickname.length in Member.MIN_NICKNAME_LENGTH..Member.MAX_NICKNAME_LENGTH
 }

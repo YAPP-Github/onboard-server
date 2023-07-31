@@ -5,15 +5,13 @@ import com.yapp.bol.base.ControllerTest
 import com.yapp.bol.base.ENUM
 import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
-import com.yapp.bol.onboarding.OnboardingService
 import io.mockk.every
 import io.mockk.mockk
 import java.time.LocalDateTime
 
 class AuthControllerTest : ControllerTest() {
     private val authService: AuthService = mockk()
-    private val onboardingService: OnboardingService = mockk()
-    override val controller = AuthController(authService, onboardingService)
+    override val controller = AuthController(authService)
 
     init {
         test("POST /v1/auth/login") {

@@ -18,5 +18,6 @@ internal interface MemberRepository : JpaRepository<MemberEntity, Long>, CustomM
             "WHERE m.groupId = :groupId "
     )
     fun findWithGameMember(groupId: Long): List<MemberEntity>
+
     fun findByGroupIdAndRole(groupId: Long, role: MemberRole): List<MemberEntity>
 }
