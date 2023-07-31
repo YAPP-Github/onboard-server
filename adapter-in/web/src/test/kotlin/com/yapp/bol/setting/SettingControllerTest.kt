@@ -6,20 +6,19 @@ import com.yapp.bol.base.ControllerTest
 import com.yapp.bol.base.OpenApiTag
 import com.yapp.bol.base.STRING
 import com.yapp.bol.terms.TermsCode
-import com.yapp.bol.terms.TermsController
 import com.yapp.bol.terms.TermsService
 import io.mockk.every
 import io.mockk.mockk
 
 class SettingControllerTest : ControllerTest() {
     private val termsService: TermsService = mockk()
-    override val controller = TermsController("http://localhost:8080/", termsService)
+    override val controller = SettingController("http://localhost:8080/", termsService)
 
     init {
         test("설정에서 이용 약관 가져오기") {
             every { termsService.getWholeTerms() } returns listOf(TermsCode.SERVICE_V1, TermsCode.PRIVACY_V1)
 
-            get("/v1/setting") {}
+            get("/v1/setting/terms") {}
                 .isStatus(200)
                 .makeDocument(
                     DocumentInfo(
