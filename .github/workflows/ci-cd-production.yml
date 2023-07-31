@@ -1,0 +1,44 @@
+name: CI/CD-Production
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: Production # TODO: DELETE - 해당 줄은 GITHUB 버그 대처방안으로 임시로 추가된 줄 https://github.com/actions/runner/issues/2414
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Docker build
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build \
+          --build-arg PHASE=${{ vars.PHASE }} \
+          --build-arg AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} \
+          --build-arg SERVER_HOST=${{ secrets.BOL_API_FULL_HOST }} \
+          -t app .
+          docker tag app ${{ secrets.DOCKER_USERNAME }}/board-prod:${{ github.run_number }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/board-prod:${{ github.run_number }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: Production # TODO: DELETE - 해당 줄은 GITHUB 버그 대처방안으로 임시로 추가된 줄 https://github.com/actions/runner/issues/2414
+    steps:
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.BOL_API_SERVER_HOST }}
+          username: ${{ secrets.BOL_API_SERVER_USERNAME }}
+          password: ${{ secrets.BOL_API_SERVER_PASSWORD }}
+          # PRODUCTION 이면 host port 8081 사용
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/board-prod:${{ github.run_number }}
+            docker stop $(docker ps -a -q --filter ancestor=${{ secrets.DOCKER_USERNAME }}/board-prod)
+            docker run -d -p 80:8080 ${{ secrets.DOCKER_USERNAME }}/board-prod:${{ github.run_number }}
+            docker rm $(docker ps -a -q --filter ancestor=${{ secrets.DOCKER_USERNAME }}/board-prod --filter 'status=exited')
+            docker image prune -a -f

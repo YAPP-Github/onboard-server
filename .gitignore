@@ -1,5 +1,6 @@
 # Custom
 .idea
+**/src/main/resources/static/swagger
 
 # Created by https://www.toptal.com/developers/gitignore/api/kotlin,java,gradle,intellij+all
 # Edit at https://www.toptal.com/developers/gitignore?templates=kotlin,java,gradle,intellij+all
