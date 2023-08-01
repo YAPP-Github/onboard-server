@@ -55,6 +55,7 @@ internal class MemberQueryRepositoryImpl(
         return memberRepository.findByGroupIdAndUserId(groupId.value, userId.value)?.toDomain()
     }
 
+    @Transactional(readOnly = true)
     override fun findOwner(groupId: GroupId): OwnerMember {
         val list = memberRepository.findByGroupIdAndRole(groupId.value, MemberRole.OWNER)
 
@@ -63,7 +64,8 @@ internal class MemberQueryRepositoryImpl(
         return list.first().toDomain() as OwnerMember
     }
 
+    @Transactional(readOnly = true)
     override fun getCount(groupId: GroupId): Int {
-        return memberRepository.count().toInt()
+        return memberRepository.countByGroupId(groupId.value).toInt()
     }
 }
