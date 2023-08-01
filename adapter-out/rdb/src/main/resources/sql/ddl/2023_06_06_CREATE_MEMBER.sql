@@ -3,7 +3,7 @@ create table member
     member_id  bigint   not null auto_increment,
     users_id   bigint null,
     role       varchar(255) null,
-    nickname   varchar(6) null,
+    nickname   varchar(255) null,
     level      int      not null default 0,
     deleted    tinyint(1) default 0 not null,
     group_id   bigint null,
