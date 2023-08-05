@@ -1,5 +1,6 @@
 package com.yapp.bol
 
+import com.yapp.bol.utils.logger
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus
@@ -11,22 +12,23 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 class ExceptionHandler {
+    private val logger = logger()
 
     @ExceptionHandler(BolRatingException::class)
     fun handleException(e: BolRatingException): ResponseEntity<ErrorResponse> = e.toResponse().apply {
-        e.printStackTrace()
+        logger.info(e.message, e)
     }
 
     @ExceptionHandler(AuthenticationException::class)
     fun handleException(e: AuthenticationException): ResponseEntity<ErrorResponse> =
         handleException(UnAuthenticationException(e)).apply {
-            e.printStackTrace()
+            logger.info(e.message, e)
         }
 
     @ExceptionHandler(AccessDeniedException::class)
     fun handleException(e: AccessDeniedException): ResponseEntity<ErrorResponse> =
         handleException(UnAuthorizationException(e)).apply {
-            e.printStackTrace()
+            logger.info(e.message, e)
         }
 
     @Order(value = Ordered.LOWEST_PRECEDENCE)
@@ -36,7 +38,7 @@ class ExceptionHandler {
         "UNKNOWN",
         e.message ?: DEFAULT_MESSAGE,
     ).apply {
-        e.printStackTrace()
+        logger.error(e.message, e)
     }
 
     private fun BolRatingException.toResponse(): ResponseEntity<ErrorResponse> =
