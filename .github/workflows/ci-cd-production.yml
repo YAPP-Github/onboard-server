@@ -39,6 +39,11 @@ jobs:
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/board-prod:${{ github.run_number }}
             docker stop $(docker ps -a -q --filter ancestor=${{ secrets.DOCKER_USERNAME }}/board-prod)
-            docker run -d -p 80:8080 ${{ secrets.DOCKER_USERNAME }}/board-prod:${{ github.run_number }}
+            docker run -d -p 80:8080 \
+              --log-driver=awslogs \
+              --log-opt awslogs-region=ap-northeast-2 \
+              --log-opt awslogs-group=prod-api-server \
+              --log-opt awslogs-stream=prod-api-console \
+              ${{ secrets.DOCKER_USERNAME }}/board-prod:${{ github.run_number }}
             docker rm $(docker ps -a -q --filter ancestor=${{ secrets.DOCKER_USERNAME }}/board-prod --filter 'status=exited')
             docker image prune -a -f
