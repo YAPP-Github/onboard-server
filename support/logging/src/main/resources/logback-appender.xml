@@ -23,4 +23,5 @@
             <pattern>${LOG_PATTERN}</pattern>
         </encoder>
     </appender>
+
 </included>
