@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="logback-appender.xml"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="CONSOLE_FILE"/>
+    </root>
+
+    <logger name="org.hibernate" level="ERROR"/>
+    <logger name="org.springframework.web" level="INFO"/>
+</configuration>

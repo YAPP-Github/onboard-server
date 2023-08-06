@@ -1,0 +1,9 @@
+---
+spring.config.activate.on-profile: local
+logging.config: classpath:logback-local.xml
+---
+spring.config.activate.on-profile: sandbox
+logging.config: classpath:logback-sandbox.xml
+---
+spring.config.activate.on-profile: production
+logging.config: classpath:logback-production.xml

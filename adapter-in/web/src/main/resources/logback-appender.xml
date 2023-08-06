@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+    <property
+            name="LOG_PATTERN"
+            value="[%-5level][%d{yyyy-MM-dd HH:mm:ss.SSS}][%thread][%logger{1}] %msg%n"
+    />
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>${LOG_PATTERN}</Pattern>
+        </layout>
+    </appender>
+
+    <appender name="CONSOLE_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>log/console.txt</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>log/console-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>60</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+</included>
