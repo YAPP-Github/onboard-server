@@ -1,5 +1,6 @@
 package com.yapp.bol
 
+import com.yapp.bol.utils.logger
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -8,9 +9,15 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/v1/test")
 class TestController {
+    private val logger = logger()
 
     @GetMapping
     fun testGet(): TestResponse {
+        logger.error("error")
+        logger.warn("warn")
+        logger.info("info")
+        logger.debug("debug")
+        logger.trace("trace")
         return TestResponse("Good!")
     }
 

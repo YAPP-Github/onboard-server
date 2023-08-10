@@ -12,7 +12,7 @@ plugins {
 
 dependencies {
     val springVersion by properties
-
+    implementation(project(":support:logging"))
     implementation(project(":support:yaml"))
     implementation(project(":core"))
 

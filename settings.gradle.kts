@@ -22,4 +22,5 @@ include(
     "adapter-out:rdb",
     "adapter-out:social",
     "support:yaml",
+    "support:logging",
 )

@@ -16,7 +16,11 @@ class ExceptionHandler {
 
     @ExceptionHandler(BolRatingException::class)
     fun handleException(e: BolRatingException): ResponseEntity<ErrorResponse> = e.toResponse().apply {
-        logger.info(e.message, e)
+        if (e.status >= 500) {
+            logger.error(e.message, e)
+        } else {
+            logger.info(e.message, e)
+        }
     }
 
     @ExceptionHandler(AuthenticationException::class)

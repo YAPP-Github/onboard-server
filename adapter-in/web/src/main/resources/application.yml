@@ -3,21 +3,3 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 20MB
-
----
-spring.config.activate.on-profile: local
-logging:
-    level:
-        root: trace
-
----
-spring.config.activate.on-profile: sandbox
-logging:
-    level:
-        root: warn
-
----
-spring.config.activate.on-profile: production
-logging:
-    level:
-        root: warn
