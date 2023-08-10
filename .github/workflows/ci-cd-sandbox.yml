@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'sandbox'
+      - 'feat/BOL-367'
 
 jobs:
   build:
