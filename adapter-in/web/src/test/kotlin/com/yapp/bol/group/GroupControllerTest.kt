@@ -202,6 +202,7 @@ class GroupControllerTest : ControllerTest() {
 
         test("그룹 상세 정보 보기") {
             val groupId = GroupId(123L)
+            val userId= UserId(321L)
 
             every {
                 groupService.getGroupWithMemberCount(any())
@@ -212,9 +213,10 @@ class GroupControllerTest : ControllerTest() {
                 userId = UserId(32L),
                 nickname = "닉네임",
             )
+            every { groupService.isRegisterGroup(userId, groupId) } returns true
 
             get("/v1/group/{groupId}", arrayOf(groupId.value)) {
-                authorizationHeader(UserId(1L))
+                authorizationHeader(userId)
             }
                 .isStatus(200)
                 .makeDocument(
