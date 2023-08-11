@@ -1,5 +1,6 @@
 package com.yapp.bol.group
 
+import com.yapp.bol.auth.getSecurityUserId
 import com.yapp.bol.auth.getSecurityUserIdOrThrow
 import com.yapp.bol.file.FileService
 import com.yapp.bol.file.dto.FileResponse
@@ -78,9 +79,11 @@ class GroupController(
     fun getGroup(
         @PathVariable groupId: GroupId,
     ): GroupDetailResponse {
+        val userId = getSecurityUserId()
         val group = groupService.getGroupWithMemberCount(groupId)
         val owner = groupService.getOwner(groupId)
+        val isRegister = if (userId != null) groupService.isRegisterGroup(userId, groupId) else null
 
-        return GroupDetailResponse.of(group, owner)
+        return GroupDetailResponse.of(group, owner, isRegister)
     }
 }

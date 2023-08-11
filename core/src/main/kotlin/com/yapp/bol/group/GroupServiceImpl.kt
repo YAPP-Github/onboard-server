@@ -100,4 +100,10 @@ internal class GroupServiceImpl(
     override fun getOwner(groupId: GroupId): OwnerMember {
         return memberQueryRepository.findOwner(groupId)
     }
+
+    override fun isRegisterGroup(userId: UserId, groupId: GroupId): Boolean {
+        val registerGroups = groupQueryRepository.getGroupsByUserId(userId)
+
+        return registerGroups.any { it.id == groupId }
+    }
 }
