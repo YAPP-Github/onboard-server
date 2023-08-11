@@ -1,7 +1,7 @@
 package com.yapp.bol.game.dto
 
-import com.yapp.bol.game.Game
 import com.yapp.bol.game.GameId
+import com.yapp.bol.game.GameWithMatchCount
 
 data class GameResponse(
     val id: GameId,
@@ -9,12 +9,14 @@ data class GameResponse(
     val minMember: Int,
     val maxMember: Int,
     val img: String,
+    val matchCount: Int,
 )
 
-fun Game.toResponse(): GameResponse = GameResponse(
+fun GameWithMatchCount.toResponse(): GameResponse = GameResponse(
     id = this.id,
     name = this.name,
     minMember = this.minMember,
     maxMember = this.maxMember,
     img = this.img,
+    matchCount = this.matchCount,
 )

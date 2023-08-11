@@ -34,4 +34,6 @@ interface GroupService {
     fun getGroupWithMemberCount(groupId: GroupId): GroupWithMemberCount
 
     fun getOwner(groupId: GroupId): OwnerMember
+
+    fun isRegisterGroup(userId: UserId, groupId: GroupId): Boolean
 }
