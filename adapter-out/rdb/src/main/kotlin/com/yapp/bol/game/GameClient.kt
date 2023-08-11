@@ -9,8 +9,19 @@ import org.springframework.stereotype.Component
 class GameClient(
     private val gameRepository: GameRepository,
 ) : GameQueryRepository {
-    override fun getGameListByGroupId(groupId: GroupId): List<Game> {
-        return gameRepository.getAll().map { it.toDomain() }
+    override fun getGameListByGroupId(groupId: GroupId): List<GameWithMatchCount> {
+        val games = gameRepository.getAll()
+
+        val matchCounts = gameRepository.getMatchCount(groupId.value).associate {
+            val gameId = it[0] as Long
+            val count = (it[1] as Long).toInt()
+
+            gameId to count
+        }
+
+        return games.map {
+            GameWithMatchCount(it.toDomain(), matchCounts[it.id] ?: 0)
+        }.sortedByDescending { it.matchCount }
     }
 
     override fun findById(id: GameId): Game? {
