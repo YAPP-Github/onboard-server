@@ -202,7 +202,7 @@ class GroupControllerTest : ControllerTest() {
 
         test("그룹 상세 정보 보기") {
             val groupId = GroupId(123L)
-            val userId= UserId(321L)
+            val userId = UserId(321L)
 
             every {
                 groupService.getGroupWithMemberCount(any())
