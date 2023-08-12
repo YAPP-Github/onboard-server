@@ -17,6 +17,7 @@ dependencies {
     implementation(project(":core"))
 
     implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
+    implementation("org.springframework.boot:spring-boot-starter-aop:$springVersion")
     implementation("org.springframework.boot:spring-boot-starter-security:$springVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
