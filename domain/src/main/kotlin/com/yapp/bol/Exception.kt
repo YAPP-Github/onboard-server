@@ -61,5 +61,5 @@ object InvalidMatchMemberException : MatchException("Match001", 400, "멤버의 
 
 object UnknownException : BolRatingException("BOL000", 500, "알 수 없는 에러가 발생했습니다. 다시 시도해주세요.")
 object InvalidRequestException : BolRatingException("BOL001", 400, "유효하지 않은 요청입니다.")
-object InvalidNicknameException : BolRatingException("BOL002", 400, "닉네임이 잘못되었습니다.")
+class InvalidNicknameException(val nickname: String?) : BolRatingException("BOL002", 400, "$nickname 닉네임이 잘못되었습니다.")
 object InvalidDateTimeException : BolRatingException("BOL003", 400, "날짜 값이 잘못됐습니다.")
