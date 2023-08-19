@@ -1,6 +1,8 @@
 package com.yapp.bol.group.member
 
 import com.yapp.bol.AuditingEntity
+import com.yapp.bol.InvalidGuestIdException
+import com.yapp.bol.InvalidMemberRoleException
 import com.yapp.bol.auth.UserId
 import com.yapp.bol.game.member.GameMemberEntity
 import jakarta.persistence.Column
@@ -29,7 +31,8 @@ class MemberEntity(
     val id: Long = id
 
     @Column(name = "users_id")
-    val userId: Long? = userId
+    var userId: Long? = userId
+        protected set
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
@@ -50,6 +53,11 @@ class MemberEntity(
     @ManyToMany(mappedBy = "memberId", fetch = FetchType.LAZY)
     lateinit var gameMembers: List<GameMemberEntity>
         protected set
+
+    fun toHost(userId: Long) {
+        if (this.userId != null) throw InvalidGuestIdException
+        this.userId = userId
+    }
 }
 
 fun MemberEntity.toDomain(): Member {
@@ -59,13 +67,14 @@ fun MemberEntity.toDomain(): Member {
         MemberRole.GUEST -> toGuestMember()
         MemberRole.HOST -> HostMember(
             id = MemberId(this.id),
-            userId = UserId(this.userId),
+            userId = UserId(this.userId ?: throw InvalidMemberRoleException),
             nickname = this.nickname,
             level = this.level,
         )
+
         MemberRole.OWNER -> OwnerMember(
             id = MemberId(this.id),
-            userId = UserId(this.userId),
+            userId = UserId(this.userId ?: throw InvalidMemberRoleException),
             nickname = this.nickname,
             level = this.level,
         )

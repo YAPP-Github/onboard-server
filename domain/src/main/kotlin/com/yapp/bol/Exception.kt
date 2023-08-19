@@ -43,6 +43,7 @@ object InvalidGroupOrganizationException :
 
 object NotFoundGroupException : GroupException("Group004", "그룹을 찾을 수 없습니다.")
 object AccessCodeNotMatchException : GroupException("Group005", "참여 코드가 올바르지 않습니다.")
+object InvalidGuestIdException : GroupException("Group006", "게스트 ID가 올바르지 않습니다.")
 
 sealed class MemberException(code: String, status: Int, message: String, cause: Throwable? = null) :
     BolRatingException(code = code, status = status, message = message, cause = cause)
@@ -52,6 +53,7 @@ object DuplicatedMembersNicknameException : MemberException("Member003", 500, "�
 object MultiOwnerException : MemberException("Member004", 500, "그룹장이 2명 이상 존재합니다.")
 object InvalidMemberRoleException : MemberException("Member005", 500, "맴버의 상태가 잘 못 되어 었습니다.")
 object AlreadyExistMemberException : MemberException("Member006", 400, "이미 가입된 그룹입니다.")
+object NotFoundMemberException : MemberException("Member007", 400, "맴버를 찾을 수 없습니다.")
 
 object NotExistRequiredTermsException : BolRatingException("Onboard001", 400, "필수 약관이 동의 되지 않았습니다.")
 object OldVersionTermsException : BolRatingException("Onboard002", 400, "구버전 약관을 요청 했습니다.")
@@ -63,5 +65,5 @@ object InvalidMatchMemberException : MatchException("Match001", 400, "멤버의 
 
 object UnknownException : BolRatingException("BOL000", 500, "알 수 없는 에러가 발생했습니다. 다시 시도해주세요.")
 object InvalidRequestException : BolRatingException("BOL001", 400, "유효하지 않은 요청입니다.")
-object InvalidNicknameException : BolRatingException("BOL002", 400, "닉네임이 잘못되었습니다.")
+class InvalidNicknameException(val nickname: String?) : BolRatingException("BOL002", 400, "$nickname 닉네임이 잘못되었습니다.")
 object InvalidDateTimeException : BolRatingException("BOL003", 400, "날짜 값이 잘못됐습니다.")
