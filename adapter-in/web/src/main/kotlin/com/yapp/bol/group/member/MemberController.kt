@@ -71,6 +71,7 @@ class MemberController(
                 userId = userId,
                 nickname = request.nickname,
                 accessCode = request.accessCode,
+                guestId = if (request.guestId == null) null else MemberId(request.guestId),
             )
         )
 

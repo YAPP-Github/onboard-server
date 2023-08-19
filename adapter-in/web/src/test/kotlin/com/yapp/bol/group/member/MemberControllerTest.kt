@@ -109,7 +109,7 @@ class MemberControllerTest : ControllerTest() {
         test("그룹 가입 - Host Member") {
             val groupId = GroupId(1)
             val userId = UserId(1)
-            val request = JoinGroupRequest("nickname", "accessCode")
+            val request = JoinGroupRequest("nickname", "accessCode", null)
 
             every { groupService.joinGroup(any()) } returns Unit
 
@@ -123,8 +123,9 @@ class MemberControllerTest : ControllerTest() {
                         "groupId" type NUMBER means "그룹 ID",
                     ),
                     requestFields(
-                        "nickname" type STRING means "그룹 전용 닉네임, null 일 경우 유저 기본 닉네임을 사용",
-                        "accessCode" type STRING means "그룹에 가입하기 위한 참여 코드"
+                        "nickname" type STRING means "그룹 전용 닉네임, null 일 경우 유저 기본 닉네임을 사용" isOptional true,
+                        "guestId" type STRING means "게스트 연동 할 ID, nickname보다 우선시 됩니다." isOptional true,
+                        "accessCode" type STRING means "그룹에 가입하기 위한 참여 코드",
                     ),
                     responseFields()
                 )

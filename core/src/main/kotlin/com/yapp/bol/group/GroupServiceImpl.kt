@@ -10,6 +10,7 @@ import com.yapp.bol.group.dto.CreateGroupDto
 import com.yapp.bol.group.dto.GroupMemberList
 import com.yapp.bol.group.dto.GroupWithMemberCount
 import com.yapp.bol.group.dto.JoinGroupDto
+import com.yapp.bol.group.member.MemberCommandRepository
 import com.yapp.bol.group.member.MemberQueryRepository
 import com.yapp.bol.group.member.MemberService
 import com.yapp.bol.group.member.OwnerMember
@@ -22,6 +23,7 @@ internal class GroupServiceImpl(
     private val groupCommandRepository: GroupCommandRepository,
     private val memberService: MemberService,
     private val memberQueryRepository: MemberQueryRepository,
+    private val memberCommandRepository: MemberCommandRepository,
 ) : GroupService {
 
     override fun createGroup(
@@ -44,10 +46,15 @@ internal class GroupServiceImpl(
 
     override fun joinGroup(request: JoinGroupDto) {
         val group = groupQueryRepository.findById(request.groupId) ?: throw NotFoundGroupException
-
         if (group.accessCode != request.accessCode) throw AccessCodeNotMatchException
 
-        memberService.createHostMember(request.userId, request.groupId, request.nickname)
+        val guestId = request.guestId
+        if (guestId == null) {
+            memberService.createHostMember(request.userId, request.groupId, request.nickname)
+            return
+        }
+
+        memberCommandRepository.updateGuestToHost(request.groupId, guestId, request.userId)
     }
 
     override fun searchGroup(
