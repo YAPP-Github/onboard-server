@@ -39,6 +39,6 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/board:${{ github.run_number }}
             docker stop $(docker ps -a -q)
             docker stop $(docker ps -a -q --filter ancestor=${{ secrets.DOCKER_USERNAME }}/board)
-            docker run -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/board:${{ github.run_number }}
+            docker run -d -p 80:8080 ${{ secrets.DOCKER_USERNAME }}/board:${{ github.run_number }}
             docker rm $(docker ps --filter 'status=exited' -a -q)
             docker image prune -a -f
