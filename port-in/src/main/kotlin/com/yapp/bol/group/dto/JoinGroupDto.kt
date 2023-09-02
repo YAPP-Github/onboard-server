@@ -7,7 +7,7 @@ import com.yapp.bol.group.member.MemberId
 data class JoinGroupDto(
     val groupId: GroupId,
     val userId: UserId,
-    val nickname: String,
+    val nickname: String?,
     val accessCode: String,
     val guestId: MemberId?,
 )

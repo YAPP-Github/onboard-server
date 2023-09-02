@@ -33,7 +33,7 @@ class FileController(
     ): FileResponse {
         val request = RawFileData(
             userId = getSecurityUserIdOrThrow(),
-            contentType = file.contentType ?: throw InvalidRequestException,
+            contentType = file.contentType ?: throw InvalidRequestException(),
             content = file.inputStream,
             purpose = purpose,
         )
