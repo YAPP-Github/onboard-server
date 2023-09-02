@@ -1,6 +1,7 @@
 package com.yapp.bol.group
 
 import com.yapp.bol.AccessCodeNotMatchException
+import com.yapp.bol.InvalidRequestException
 import com.yapp.bol.NotFoundGroupException
 import com.yapp.bol.UnAuthorizationException
 import com.yapp.bol.auth.UserId
@@ -48,13 +49,21 @@ internal class GroupServiceImpl(
         val group = groupQueryRepository.findById(request.groupId) ?: throw NotFoundGroupException
         if (group.accessCode != request.accessCode) throw AccessCodeNotMatchException
 
+        // Guest 연동이 우선
         val guestId = request.guestId
-        if (guestId == null) {
-            memberService.createHostMember(request.userId, request.groupId, request.nickname)
+        if (guestId != null) {
+            memberCommandRepository.updateGuestToHost(request.groupId, guestId, request.userId)
             return
         }
 
-        memberCommandRepository.updateGuestToHost(request.groupId, guestId, request.userId)
+        // 새로 가입이 후순위
+        val nickname = request.nickname
+        if (nickname != null) {
+            memberService.createHostMember(request.userId, request.groupId, nickname)
+            return
+        }
+
+        throw InvalidRequestException("GuestId 또는 닉네임 둘 중 하나를 입력해야합니다.")
     }
 
     override fun searchGroup(
