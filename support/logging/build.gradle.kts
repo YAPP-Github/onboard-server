@@ -4,7 +4,7 @@ dependencies {
     val springVersion by properties
     implementation(project(":support:yaml"))
 
-    implementation("org.springframework.boot:spring-boot-starter:$springVersion")
+    implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
     implementation("ca.pjer:logback-awslogs-appender:1.6.0")
 }
 
