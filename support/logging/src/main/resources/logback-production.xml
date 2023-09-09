@@ -2,6 +2,10 @@
 <configuration>
     <include resource="logback-appender.xml"/>
 
+    <logger name="com.yapp.bol.logging.HttpLoggingFilter" additivity="false">
+        <appender-ref ref="JSON_FILE"/>
+    </logger>
+
     <root level="WARN">
         <appender-ref ref="CONSOLE_FILE"/>
         <appender-ref ref="CONSOLE_CLOUD_WATCH"/>

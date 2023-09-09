@@ -24,6 +24,19 @@
         </encoder>
     </appender>
 
+    <appender name="JSON_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>log/json.txt</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>log/json-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>500MB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
     <appender name="CONSOLE_CLOUD_WATCH" class="ca.pjer.logback.AwsLogsAppender">
         <logGroupName>prod-api-server</logGroupName>
         <logStreamUuidPrefix>prod-api-console</logStreamUuidPrefix>
