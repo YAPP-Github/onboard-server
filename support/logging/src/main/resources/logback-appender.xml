@@ -15,13 +15,26 @@
         <file>log/console.txt</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>log/console-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
-            <maxFileSize>100MB</maxFileSize>
-            <maxHistory>60</maxHistory>
-            <totalSizeCap>1GB</totalSizeCap>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>500MB</totalSizeCap>
         </rollingPolicy>
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
         </encoder>
+    </appender>
+
+    <appender name="CONSOLE_CLOUD_WATCH" class="ca.pjer.logback.AwsLogsAppender">
+        <logGroupName>prod-api-server</logGroupName>
+        <logStreamUuidPrefix>prod-api-console</logStreamUuidPrefix>
+        <logRegion>ap-northeast-2</logRegion>
+        <maxBatchLogEvents>50</maxBatchLogEvents>
+        <maxFlushTimeMillis>30000</maxFlushTimeMillis>
+        <maxBlockTimeMillis>5000</maxBlockTimeMillis>
+        <retentionTimeDays>0</retentionTimeDays>
+        <layout>
+            <pattern>${LOG_PATTERN}</pattern>
+        </layout>
     </appender>
 
 </included>
