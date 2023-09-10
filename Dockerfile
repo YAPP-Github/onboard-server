@@ -30,6 +30,9 @@ ENV ENV_PHASE=${PHASE}
 ENV ENV_AWS_SECRET_KEY=${AWS_SECRET_KEY}
 ENV ENV_SERVER_HOST=${SERVER_HOST}
 
+RUN mkdir -p /logs
+RUN chown nobody /logs
+
 ENTRYPOINT java -jar \
   -Dspring.profiles.active=${ENV_PHASE:-sandbox} \
   -Dcloud.aws.credentials.secret-key=${ENV_AWS_SECRET_KEY} \
