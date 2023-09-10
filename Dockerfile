@@ -11,7 +11,8 @@ RUN ./gradlew :adapter-in:web:bootJar
 
 FROM eclipse-temurin:17-jdk-alpine AS RUNNER
 
-RUN mkdir /app
+RUN mkdir -p /app/logs
+RUN chown -R nobody /app
 
 COPY --from=BUILDER /app_source/adapter-in/web/build/libs /app
 
@@ -29,6 +30,7 @@ ARG SERVER_HOST
 ENV ENV_PHASE=${PHASE}
 ENV ENV_AWS_SECRET_KEY=${AWS_SECRET_KEY}
 ENV ENV_SERVER_HOST=${SERVER_HOST}
+
 
 ENTRYPOINT java -jar \
   -Dspring.profiles.active=${ENV_PHASE:-sandbox} \
