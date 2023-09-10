@@ -12,9 +12,9 @@
     </appender>
 
     <appender name="CONSOLE_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>log/console.txt</file>
+        <file>./log/console.txt</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>log/console-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
+            <fileNamePattern>./log/console-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
             <maxHistory>7</maxHistory>
             <totalSizeCap>500MB</totalSizeCap>
@@ -25,9 +25,9 @@
     </appender>
 
     <appender name="JSON_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>log/json.txt</file>
+        <file>./log/json.txt</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>log/json-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
+            <fileNamePattern>./log/json-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
             <maxHistory>7</maxHistory>
             <totalSizeCap>500MB</totalSizeCap>
