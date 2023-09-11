@@ -52,6 +52,7 @@ class GroupServiceImplTest : FunSpec() {
 
             test("Success") {
                 every { groupQueryRepository.findById(request.groupId) } returns mockGroup
+                every { memberQueryRepository.findByGroupIdAndUserId(request.groupId, request.userId) } returns null
                 every { memberService.createHostMember(any(), any(), any()) } returns HostMember(
                     userId = request.userId,
                     nickname = request.nickname!!,
