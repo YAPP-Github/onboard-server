@@ -1,6 +1,7 @@
 package com.yapp.bol.group
 
 import com.yapp.bol.AccessCodeNotMatchException
+import com.yapp.bol.AlreadyExistMemberException
 import com.yapp.bol.InvalidRequestException
 import com.yapp.bol.NotFoundGroupException
 import com.yapp.bol.UnAuthorizationException
@@ -48,6 +49,10 @@ internal class GroupServiceImpl(
     override fun joinGroup(request: JoinGroupDto) {
         val group = groupQueryRepository.findById(request.groupId) ?: throw NotFoundGroupException
         if (group.accessCode != request.accessCode) throw AccessCodeNotMatchException
+
+        if (memberQueryRepository.findByGroupIdAndUserId(request.groupId, request.userId) != null) {
+            throw AlreadyExistMemberException
+        }
 
         // Guest 연동이 우선
         val guestId = request.guestId
