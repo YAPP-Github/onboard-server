@@ -16,12 +16,17 @@ class DocumentField(
 ) {
     private var description: String? = null
     private var isOptimal = false
+    private var isDeprecated = false
 
     infix fun means(description: String): DocumentField {
         this.description = description
         return this
     }
 
+    infix fun deprecated(value: Boolean): DocumentField {
+        this.isDeprecated = value
+        return this
+    }
     infix fun isOptional(value: Boolean): DocumentField {
         this.isOptimal = value
         return this
@@ -37,6 +42,7 @@ class DocumentField(
                 // 아래 방식은 지원은 한다고 적혀있는데 당장 안되는 것 같다... https://github.com/ePages-de/restdocs-api-spec/issues/146
                 it.attributes(Attributes.Attribute("enumValues", enumValues))
             }
+            if (isDeprecated) it.description("[Deprecated] $description")
         }
 
     fun toHeaderDescriptor(): HeaderDescriptor {
