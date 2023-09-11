@@ -2,7 +2,6 @@ package com.yapp.bol.group.member
 
 import com.yapp.bol.group.GroupId
 import com.yapp.bol.group.member.dto.PaginationCursorMemberRequest
-import com.yapp.bol.pagination.cursor.PaginationCursorRequest
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.shouldBe
