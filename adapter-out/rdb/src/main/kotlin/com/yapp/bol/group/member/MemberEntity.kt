@@ -36,7 +36,8 @@ class MemberEntity(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    val role: MemberRole = role
+    var role: MemberRole = role
+        private set
 
     @Column(name = "nickname")
     val nickname: String = nickname
@@ -57,6 +58,7 @@ class MemberEntity(
     fun toHost(userId: Long) {
         if (this.userId != null) throw InvalidGuestIdException
         this.userId = userId
+        this.role = MemberRole.HOST
     }
 }
 
