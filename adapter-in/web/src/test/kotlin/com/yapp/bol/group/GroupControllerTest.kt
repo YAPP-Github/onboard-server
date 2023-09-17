@@ -164,7 +164,9 @@ class GroupControllerTest : ControllerTest() {
                     ),
                     responseFields(
                         "contents" type ARRAY means "그룹 목록",
-                        "contents[].id" type NUMBER means "맴버 ID",
+                        "contents[].id" type NUMBER means "맴버 ID" deprecated true,
+                        "contents[].memberId" type NUMBER means "맴버 ID",
+                        "contents[].userId" type NUMBER means "맴버의 User ID, 게스트는 null" isOptional true,
                         "contents[].role" type ENUM(MemberRole::class) means "맴버 종류",
                         "contents[].nickname" type STRING means "맴버 닉네임",
                         "contents[].rank" type NUMBER means "등수, 1부터 시작" isOptional true,
