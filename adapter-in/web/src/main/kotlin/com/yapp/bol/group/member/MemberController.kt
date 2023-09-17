@@ -37,7 +37,7 @@ class MemberController(
     }
 
     @GetMapping("/member")
-    fun getGroup(
+    fun getMemberList(
         @PathVariable groupId: GroupId,
         @RequestParam size: Int,
         @RequestParam nickname: String?,
