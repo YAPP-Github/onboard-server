@@ -1,6 +1,8 @@
 package com.yapp.bol.group
 
 import com.yapp.bol.AccessCodeNotMatchException
+import com.yapp.bol.AlreadyExistMemberException
+import com.yapp.bol.InvalidRequestException
 import com.yapp.bol.NotFoundGroupException
 import com.yapp.bol.UnAuthorizationException
 import com.yapp.bol.auth.UserId
@@ -10,6 +12,7 @@ import com.yapp.bol.group.dto.CreateGroupDto
 import com.yapp.bol.group.dto.GroupMemberList
 import com.yapp.bol.group.dto.GroupWithMemberCount
 import com.yapp.bol.group.dto.JoinGroupDto
+import com.yapp.bol.group.member.MemberCommandRepository
 import com.yapp.bol.group.member.MemberQueryRepository
 import com.yapp.bol.group.member.MemberService
 import com.yapp.bol.group.member.OwnerMember
@@ -22,6 +25,7 @@ internal class GroupServiceImpl(
     private val groupCommandRepository: GroupCommandRepository,
     private val memberService: MemberService,
     private val memberQueryRepository: MemberQueryRepository,
+    private val memberCommandRepository: MemberCommandRepository,
 ) : GroupService {
 
     override fun createGroup(
@@ -44,10 +48,27 @@ internal class GroupServiceImpl(
 
     override fun joinGroup(request: JoinGroupDto) {
         val group = groupQueryRepository.findById(request.groupId) ?: throw NotFoundGroupException
-
         if (group.accessCode != request.accessCode) throw AccessCodeNotMatchException
 
-        memberService.createHostMember(request.userId, request.groupId, request.nickname)
+        if (memberQueryRepository.findByGroupIdAndUserId(request.groupId, request.userId) != null) {
+            throw AlreadyExistMemberException
+        }
+
+        // Guest 연동이 우선
+        val guestId = request.guestId
+        if (guestId != null) {
+            memberCommandRepository.updateGuestToHost(request.groupId, guestId, request.userId)
+            return
+        }
+
+        // 새로 가입이 후순위
+        val nickname = request.nickname
+        if (nickname != null) {
+            memberService.createHostMember(request.userId, request.groupId, nickname)
+            return
+        }
+
+        throw InvalidRequestException("GuestId 또는 닉네임 둘 중 하나를 입력해야합니다.")
     }
 
     override fun searchGroup(
@@ -99,5 +120,11 @@ internal class GroupServiceImpl(
 
     override fun getOwner(groupId: GroupId): OwnerMember {
         return memberQueryRepository.findOwner(groupId)
+    }
+
+    override fun isRegisterGroup(userId: UserId, groupId: GroupId): Boolean {
+        val registerGroups = groupQueryRepository.getGroupsByUserId(userId)
+
+        return registerGroups.any { it.id == groupId }
     }
 }

@@ -9,6 +9,7 @@ import com.yapp.bol.pagination.offset.PaginationOffsetResponse
 import java.time.LocalDateTime
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Slice
+import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 
@@ -22,7 +23,9 @@ internal class GroupQueryRepositoryImpl(
     }
 
     override fun search(name: String?, pageNumber: Int, pageSize: Int): PaginationOffsetResponse<Group> {
-        val pageable = PageRequest.of(pageNumber, pageSize)
+        val pageable = PageRequest.of(
+            pageNumber, pageSize, Sort.by("createdDate").descending()
+        )
 
         if (name.isNullOrEmpty()) {
             val groups: Slice<GroupEntity> = groupRepository.findAll(pageable)

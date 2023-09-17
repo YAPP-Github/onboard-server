@@ -164,7 +164,9 @@ class GroupControllerTest : ControllerTest() {
                     ),
                     responseFields(
                         "contents" type ARRAY means "그룹 목록",
-                        "contents[].id" type NUMBER means "맴버 ID",
+                        "contents[].id" type NUMBER means "맴버 ID" deprecated true,
+                        "contents[].memberId" type NUMBER means "맴버 ID",
+                        "contents[].userId" type NUMBER means "맴버의 User ID, 게스트는 null" isOptional true,
                         "contents[].role" type ENUM(MemberRole::class) means "맴버 종류",
                         "contents[].nickname" type STRING means "맴버 닉네임",
                         "contents[].rank" type NUMBER means "등수, 1부터 시작" isOptional true,
@@ -202,6 +204,7 @@ class GroupControllerTest : ControllerTest() {
 
         test("그룹 상세 정보 보기") {
             val groupId = GroupId(123L)
+            val userId = UserId(321L)
 
             every {
                 groupService.getGroupWithMemberCount(any())
@@ -212,9 +215,10 @@ class GroupControllerTest : ControllerTest() {
                 userId = UserId(32L),
                 nickname = "닉네임",
             )
+            every { groupService.isRegisterGroup(userId, groupId) } returns true
 
             get("/v1/group/{groupId}", arrayOf(groupId.value)) {
-                authorizationHeader(UserId(1L))
+                authorizationHeader(userId)
             }
                 .isStatus(200)
                 .makeDocument(
@@ -234,6 +238,7 @@ class GroupControllerTest : ControllerTest() {
                         "profileImageUrl" type STRING means "그룹 프로필 이미지 URL",
                         "accessCode" type STRING means "그룹 참여 코드",
                         "memberCount" type NUMBER means "그룹 멤버 수",
+                        "isRegister" type BOOLEAN means "해당 그룹 가입 여부" isOptional true,
                         "owner" type OBJECT means "그룹 Owner 정보",
                         "owner.id" type NUMBER means "Owner ID",
                         "owner.role" type ENUM(MemberRole::class) means "OWNER 로 고정",

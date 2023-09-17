@@ -38,11 +38,7 @@ internal class MemberQueryRepositoryImpl(
     private fun getExtraMembers(request: PaginationCursorMemberRequest): List<MemberEntity> {
         val extraRequest = request.copy(size = request.size + 1)
 
-        return memberRepository.getByGroupIdWithCursor(
-            groupId = extraRequest.groupId.value,
-            nickname = extraRequest.nickname,
-            cursor = extraRequest
-        )
+        return memberRepository.getByGroupIdWithCursor(extraRequest)
     }
 
     @Transactional(readOnly = true)

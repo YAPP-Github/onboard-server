@@ -37,16 +37,18 @@ class MemberController(
     }
 
     @GetMapping("/member")
-    fun getGroup(
+    fun getMemberList(
         @PathVariable groupId: GroupId,
         @RequestParam size: Int,
         @RequestParam nickname: String?,
+        @RequestParam role: MemberRole?,
         @RequestParam cursor: String?,
     ): SimplePaginationCursorResponse<MemberResponse, String> {
         val result = memberService.getMembers(
             PaginationCursorMemberRequest(
                 groupId = groupId,
                 nickname = nickname,
+                role = role,
                 size = size,
                 cursor = cursor,
             )
@@ -69,6 +71,7 @@ class MemberController(
                 userId = userId,
                 nickname = request.nickname,
                 accessCode = request.accessCode,
+                guestId = if (request.guestId == null) null else MemberId(request.guestId),
             )
         )
 
