@@ -1,8 +1,8 @@
 package com.yapp.bol.group.member
 
-import com.yapp.bol.pagination.cursor.PaginationCursorRequest
+import com.yapp.bol.group.member.dto.PaginationCursorMemberRequest
 
 interface CustomMemberRepository {
 
-    fun getByGroupIdWithCursor(groupId: Long, nickname: String?, cursor: PaginationCursorRequest<String>): List<MemberEntity>
+    fun getByGroupIdWithCursor(request: PaginationCursorMemberRequest): List<MemberEntity>
 }

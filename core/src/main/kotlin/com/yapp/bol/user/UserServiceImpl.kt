@@ -16,8 +16,8 @@ class UserServiceImpl(
     }
 
     override fun putUser(user: User) {
-        if (NicknameValidator.validate(user.nickname ?: throw InvalidNicknameException).not()) {
-            throw InvalidNicknameException
+        if (NicknameValidator.validate(user.nickname ?: throw InvalidNicknameException(null)).not()) {
+            throw InvalidNicknameException(user.nickname)
         }
 
         userCommandRepository.updateUser(user)

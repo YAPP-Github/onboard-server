@@ -22,7 +22,7 @@ abstract class Member internal constructor(
     }
 
     init {
-        if (NicknameValidator.validate(nickname).not()) throw InvalidNicknameException
+        if (NicknameValidator.validate(nickname).not()) throw InvalidNicknameException(nickname)
 
         if (userId == null && isGuest().not()) throw InvalidMemberRoleException
     }

@@ -8,6 +8,7 @@ import com.yapp.bol.group.dto.AddGuestDto
 import com.yapp.bol.group.dto.JoinGroupDto
 import com.yapp.bol.group.member.GuestMember
 import com.yapp.bol.group.member.HostMember
+import com.yapp.bol.group.member.MemberCommandRepository
 import com.yapp.bol.group.member.MemberQueryRepository
 import com.yapp.bol.group.member.MemberService
 import io.kotest.assertions.throwables.shouldNotThrow
@@ -21,7 +22,15 @@ class GroupServiceImplTest : FunSpec() {
     private val groupCommandRepository: GroupCommandRepository = mockk()
     private val memberService: MemberService = mockk()
     private val memberQueryRepository: MemberQueryRepository = mockk()
-    private val sut = GroupServiceImpl(groupQueryRepository, groupCommandRepository, memberService, memberQueryRepository)
+    private val memberCommandRepository: MemberCommandRepository = mockk()
+
+    private val sut = GroupServiceImpl(
+        groupQueryRepository,
+        groupCommandRepository,
+        memberService,
+        memberQueryRepository,
+        memberCommandRepository
+    )
 
     init {
         context("Join Group Test") {
@@ -30,6 +39,7 @@ class GroupServiceImplTest : FunSpec() {
                 userId = UserId(0),
                 nickname = "닉네임",
                 accessCode = "123456",
+                guestId = null,
             )
 
             val mockGroup = Group(
@@ -42,9 +52,10 @@ class GroupServiceImplTest : FunSpec() {
 
             test("Success") {
                 every { groupQueryRepository.findById(request.groupId) } returns mockGroup
+                every { memberQueryRepository.findByGroupIdAndUserId(request.groupId, request.userId) } returns null
                 every { memberService.createHostMember(any(), any(), any()) } returns HostMember(
                     userId = request.userId,
-                    nickname = request.nickname,
+                    nickname = request.nickname!!,
                 )
 
                 shouldNotThrow<Exception> {
@@ -82,7 +93,12 @@ class GroupServiceImplTest : FunSpec() {
             )
 
             test("Success") {
-                every { memberQueryRepository.findByGroupIdAndUserId(request.groupId, request.requestUserId) } returns mockMember
+                every {
+                    memberQueryRepository.findByGroupIdAndUserId(
+                        request.groupId,
+                        request.requestUserId
+                    )
+                } returns mockMember
                 every { memberService.createGuestMember(any(), any()) } returns GuestMember(
                     nickname = request.nickname,
                 )
@@ -93,7 +109,12 @@ class GroupServiceImplTest : FunSpec() {
             }
 
             test("요청자가 가입한 그룹이 아님") {
-                every { memberQueryRepository.findByGroupIdAndUserId(request.groupId, request.requestUserId) } returns null
+                every {
+                    memberQueryRepository.findByGroupIdAndUserId(
+                        request.groupId,
+                        request.requestUserId
+                    )
+                } returns null
                 every { memberService.createGuestMember(any(), any()) } returns GuestMember(
                     nickname = request.nickname,
                 )
