@@ -1,10 +1,12 @@
 package com.yapp.bol.group.dto
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.yapp.bol.group.GroupId
 import com.yapp.bol.group.member.OwnerMember
 import com.yapp.bol.group.member.dto.MemberResponse
 import com.yapp.bol.group.member.dto.toResponse
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 data class GroupDetailResponse(
     val id: GroupId,
     val name: String,
@@ -14,9 +16,10 @@ data class GroupDetailResponse(
     val accessCode: String,
     val memberCount: Int,
     val owner: MemberResponse,
+    val isRegister: Boolean?,
 ) {
     companion object {
-        fun of(group: GroupWithMemberCount, owner: OwnerMember): GroupDetailResponse =
+        fun of(group: GroupWithMemberCount, owner: OwnerMember, isRegister: Boolean?): GroupDetailResponse =
             GroupDetailResponse(
                 id = group.id,
                 name = group.name,
@@ -26,6 +29,7 @@ data class GroupDetailResponse(
                 accessCode = group.accessCode,
                 memberCount = group.memberCount,
                 owner = owner.toResponse(),
+                isRegister = isRegister,
             )
     }
 }

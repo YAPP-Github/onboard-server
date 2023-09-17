@@ -202,6 +202,7 @@ class GroupControllerTest : ControllerTest() {
 
         test("그룹 상세 정보 보기") {
             val groupId = GroupId(123L)
+            val userId = UserId(321L)
 
             every {
                 groupService.getGroupWithMemberCount(any())
@@ -212,9 +213,10 @@ class GroupControllerTest : ControllerTest() {
                 userId = UserId(32L),
                 nickname = "닉네임",
             )
+            every { groupService.isRegisterGroup(userId, groupId) } returns true
 
             get("/v1/group/{groupId}", arrayOf(groupId.value)) {
-                authorizationHeader(UserId(1L))
+                authorizationHeader(userId)
             }
                 .isStatus(200)
                 .makeDocument(
@@ -234,6 +236,7 @@ class GroupControllerTest : ControllerTest() {
                         "profileImageUrl" type STRING means "그룹 프로필 이미지 URL",
                         "accessCode" type STRING means "그룹 참여 코드",
                         "memberCount" type NUMBER means "그룹 멤버 수",
+                        "isRegister" type BOOLEAN means "해당 그룹 가입 여부" isOptional true,
                         "owner" type OBJECT means "그룹 Owner 정보",
                         "owner.id" type NUMBER means "Owner ID",
                         "owner.role" type ENUM(MemberRole::class) means "OWNER 로 고정",

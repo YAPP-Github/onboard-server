@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 internal class GameServiceImpl(
     private val gameQueryRepository: GameQueryRepository,
 ) : GameService {
-    override fun getGameList(groupId: GroupId): List<Game> {
+    override fun getGameList(groupId: GroupId): List<GameWithMatchCount> {
         return gameQueryRepository.getGameListByGroupId(groupId)
     }
 
