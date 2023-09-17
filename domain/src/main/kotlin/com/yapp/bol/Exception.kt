@@ -9,6 +9,8 @@ sealed class BolRatingException(
     override val cause: Throwable? = null
 ) : RuntimeException(message, cause)
 
+object NeedForceUpdateException : BolRatingException("FORCE_UPDATE", 400, "새로운 버전으로 업데이트가 필요합니다.")
+
 sealed class AuthException(code: String, status: Int, message: String, cause: Throwable? = null) :
     BolRatingException(code, status, message, cause)
 

@@ -1,5 +1,6 @@
 package com.yapp.bol
 
+import com.yapp.bol.utils.ApiMinVersion
 import org.springframework.core.env.Environment
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -14,6 +15,12 @@ class TestController(private val environment: Environment) {
         val activeProfiles = environment.activeProfiles.joinToString(", ")
 
         return TestResponse("Good! You're running in the $activeProfiles phase.")
+    }
+
+    @ApiMinVersion("2.1.0")
+    @GetMapping("/force-update")
+    fun testForceUpdate(): EmptyResponse {
+        return EmptyResponse
     }
 
     data class TestResponse(
