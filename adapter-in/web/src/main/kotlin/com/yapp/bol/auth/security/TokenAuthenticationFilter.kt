@@ -28,6 +28,7 @@ class TokenAuthenticationFilter(
             val accessToken = headerData[1]
 
             val authUser = authService.getAuthUserByAccessToken(accessToken) ?: return
+
             SecurityContextHolder.getContext().authentication = TokenAuthentication(accessToken, authUser.id)
         } finally {
             filterChain.doFilter(request, response)

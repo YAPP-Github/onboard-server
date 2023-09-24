@@ -1,11 +1,13 @@
 package com.yapp.bol.game.member
 
 import com.yapp.bol.InvalidMatchMemberException
-import com.yapp.bol.game.GameId
 import com.yapp.bol.game.GameService
-import com.yapp.bol.group.GroupId
+import com.yapp.bol.game.rating.dto.MatchOutcome
+import com.yapp.bol.game.rating.dto.RatingInput
+import com.yapp.bol.game.rating.strategy.EloRatingStrategy
 import com.yapp.bol.group.member.MemberId
 import com.yapp.bol.match.dto.CreateMatchDto
+import com.yapp.bol.match.dto.CreateMatchMemberDto
 import com.yapp.bol.season.SeasonService
 import org.springframework.stereotype.Service
 
@@ -14,35 +16,72 @@ class GameMemberServiceImpl(
     private val gameMemberQueryRepository: GameMemberQueryRepository,
     private val gameMemberCommandRepository: GameMemberCommandRepository,
     private val gameService: GameService,
-    private val seasonService: SeasonService
+    private val seasonService: SeasonService,
 ) : GameMemberService {
+
     override fun processScore(createMatchDto: CreateMatchDto): List<GameMember> {
-        val gameId = createMatchDto.gameId
-        val group = createMatchDto.groupId
-        val memberDtos = createMatchDto.createMatchMemberDtos
-        val memberCount = createMatchDto.createMatchMemberDtos.size
+        validateMatch(createMatchDto = createMatchDto)
 
-        if (gameService.validateMemberSize(gameId = gameId, memberCount = memberCount).not()) {
-            throw InvalidMatchMemberException
-        }
+        val matchMemberInfos = createMatchDto.createMatchMemberDtos
 
-        val gameMembers = memberDtos.map { createMatchMemberDto ->
-            val gameMember = getOrCreateGameMember(
-                memberId = createMatchMemberDto.memberId,
-                gameId = gameId,
-                groupId = group
-            )
-
-            gameMember.generateWithNewMatch(
-                rank = createMatchMemberDto.ranking,
-                memberCount = memberCount
+        val gameMembers = matchMemberInfos.map {
+            getOrCreateGameMember(
+                createMatchMemberDto = it,
+                createMatchDto = createMatchDto
             )
         }
 
-        return gameMembers
+        val inputMap = createMatchInputMap(gameMembers = gameMembers, createMatchDto = createMatchDto)
+
+        return gameMembers.map {
+            val input = inputMap[it.memberId] ?: throw InvalidMatchMemberException
+
+            it.updateScore(input = input, strategy = EloRatingStrategy)
+        }
     }
 
-    private fun getOrCreateGameMember(memberId: MemberId, gameId: GameId, groupId: GroupId): GameMember {
+    private fun validateMatch(createMatchDto: CreateMatchDto) {
+        val gameId = createMatchDto.gameId
+        val memberCount = createMatchDto.createMatchMemberDtos.size
+
+        if (!gameService.validateMemberSize(gameId = gameId, memberCount = memberCount)) {
+            throw InvalidMatchMemberException
+        }
+    }
+
+    private fun createMatchInputMap(
+        gameMembers: List<GameMember>,
+        createMatchDto: CreateMatchDto
+    ): Map<MemberId, RatingInput> {
+        val memberMatchInfoMap = createMatchDto.createMatchMemberDtos.associateBy { it.memberId }
+
+        val matchOutcomes = gameMembers.map {
+            val memberMatchInfo = memberMatchInfoMap[it.memberId] ?: throw InvalidMatchMemberException
+
+            MatchOutcome(
+                memberId = it.memberId,
+                score = memberMatchInfo.score,
+                ranking = memberMatchInfo.ranking,
+                finalScore = it.finalScore
+            )
+        }
+
+        return matchOutcomes.associate { me ->
+            me.memberId to RatingInput(
+                me = me,
+                opponents = matchOutcomes.filter { me.memberId != it.memberId }
+            )
+        }
+    }
+
+    private fun getOrCreateGameMember(
+        createMatchMemberDto: CreateMatchMemberDto,
+        createMatchDto: CreateMatchDto
+    ): GameMember {
+        val memberId = createMatchMemberDto.memberId
+        val gameId = createMatchDto.gameId
+        val groupId = createMatchDto.groupId
+
         val gameMember = gameMemberQueryRepository.findGameMember(memberId = memberId, gameId = gameId, groupId = groupId)
 
         if (gameMember != null) {
