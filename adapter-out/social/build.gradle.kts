@@ -11,6 +11,7 @@ dependencies {
 
     api(project(":domain"))
     api(project(":port-out"))
+    implementation(project(":support:jwt"))
 
     implementation("org.springframework.boot:spring-boot-starter-webflux:$springVersion")
     implementation("com.google.api-client:google-api-client:1.32.1")

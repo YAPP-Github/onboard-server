@@ -10,8 +10,8 @@ import io.kotest.matchers.shouldBe
 import java.time.LocalDateTime
 import java.util.Base64
 
-class JwtUtilsTest : FunSpec() {
-    private val sut = JwtUtils(ByteArray(64) { 0 })
+class JwtUtilsWrapperTest : FunSpec() {
+    private val sut = JwtUtilsWrapper(ByteArray(64) { 0 })
 
     init {
         val userId = UserId(1L)
