@@ -21,6 +21,7 @@ include(
     "adapter-in:web",
     "adapter-out:rdb",
     "adapter-out:social",
+    "support:jwt",
     "support:yaml",
     "support:logging",
 )
