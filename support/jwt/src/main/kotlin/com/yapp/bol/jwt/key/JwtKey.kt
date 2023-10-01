@@ -1,7 +1,6 @@
 package com.yapp.bol.jwt.key
 
 import java.security.Key
-import java.security.PublicKey
 
 interface JwtKey {
     fun getKey(): Key

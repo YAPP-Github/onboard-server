@@ -8,17 +8,18 @@ import java.time.LocalDateTime
 
 internal class JwtUtilsWrapper(
     secretKey: ByteArray,
+    private val jwtUtils: JwtUtils,
 ) : TokenUtils {
     private val jwtKey = JwtKey(secretKey)
 
     override fun generate(userId: UserId, expiredAt: LocalDateTime): Token {
-        val token = JwtUtils.generate(userId.toString(), expiredAt, jwtKey)
+        val token = jwtUtils.generate(userId.toString(), expiredAt, jwtKey)
         return Token(token, userId, expiredAt)
     }
 
     override fun validate(token: String): Boolean =
-        JwtUtils.validate(token, jwtKey)
+        jwtUtils.validate(token, jwtKey)
 
     override fun getUserId(token: String): Long =
-        JwtUtils.getUserId(token, jwtKey).toLong()
+        jwtUtils.getUserId(token, jwtKey).toLong()
 }
