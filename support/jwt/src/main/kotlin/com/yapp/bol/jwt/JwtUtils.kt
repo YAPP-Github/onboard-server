@@ -32,11 +32,11 @@ object JwtUtils {
             false
         }
 
-    fun getUserId(token: String, jwtKey: JwtKey): Long =
+    fun getUserId(token: String, jwtKey: JwtKey): String =
         Jwts.parserBuilder()
             .setSigningKey(jwtKey.getKey())
             .build()
-            .parseClaimsJws(token).body.id.toLong()
+            .parseClaimsJws(token).body.id
 
     fun getHeader(token: String): Map<String, String> {
         val headerOfToken: String = token.substring(0, token.indexOf("."))
